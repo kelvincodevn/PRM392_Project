@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF">
@@ -182,7 +183,7 @@
             android:layout_height="48dp"
             android:text="Sign up with Google"
             android:textColor="#000000"
-            android:background="white"
+            android:background="#FFFFFF"
             app:backgroundTint="@null"/>
     </LinearLayout>
 

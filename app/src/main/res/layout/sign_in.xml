@@ -183,7 +183,7 @@
                 android:layout_height="48dp"
                 android:text="Sign up with Google"
                 android:textColor="#000000"
-                android:background="white"
+                android:background="#FFFFFF"
                 app:backgroundTint="@null"
                 />
         </LinearLayout>
