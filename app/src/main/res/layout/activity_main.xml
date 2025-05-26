@@ -136,6 +136,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/tvLogin"
                 android:text="Log in here"
                 android:textColor="#E040FB"
                 android:textStyle="bold" />
