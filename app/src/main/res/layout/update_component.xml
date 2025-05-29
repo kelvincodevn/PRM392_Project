@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <!-- Title -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical" android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:contentDescription="Back" android:src="@drawable/icon_back" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="UPDATE"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="#000"
+                android:gravity="center_horizontal" /> <Space
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="8dp" />
+        </LinearLayout>
+
+        <!-- Image Placeholder with Gradient Border -->
+        <FrameLayout
+            android:layout_width="350dp"
+            android:layout_height="300dp"
+            android:background="@drawable/custom_button"
+            android:layout_marginBottom="24dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Add image"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="16sp"/>
+        </FrameLayout>
+
+        <!-- Component's Model Search Bar -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Component's model"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_marginBottom="16dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="38dp"
+                    android:paddingRight="10dp"
+                    android:background="@drawable/custom_button"
+                    android:textColor="#000"/>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/icon_search"
+                    android:contentDescription="Search"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="10dp"/>
+
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/icon_filter_gradient"
+                android:contentDescription="Filter"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:layout_marginBottom="24dp">
+
+            <FrameLayout
+                android:layout_width="120dp"
+                android:layout_height="140dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/custom_button">
+
+                <ImageView
+                    android:id="@+id/product_image_thumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="Product Image"
+                    android:padding="4dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_gpu_sample" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingStart="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Product name"
+                    android:textColor="#000"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/product_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:text="Inno3D GeForce RTX 5070 Ti X3 16GB GDDR7"
+                    android:textColor="#444"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="Quantity"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/minus_button"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Minus"
+                        android:src="@drawable/ic_minus_gradient" />
+
+                    <TextView
+                        android:id="@+id/quantity_text_view"
+                        android:layout_width="28dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="12"
+                        android:textColor="#000"
+                        android:textSize="13sp" />
+
+                    <ImageView
+                        android:id="@+id/plus_button"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Plus"
+                        android:src="@drawable/ic_plus_gradient" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Set your price -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set Price"
+                android:textColor="#222"
+                android:textSize="14sp"
+                android:paddingRight="4dp"
+                android:layout_marginBottom="4dp"
+                android:paddingTop="4dp"
+                android:paddingLeft="4dp"
+                android:textStyle="bold"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/custom_button">
+
+                <EditText
+                    android:layout_width="251dp"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:hint="Set your price"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="50dp"
+                    android:singleLine="true"
+                    android:textColor="#000" /> <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="USD"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#000" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:layout_marginEnd="16dp" /> </RelativeLayout>
+
+        </LinearLayout>
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="24dp">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="CANCEL"
+                android:textColor="#E040FB"
+                android:background="@drawable/custom_button"
+                android:layout_marginEnd="8dp"
+                app:backgroundTint="@null"
+                />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="UPDATE"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/custom_gradient"
+                app:backgroundTint="@null"
+                />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
