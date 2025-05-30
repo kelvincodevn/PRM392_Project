@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="GradientButton" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@drawable/text_gradient</item>
+        <item name="android:background">@drawable/custom_gradient</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:padding">12dp</item>
+    </style>
+</resources> 
