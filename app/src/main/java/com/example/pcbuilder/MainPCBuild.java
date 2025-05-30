@@ -1,4 +1,4 @@
-package com.example.pcbuilderguideapp;
+package com.example.pcbuilder;
 
 import android.os.Bundle;
 import android.widget.Button;
@@ -11,7 +11,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.pcbuilderguideapp.R;
+
+public class MainPCBuild extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
