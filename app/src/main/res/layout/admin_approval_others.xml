@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF">
+
+    <!-- Dropdown for Approval tab -->
+    <LinearLayout
+        android:id="@+id/approval_dropdown_container"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="@drawable/custom_button"
+        android:padding="4dp"
+        android:layout_marginTop="32dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/approval_dropdown_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Approval tab"
+            android:textStyle="bold"
+            android:textColor="#222"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/approval_dropdown_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/icon_dropdown"
+            android:contentDescription="Dropdown" />
+    </LinearLayout>
+
+    <!-- Tabs: Requested by staffs / Others -->
+    <LinearLayout
+        android:id="@+id/approval_tabs_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/approval_dropdown_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tab_requested_by_staffs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Requested by staffs"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingEnd="24dp"
+            android:paddingBottom="8dp"/>
+        <com.example.pcbuilder.GradientTextView
+            android:id="@+id/tab_others"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Others"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#222"
+            android:paddingBottom="8dp" />
+    </LinearLayout>
+
+    <!-- Scrollable list of requests -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/approval_tabs_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/requests_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Example Request Item (Collapsed) - Account verification -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/custom_button">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Account verification"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                         />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Gearvn"
+                        android:textColor="#222"
+                        android:textSize="14sp"
+                        android:layout_marginEnd="8dp" />
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_plus_gradient"
+                        android:contentDescription="Expand" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Example Request Item (Collapsed) - Hiring interview #10 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/custom_button">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Hiring interview"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                         />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name #10"
+                        android:textColor="#222"
+                        android:textSize="14sp"
+                        android:layout_marginEnd="8dp" />
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_plus_gradient"
+                        android:contentDescription="Expand" />
+                </LinearLayout>
+            </FrameLayout>
+
+             <!-- Example Request Item (Collapsed) - Hiring interview #11 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/custom_button">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Hiring interview"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                         />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name #11"
+                        android:textColor="#222"
+                        android:textSize="14sp"
+                        android:layout_marginEnd="8dp" />
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_plus_gradient"
+                        android:contentDescription="Expand" />
+                </LinearLayout>
+            </FrameLayout>
+
+             <!-- Example Request Item (Collapsed) - Hiring interview #12 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/custom_button">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Hiring interview"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                         />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name #12"
+                        android:textColor="#222"
+                        android:textSize="14sp"
+                        android:layout_marginEnd="8dp" />
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_plus_gradient"
+                        android:contentDescription="Expand" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Example Request Item (Expanded) -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/custom_button">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Request details"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_minus_gradient"
+                            android:contentDescription="Collapse" />
+                    </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name: Name #6\nRequest: Final step interview\nApplied Position: Sales staff\nDate of event: 3/4/2025"
+                        android:textColor="#222"
+                        android:textSize="13sp"
+                        android:layout_marginTop="8dp" />
+                    <!-- Buttons -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginTop="16dp">
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/custom_button">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Reject"
+                                android:textColor="#222"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/custom_button">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Approve"
+                                android:textColor="#222"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:textSize="14sp" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </FrameLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout> 
