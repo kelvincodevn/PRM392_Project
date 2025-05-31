@@ -28,12 +28,12 @@
             android:text="General statistics"
             android:textStyle="bold"
             android:textColor="#222"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/dropdown_icon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:src="@drawable/icon_dropdown"
             android:contentDescription="Dropdown" />
     </LinearLayout>
@@ -296,7 +296,11 @@
                 android:layout_weight="1"
                 android:src="@drawable/bar_chart_example"
                 android:scaleType="fitCenter"
-                android:contentDescription="Line chart" />
+                android:contentDescription="Bar chart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
         </LinearLayout>
     </FrameLayout>
 
@@ -351,10 +355,11 @@
                 android:id="@+id/arrow_left"
                 android:layout_width="12dp"
                 android:layout_height="24dp"
-                android:contentDescription="Previous"
                 android:src="@drawable/icon_arrow_left"
-                tools:layout_editor_absoluteX="29dp"
-                tools:layout_editor_absoluteY="0dp" />
+                android:contentDescription="Previous"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Second line: time range options -->
