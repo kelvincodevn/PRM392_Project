@@ -1,0 +1,6 @@
+@PCPB_backend_HostAddress = http://localhost:5232
+
+GET {{PCPB_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
