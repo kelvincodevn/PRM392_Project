@@ -13,3 +13,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+Backend/PCPB_backend/PCPB_backend/bin
+Backend/PCPB_backend/PCPB_backend/obj
+Backend/PCPB_backend/.vs/PCPB_backend/v17
