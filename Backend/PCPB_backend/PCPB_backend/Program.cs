@@ -1,11 +1,15 @@
 using DAOs;
 using Microsoft.EntityFrameworkCore;
+using Repositories.Implements;
+using Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<PCPBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("PCPBConnection")));
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
