@@ -1,3 +1,4 @@
+using BusinessObjects.Models;
 using DAOs;
 
 namespace Repositories.Interfaces
