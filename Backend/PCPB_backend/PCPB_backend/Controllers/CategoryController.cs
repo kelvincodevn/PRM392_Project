@@ -1,5 +1,6 @@
 using BusinessObjects.DTOs;
 using BusinessObjects.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services;
 using Services.Interfaces;
@@ -89,6 +90,7 @@ namespace PCPB_backend.Controllers
         [ProducesResponseType(typeof(Category), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Category>> UpdateCategory(int id, CategoryDTO categoryDto)
         {
             try
@@ -117,6 +119,7 @@ namespace PCPB_backend.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(404)]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> DeleteCategory(int id)
         {
             try
