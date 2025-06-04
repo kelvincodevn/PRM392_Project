@@ -1,22 +1,11 @@
 using BusinessObjects.Models;
 using DAOs;
+using Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Repositories
+namespace Repositories.Implements
 {
-    public interface IProductRepository
-    {
-        Task<Product> CreateProduct(Product product);
-        Task<Product> GetProductById(int id);
-        Task<List<Product>> GetAllProducts();
-        Task<List<Product>> GetProductsByThirdParty(int thirdPartyId);
-        Task<Product> UpdateProduct(Product product);
-        Task<bool> DeleteProduct(int id);
-        Task<bool> ProductExists(int id);
-        Task<bool> IsProductOwnedByThirdParty(int productId, int thirdPartyId);
-    }
-
     public class ProductRepository : IProductRepository
     {
         private readonly ProductDAO _productDAO;
@@ -66,4 +55,4 @@ namespace Repositories
             return await _productDAO.IsProductOwnedByThirdParty(productId, thirdPartyId);
         }
     }
-} 
+}
