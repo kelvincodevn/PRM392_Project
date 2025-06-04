@@ -8,8 +8,6 @@ using Services.Implements;
 using Services.Interfaces;
 using System.Text;
 using Microsoft.OpenApi.Models;
-using Services;
-using Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
