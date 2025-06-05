@@ -52,6 +52,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IStaffService, StaffService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IThirdPartyService, ThirdPartyService>();
+builder.Services.AddScoped<ICommissionService, CommissionService>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
