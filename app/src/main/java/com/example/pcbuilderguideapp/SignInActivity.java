@@ -3,32 +3,65 @@ package com.example.pcbuilderguideapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType; // Import for InputType
+import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText; // Import for EditText
 import android.widget.ImageView; // Import for ImageView
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.security.cert.X509Certificate;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 public class SignInActivity extends AppCompatActivity {
 
+    private static final String TAG = "SignInActivity";
     // Declare your EditText and ImageView for password toggle
-    private EditText etPassword;
+    private EditText etUsername, etPassword;
     private ImageView ivEye; // Matches the ID in your XML layout for the eye icon
+    private Button btnLogin;
     private boolean isPasswordVisible = false; // Flag to track password visibility state
+    // Change localhost to 10.0.2.2 for Android Emulator
+    private static final String LOGIN_URL = "https://10.0.2.2:7182/api/auth/login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_in); // This line uses your specified layout file
 
+        // Trust all certificates for development
+        trustAllCertificates();
+
         // Initialize views for password toggle
+        etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         ivEye = findViewById(R.id.ivEye); // Find the ImageView by its ID
+        btnLogin = findViewById(R.id.btnLogin);
 
         // Set OnClickListener for the eye icon to toggle password visibility
         ivEye.setOnClickListener(v -> {
             togglePasswordVisibility();
         });
+
+        // Set up login button click listener
+        btnLogin.setOnClickListener(v -> performLogin());
 
         // Existing code for the "Sign up" TextView
         TextView tvSignUp = findViewById(R.id.tvSignUp);
@@ -44,6 +77,94 @@ public class SignInActivity extends AppCompatActivity {
         // btnLogin.setOnClickListener(v -> {
         //     // Handle login logic
         // });
+    }
+
+    private void trustAllCertificates() {
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[0];
+                    }
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                    }
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                    }
+                }
+            };
+
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+        } catch (Exception e) {
+            Log.e(TAG, "Error setting up SSL: " + e.getMessage());
+        }
+    }
+
+    private void performLogin() {
+        String username = etUsername.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Create JSON object for login request
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("username", username);
+            jsonBody.put("password", password);
+            Log.d(TAG, "Login attempt with username: " + username);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.e(TAG, "Error creating JSON body: " + e.getMessage());
+        }
+
+        // Create request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        // Create JSON request
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.POST,
+                LOGIN_URL,
+                jsonBody,
+                response -> {
+                    Log.d(TAG, "Login successful. Response: " + response.toString());
+                    Toast.makeText(SignInActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                    // Navigate to admin dashboard
+                    Intent intent = new Intent(SignInActivity.this, AdminDashboardActivity.class);
+                    startActivity(intent);
+                    finish();
+                },
+                error -> {
+                    Log.e(TAG, "Login failed. Error: " + error.toString());
+                    String errorMessage = "Login failed";
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        try {
+                            String errorResponse = new String(error.networkResponse.data);
+                            Log.e(TAG, "Error response: " + errorResponse);
+                            JSONObject errorJson = new JSONObject(errorResponse);
+                            if (errorJson.has("message")) {
+                                errorMessage = errorJson.getString("message");
+                            }
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error parsing error response: " + e.getMessage());
+                            e.printStackTrace();
+                        }
+                    }
+                    Toast.makeText(SignInActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+                }
+        );
+
+        // Add request to queue
+        requestQueue.add(jsonObjectRequest);
     }
 
     /**
