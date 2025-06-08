@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText etUsername, etFullName, etEmail, etPassword;
     private ImageView ivTogglePasswordVisibility;
     private Button btnSignUp;
+    private CheckBox cbTerms;
     private boolean isPasswordVisible = false;
     private static final String REGISTER_URL = "https://10.0.2.2:7182/api/auth/register";
 
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         ivTogglePasswordVisibility = findViewById(R.id.ivTogglePasswordVisibility);
         btnSignUp = findViewById(R.id.btnSignUp);
+        cbTerms = findViewById(R.id.cbTerms);
 
         // Set up password visibility toggle
         ivTogglePasswordVisibility.setOnClickListener(v -> togglePasswordVisibility());
@@ -114,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (username.isEmpty() || fullName.isEmpty() || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!cbTerms.isChecked()) {
+            Toast.makeText(this, "Please accept the Terms and Conditions", Toast.LENGTH_SHORT).show();
             return;
         }
 
