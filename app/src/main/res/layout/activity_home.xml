@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavContainer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="32dp"
+            android:paddingBottom="32dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <!-- Welcome Section -->
+            <com.example.pcbuilder.GradientTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WELCOME"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-8dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="User "
+                    android:textSize="24sp"
+                    android:textColor="#000000"
+                    android:textStyle="normal" />
+                <com.example.pcbuilder.GradientTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Username"
+                    android:textSize="24sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+            <!-- What's New Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WHAT'S NEW?"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="32dp"
+                android:layout_gravity="center_horizontal" />
+
+            <!-- Horizontal Card Carousel -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="12dp"
+                android:overScrollMode="never"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <!-- Card 1 -->
+                    <FrameLayout
+                        android:layout_width="240dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/bg_card_gradient_border">
+                        <!-- Add content here -->
+                    </FrameLayout>
+                    <!-- Card 2 (placeholder) -->
+                    <FrameLayout
+                        android:layout_width="240dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/bg_card_gradient_border" />
+                    <!-- Card 3 (placeholder) -->
+                    <FrameLayout
+                        android:layout_width="240dp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_card_gradient_border" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Page Indicator -->
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="8dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_page_indicator" />
+
+            <!-- Special Offer Card -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/bg_card_gradient_border">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp"
+                    android:gravity="center_horizontal">
+                    <com.example.pcbuilder.GradientTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SPECIAL OFFER"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:layout_gravity="center_horizontal" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Lifetime Premium Subscription sale\nMarch 10 -17 only"
+                        android:textAlignment="center"
+                        android:textColor="#000000"
+                        android:textSize="15sp"
+                        android:layout_marginTop="8dp" />
+                    <com.example.pcbuilder.GradientTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Builder Plus+"
+                        android:textStyle="bold"
+                        android:textSize="28sp"
+                        android:layout_marginTop="8dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FOR ONLY"
+                        android:textColor="#000000"
+                        android:textSize="16sp"
+                        android:layout_marginTop="8dp" />
+                    <com.example.pcbuilder.GradientTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$7.49"
+                        android:textStyle="bold"
+                        android:textSize="36sp"
+                        android:layout_marginTop="-4dp" />
+                    <com.example.pcbuilder.GradientTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SUBSCRIBE NOW"
+                        android:textStyle="bold"
+                        android:textSize="22sp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="4dp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Community Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EXPLORE OUR COMMUNITY"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginTop="32dp"
+                android:layout_gravity="center_horizontal" />
+
+            <!-- Community Card 1 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_card_gradient_border">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/community_img_1" />
+                <com.example.pcbuilder.GradientTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Join us now"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:layout_gravity="bottom|start"
+                    android:layout_margin="16dp" />
+            </FrameLayout>
+
+            <!-- Community Card 2 -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_card_gradient_border">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/community_img_2" />
+                <com.example.pcbuilder.GradientTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Get to know about PCPB"
+                    android:textStyle="bold"
+                    android:textSize="24sp"
+                    android:layout_gravity="bottom|start"
+                    android:layout_margin="16dp" />
+            </FrameLayout>
+
+            <!-- Back to Top -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="24dp">
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_arrow_up_gradient" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Back to top"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Custom Bottom Navigation -->
+    <LinearLayout
+        android:id="@+id/bottomNavContainer"
+        android:layout_width="0dp"
+        android:layout_height="72dp"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_bottom_nav_rounded"
+        android:gravity="center"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Builder -->
+        <LinearLayout
+            android:id="@+id/tab_builder"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/icon_builder" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Builder"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <!-- Shop -->
+        <LinearLayout
+            android:id="@+id/tab_shop"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/icon_shop" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shop"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <!-- Home (active) -->
+        <LinearLayout
+            android:id="@+id/tab_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/icon_home_active" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textColor="#E040FB"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <!-- Catalog -->
+        <LinearLayout
+            android:id="@+id/tab_catalog"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/icon_catalog" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Catalog"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <!-- Settings -->
+        <LinearLayout
+            android:id="@+id/tab_settings"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/icon_settings" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout> 

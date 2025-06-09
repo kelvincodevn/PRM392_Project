@@ -53,6 +53,10 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<CategoryDAO>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IStaffService, StaffService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IThirdPartyService, ThirdPartyService>();
+builder.Services.AddScoped<ICommissionService, CommissionService>();
 
 // Register cart services
 builder.Services.AddScoped<ICartRepository, CartRepository>();
