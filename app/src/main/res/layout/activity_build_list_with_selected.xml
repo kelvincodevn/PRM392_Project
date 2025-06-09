@@ -207,7 +207,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:background="@drawable/bg_card_gradient_border_thick"
+                        android:background="@drawable/bg_card_gradient_border"
                         android:padding="12dp"
                         android:gravity="center_vertical">
 
@@ -215,7 +215,7 @@
                         <FrameLayout
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            android:background="@drawable/bg_image_gradient_border"
+                            android:background="@drawable/bg_card_gradient_border"
                             android:layout_gravity="center_vertical">
 
                             <ImageView
@@ -313,12 +313,11 @@
                                 <!-- Minus Button -->
                                 <FrameLayout
                                     android:layout_width="36dp"
-                                    android:layout_height="36dp"
-                                    android:background="@drawable/bg_circle_gradient_border">
+                                    android:layout_height="36dp">
                                     <ImageView
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
-                                        android:src="@drawable/ic_minus"
+                                        android:src="@drawable/ic_minus_gradient"
                                         android:layout_gravity="center" />
                                 </FrameLayout>
 
@@ -335,12 +334,11 @@
                                 <!-- Plus Button -->
                                 <FrameLayout
                                     android:layout_width="36dp"
-                                    android:layout_height="36dp"
-                                    android:background="@drawable/bg_circle_gradient_border">
+                                    android:layout_height="36dp">
                                     <ImageView
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
-                                        android:src="@drawable/ic_plus"
+                                        android:src="@drawable/ic_plus_gradient"
                                         android:layout_gravity="center" />
                                 </FrameLayout>
                             </LinearLayout>
@@ -357,7 +355,7 @@
                                 <LinearLayout
                                     android:layout_width="72dp"
                                     android:layout_height="36dp"
-                                    android:background="@drawable/bg_rounded_gradient_border"
+                                    android:background="@drawable/bg_circle_gradient"
                                     android:gravity="center"
                                     android:orientation="horizontal"
                                     android:layout_marginEnd="8dp">
@@ -372,7 +370,7 @@
                                 <FrameLayout
                                     android:layout_width="36dp"
                                     android:layout_height="36dp"
-                                    android:background="@drawable/bg_circle_gradient_border">
+                                    android:background="@drawable/bg_component_gradient_border">
                                     <ImageView
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"

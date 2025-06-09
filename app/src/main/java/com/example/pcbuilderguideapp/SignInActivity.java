@@ -138,10 +138,38 @@ public class SignInActivity extends AppCompatActivity {
                 response -> {
                     Log.d(TAG, "Login successful. Response: " + response.toString());
                     Toast.makeText(SignInActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                    // Navigate to admin dashboard
-                    Intent intent = new Intent(SignInActivity.this, AdminDashboardActivity.class);
-                    startActivity(intent);
-                    finish();
+                    
+                    try {
+                        // Get user role from response
+                        String role = response.getString("role");
+                        Intent intent;
+                        
+                        // Route to appropriate activity based on role
+                        switch (role.toLowerCase()) {
+                            case "customer":
+                                intent = new Intent(SignInActivity.this, HomeActivity.class);
+                                break;
+                            case "admin":
+                                intent = new Intent(SignInActivity.this, AdminDashboardActivity.class);
+                                break;
+                            case "thirdparty":
+                                intent = new Intent(SignInActivity.this, ComponentManagementActivity.class);
+                                break;
+                            case "staff":
+                                intent = new Intent(SignInActivity.this, StaffGeneralActivity.class);
+                                break;
+                            default:
+                                Toast.makeText(SignInActivity.this, "Unknown user role", Toast.LENGTH_SHORT).show();
+                                return;
+                        }
+                        
+                        // Start the appropriate activity
+                        startActivity(intent);
+                        finish();
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Error parsing role from response: " + e.getMessage());
+                        Toast.makeText(SignInActivity.this, "Error processing login response", Toast.LENGTH_SHORT).show();
+                    }
                 },
                 error -> {
                     Log.e(TAG, "Login failed. Error: " + error.toString());
