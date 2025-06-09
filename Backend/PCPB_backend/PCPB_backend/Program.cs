@@ -8,6 +8,10 @@ using Services.Implements;
 using Services.Interfaces;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Services;
+using Repositories;
+using Helpers.Mappers;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,8 +57,17 @@ builder.Services.AddScoped<IStaffService, StaffService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IThirdPartyService, ThirdPartyService>();
 builder.Services.AddScoped<ICommissionService, CommissionService>();
+
+// Register cart services
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartService, CartService>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+// Add AutoMapper
+builder.Services.AddAutoMapper(typeof(Program).Assembly, 
+                              typeof(MapperProfile).Assembly);
 
 // Configure Swagger to use JWT authentication
 builder.Services.AddSwaggerGen(c =>
