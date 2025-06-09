@@ -9,7 +9,7 @@ namespace Repositories.Interfaces
         IGenericRepository<Product> Products { get; }
         IGenericRepository<Order> Orders { get; }
         IGenericRepository<OrderItem> OrderItems { get; }
-        IGenericRepository<Cart> Carts { get; }
+        ICartRepository Carts { get; }
         IGenericRepository<CartItem> CartItems { get; }
         IGenericRepository<Category> Categories { get; }
         IGenericRepository<Staff> Staffs { get; }

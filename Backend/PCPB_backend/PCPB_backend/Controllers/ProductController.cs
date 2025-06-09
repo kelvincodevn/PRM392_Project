@@ -41,7 +41,7 @@ namespace PCPB_backend.Controllers
                 {
                     ProductName = productDto.ProductName,
                     Description = productDto.Description,
-                    Price = productDto.Price,
+                    Price = productDto.Price,   
                     StockQuantity = productDto.StockQuantity,
                     CategoryId = productDto.CategoryId,
                     ImageUrl = productDto.ImageUrl
