@@ -567,7 +567,7 @@
             <ImageView
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:src="@drawable/icon_catalog" />
+                android:src="@drawable/icon_catalog_color" />
             <com.example.pcbuilder.GradientTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
