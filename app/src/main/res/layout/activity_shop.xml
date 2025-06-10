@@ -8,23 +8,24 @@
     tools:context=".ShopActivity">
 
     <!-- Gradient Title -->
-    <TextView
-        android:id="@+id/tvShopTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SHOP"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif"
-        android:layout_marginTop="24dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="24dp"
-        tools:text="SHOP" />
 
     <!-- Currency Dropdown -->
 
     <!-- Search Bar Row -->
+    <com.example.pcbuilder.GradientTextView
+        android:id="@+id/tvShopTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif"
+        android:text="SHOP"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="SHOP" />
+
     <LinearLayout
         android:id="@+id/layoutSearchBarRow"
         android:layout_width="0dp"

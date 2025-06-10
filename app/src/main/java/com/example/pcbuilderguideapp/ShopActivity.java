@@ -1,21 +1,46 @@
 package com.example.pcbuilderguideapp;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.pcbuilderguideapp.model.CategoryAdapter;
 import com.example.pcbuilderguideapp.model.ProductAdapter;
 import com.example.pcbuilderguideapp.model.Product;
+import org.json.JSONException;
+import org.json.JSONObject;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.security.cert.X509Certificate;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 public class ShopActivity extends AppCompatActivity {
+    private static final String TAG = "ShopActivity";
+    private static final String API_URL = "https://10.0.2.2:7182/api/Product";
+    private RecyclerView rvPopularProducts;
+    private ProductAdapter productAdapter;
+    private List<Product> productList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop);
+
+        // Trust all certificates for development
+        trustAllCertificates();
 
         // Categories
         RecyclerView rvCategories = findViewById(R.id.rvCategories);
@@ -26,15 +51,80 @@ public class ShopActivity extends AppCompatActivity {
         );
         rvCategories.setAdapter(new CategoryAdapter(categories));
 
-        // Products
-        RecyclerView rvProducts = findViewById(R.id.rvPopularProducts);
-        rvProducts.setLayoutManager(new GridLayoutManager(this, 2));
-        List<Product> products = Arrays.asList(
-            new Product("AMD Ryzen 5 7600X", "$299.99", "6-Core Processor", R.drawable.cpu_img_1),
-            new Product("AMD Ryzen 7 7800X3D", "$698.89", "8-Core Processor", R.drawable.cpu_img_1),
-            new Product("GeForce RTX 3070 Ti", "$1089.99", "16GB GDDR6X", R.drawable.cpu_img_1),
-            new Product("ASUS GeForce RTX 4060", "$429.99", "8GB GDDR6", R.drawable.cpu_img_1)
+        // Initialize Products RecyclerView
+        rvPopularProducts = findViewById(R.id.rvPopularProducts);
+        rvPopularProducts.setLayoutManager(new GridLayoutManager(this, 2));
+        
+        // Initialize product list and adapter
+        productList = new ArrayList<>();
+        productAdapter = new ProductAdapter(this, productList);
+        rvPopularProducts.setAdapter(productAdapter);
+
+        // Fetch products from API
+        fetchProducts();
+    }
+
+    private void trustAllCertificates() {
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[0];
+                    }
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                    }
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                    }
+                }
+            };
+
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+            HttpsURLConnection.setDefaultHostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            });
+        } catch (Exception e) {
+            Log.e(TAG, "Error setting up SSL: " + e.getMessage());
+        }
+    }
+
+    private void fetchProducts() {
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+            Request.Method.GET,
+            API_URL,
+            null,
+            response -> {
+                try {
+                    productList.clear();
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject productJson = response.getJSONObject(i);
+                        Product product = new Product();
+                        product.setName(productJson.getString("productName"));
+                        product.setDescription(productJson.optString("description", ""));
+                        product.setPrice(String.format("$%.2f", productJson.getDouble("price")));
+                        product.setStockQuantity(productJson.getInt("stockQuantity"));
+                        product.setImageUrl(productJson.optString("imageUrl", ""));
+                        product.setStatus(productJson.optString("status", ""));
+                        product.setThirdPartyName(productJson.optString("thirdPartyName", ""));
+                        productList.add(product);
+                    }
+                    productAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    Log.e(TAG, "Error parsing JSON: " + e.getMessage());
+                    Toast.makeText(this, "Error loading products: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            },
+            error -> {
+                Log.e(TAG, "Error fetching products: " + error.getMessage());
+                Toast.makeText(this, "Error loading products: " + error.getMessage(), Toast.LENGTH_LONG).show();
+            }
         );
-        rvProducts.setAdapter(new ProductAdapter(products));
+
+        queue.add(jsonArrayRequest);
     }
 } 
