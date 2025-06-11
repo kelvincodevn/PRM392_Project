@@ -1,6 +1,7 @@
 package com.example.pcbuilderguideapp.model;
 
 public class Product {
+    private int id;
     private String name;
     private String price;
     private String details;
@@ -24,6 +25,14 @@ public class Product {
     }
 
     // Getters and setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }

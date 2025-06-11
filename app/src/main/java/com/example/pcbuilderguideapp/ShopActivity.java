@@ -107,12 +107,20 @@ public class ShopActivity extends AppCompatActivity {
             null,
             response -> {
                 try {
+                    Log.d(TAG, "API Response: " + response.toString());
                     productList.clear();
                     // Get the $values array from the response
                     JSONArray valuesArray = response.getJSONArray("$values");
                     for (int i = 0; i < valuesArray.length(); i++) {
                         JSONObject productJson = valuesArray.getJSONObject(i);
+                        Log.d(TAG, "Product JSON: " + productJson.toString());
                         Product product = new Product();
+                        // Try to get id, if not present use position as id
+                        try {
+                            product.setId(productJson.getInt("id"));
+                        } catch (JSONException e) {
+                            product.setId(i + 1); // Use position + 1 as id
+                        }
                         product.setName(productJson.getString("productName"));
                         product.setDescription(productJson.optString("description", ""));
                         product.setPrice(formatPrice(productJson.getDouble("price")));

@@ -1,6 +1,7 @@
 package com.example.pcbuilderguideapp.model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pcbuilderguideapp.R;
+import com.example.pcbuilderguideapp.ShopDetailActivity;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
@@ -60,6 +62,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         } else {
             holder.ivProductImage.setImageResource(R.drawable.ic_gpu_sample);
         }
+
+        // Set click listener
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ShopDetailActivity.class);
+            intent.putExtra("product_id", product.getId());
+            intent.putExtra("product_name", product.getName());
+            intent.putExtra("product_price", product.getPrice());
+            intent.putExtra("product_description", product.getDescription());
+            intent.putExtra("product_company", product.getThirdPartyName());
+            intent.putExtra("product_stock", product.getStockQuantity());
+            intent.putExtra("product_image_url", product.getImageUrl());
+            context.startActivity(intent);
+        });
     }
 
     @Override
