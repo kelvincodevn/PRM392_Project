@@ -121,8 +121,9 @@
                     android:text="-"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:background="@drawable/bg_component_gradient_border"
-                    android:textColor="#000000" />
+                    android:background="@drawable/ic_minus_gradient"
+                    android:textColor="#000000"
+                    app:backgroundTint="@null"/>
 
                 <TextView
                     android:id="@+id/tvQuantity"
@@ -140,8 +141,9 @@
                     android:text="+"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:background="@drawable/bg_component_gradient_border"
-                    android:textColor="#000000" />
+                    android:background="@drawable/ic_plus_gradient"
+                    android:textColor="#000000"
+                    app:backgroundTint="@null"/>
             </LinearLayout>
 
             <TextView
