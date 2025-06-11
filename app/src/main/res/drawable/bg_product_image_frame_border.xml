@@ -1,0 +1,20 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Outer border with gradient -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="24dp"/>
+            <gradient
+                android:type="linear"
+                android:angle="45"
+                android:startColor="#FF6094EA"
+                android:endColor="#FFFF35A3"/>
+        </shape>
+    </item>
+    <!-- Inner transparent area (this creates the 'border' effect) -->
+    <item android:left="2dp" android:top="2dp" android:right="2dp" android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/white"/>
+            <corners android:radius="22dp"/>
+        </shape>
+    </item>
+</layer-list> 
