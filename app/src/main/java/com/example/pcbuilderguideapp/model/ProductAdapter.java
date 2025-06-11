@@ -39,12 +39,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         // Set price
         holder.tvProductPrice.setText(product.getPrice());
         
-        // Set details (description and third party name)
-        String details = product.getDescription();
-        if (product.getThirdPartyName() != null && !product.getThirdPartyName().isEmpty()) {
-            details += " • " + product.getThirdPartyName();
-        }
-        holder.tvProductDetails.setText(details);
+        // Set company name
+        holder.tvCompanyName.setText(product.getThirdPartyName());
+        
+        // Set stock quantity
+        holder.tvStockQuantity.setText("In Stock: " + product.getStockQuantity());
+        
+        // Set description
+        holder.tvProductDetails.setText(product.getDescription());
 
         // Load image
         if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
@@ -67,13 +69,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
         ImageView ivProductImage;
-        TextView tvProductName, tvProductPrice, tvProductDetails;
+        TextView tvProductName, tvProductPrice, tvProductDetails, tvCompanyName, tvStockQuantity;
         ProductViewHolder(View itemView) {
             super(itemView);
             ivProductImage = itemView.findViewById(R.id.ivProductImage);
             tvProductName = itemView.findViewById(R.id.tvProductName);
             tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
             tvProductDetails = itemView.findViewById(R.id.tvProductDetails);
+            tvCompanyName = itemView.findViewById(R.id.tvCompanyName);
+            tvStockQuantity = itemView.findViewById(R.id.tvStockQuantity);
         }
     }
 } 

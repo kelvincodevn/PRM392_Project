@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pcbuilderguideapp.model.CategoryAdapter;
 import com.example.pcbuilderguideapp.model.ProductAdapter;
 import com.example.pcbuilderguideapp.model.Product;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import java.text.DecimalFormat;
 
 public class ShopActivity extends AppCompatActivity {
     private static final String TAG = "ShopActivity";
@@ -92,25 +94,32 @@ public class ShopActivity extends AppCompatActivity {
         }
     }
 
+    private String formatPrice(double price) {
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        return formatter.format(price) + "đ";
+    }
+
     private void fetchProducts() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
             Request.Method.GET,
             API_URL,
             null,
             response -> {
                 try {
                     productList.clear();
-                    for (int i = 0; i < response.length(); i++) {
-                        JSONObject productJson = response.getJSONObject(i);
+                    // Get the $values array from the response
+                    JSONArray valuesArray = response.getJSONArray("$values");
+                    for (int i = 0; i < valuesArray.length(); i++) {
+                        JSONObject productJson = valuesArray.getJSONObject(i);
                         Product product = new Product();
                         product.setName(productJson.getString("productName"));
                         product.setDescription(productJson.optString("description", ""));
-                        product.setPrice(String.format("$%.2f", productJson.getDouble("price")));
+                        product.setPrice(formatPrice(productJson.getDouble("price")));
                         product.setStockQuantity(productJson.getInt("stockQuantity"));
                         product.setImageUrl(productJson.optString("imageUrl", ""));
                         product.setStatus(productJson.optString("status", ""));
-                        product.setThirdPartyName(productJson.optString("thirdPartyName", ""));
+                        product.setThirdPartyName(productJson.optString("companyName", ""));
                         productList.add(product);
                     }
                     productAdapter.notifyDataSetChanged();
@@ -125,6 +134,6 @@ public class ShopActivity extends AppCompatActivity {
             }
         );
 
-        queue.add(jsonArrayRequest);
+        queue.add(jsonObjectRequest);
     }
 } 
