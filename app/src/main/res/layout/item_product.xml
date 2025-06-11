@@ -32,14 +32,13 @@
         android:layout_marginTop="8dp"
         android:textColor="#222" />
 
-    <TextView
+    <com.example.pcbuilder.GradientTextView
         android:id="@+id/tvProductPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="$999.99"
         android:textStyle="bold"
         android:textSize="13sp"
-        android:textColor="#E040FB"
         android:layout_marginTop="2dp" />
 
     <TextView

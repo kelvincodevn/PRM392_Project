@@ -65,7 +65,7 @@
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:hint="Search for any component"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp" />
 
@@ -115,13 +115,15 @@
             android:text="Sale Up"
             android:textSize="16sp"
             android:textStyle="bold" />
-        <TextView
+
+        <com.example.pcbuilder.GradientTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="To 20% off"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginTop="4dp" />
+            android:textStyle="bold" />
+
         <Button
             android:id="@+id/btnBuyNow"
             android:layout_width="wrap_content"
