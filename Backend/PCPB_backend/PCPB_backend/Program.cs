@@ -59,8 +59,6 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IThirdPartyService, ThirdPartyService>();
 builder.Services.AddScoped<ICommissionService, CommissionService>();
-
-// Register cart services
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ICartService, CartService>();
 

@@ -15,7 +15,7 @@ namespace Repositories.Implements
         private IGenericRepository<Order> _orders;
         private IGenericRepository<OrderItem> _orderItems;
         private ICartRepository _carts; // Changed to ICartRepository
-        private IGenericRepository<CartItem> _cartItems;
+        private ICartItemRepository _cartItems;
         private IGenericRepository<Category> _categories;
         private IGenericRepository<Staff> _staffs;
         private IGenericRepository<ThirdParty> _thirdParties;
@@ -35,7 +35,7 @@ namespace Repositories.Implements
         public IGenericRepository<Order> Orders => _orders ??= new GenericRepository<Order>(_context);
         public IGenericRepository<OrderItem> OrderItems => _orderItems ??= new GenericRepository<OrderItem>(_context);
         public ICartRepository Carts => _carts ??= new CartRepository(_context); // Changed return type and implementation
-        public IGenericRepository<CartItem> CartItems => _cartItems ??= new GenericRepository<CartItem>(_context);
+        public ICartItemRepository CartItems => _cartItems ??= new CartItemRepository(_context);
         public IGenericRepository<Category> Categories => _categories ??= new GenericRepository<Category>(_context);
         public IGenericRepository<Staff> Staffs => _staffs ??= new GenericRepository<Staff>(_context);
         public IGenericRepository<ThirdParty> ThirdParties => _thirdParties ??= new GenericRepository<ThirdParty>(_context);

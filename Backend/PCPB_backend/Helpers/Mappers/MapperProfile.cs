@@ -1,4 +1,5 @@
 using AutoMapper;
+using BusinessObjects.DTOs;
 using BusinessObjects.DTOs.Cart;
 using BusinessObjects.DTOs.CartItems;
 using DAOs;
@@ -9,11 +10,16 @@ namespace Helpers.Mappers
     {
         public MapperProfile()
         {
-            // Cart mappings
-            CreateMap<Cart, CartDTO>();
-            CreateMap<CartItem, CartItemDTO>();
+            // Product mapping
+            CreateMap<Product, ProductDTO>();
             
+            // CartItem mapping
+            CreateMap<CartItem, CartItemDTO>()
+                .ForMember(dest => dest.Product, opt => opt.MapFrom(src => src.Product));
             
+            // Cart mapping with explicit CartItems configuration
+            CreateMap<Cart, CartDTO>()
+                .ForMember(dest => dest.CartItems, opt => opt.MapFrom(src => src.CartItems));
         }
     }
 }
