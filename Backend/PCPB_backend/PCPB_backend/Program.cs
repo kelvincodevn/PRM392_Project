@@ -46,7 +46,8 @@ builder.Services.AddAuthorization(options =>
 
 // Add services to the container.
 builder.Services.AddDbContext<PCPBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PCPBConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PCPBConnection"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure()));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -61,6 +62,10 @@ builder.Services.AddScoped<IThirdPartyService, ThirdPartyService>();
 builder.Services.AddScoped<ICommissionService, CommissionService>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderItemService, OrderItemService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

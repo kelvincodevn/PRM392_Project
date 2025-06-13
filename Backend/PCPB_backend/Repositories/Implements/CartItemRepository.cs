@@ -27,7 +27,7 @@ namespace Repositories.Implements
             if (cartItem == null)
                 return false;
 
-            Delete(cartItem);
+            DeleteAsync(cartItem);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -49,8 +49,7 @@ namespace Repositories.Implements
 
         public async Task<CartItem> UpdateCartItem(CartItem cartItem)
         {
-            _context.Entry(cartItem).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            await UpdateAsync(cartItem);
             return cartItem;
         }
     }

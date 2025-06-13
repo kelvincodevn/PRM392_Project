@@ -83,7 +83,7 @@ namespace Services.Implements
             thirdParty.Status = thirdPartyDto.Status;
             thirdParty.Rating = thirdPartyDto.Rating;
 
-            _unitOfWork.ThirdParties.Update(thirdParty);
+            await _unitOfWork.ThirdParties.UpdateAsync(thirdParty);
             await _unitOfWork.SaveChangesAsync();
 
             return MapToDTO(thirdParty);

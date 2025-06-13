@@ -76,7 +76,7 @@ namespace Services.Implements
                 commission.PaymentDate = DateTime.Now;
             }
 
-            _unitOfWork.Commissions.Update(commission);
+            await _unitOfWork.Commissions.UpdateAsync(commission);
             await _unitOfWork.SaveChangesAsync();
 
             return MapToDTO(commission);

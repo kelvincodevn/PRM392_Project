@@ -19,6 +19,10 @@ public partial class OrderItem
 
     public int ThirdPartyId { get; set; }
 
+    public DateTime? CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
+
     public virtual Commission? Commission { get; set; }
 
     public virtual Order Order { get; set; } = null!;

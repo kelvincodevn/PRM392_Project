@@ -78,7 +78,7 @@ namespace Services.Implements
             staff.Status = staffDto.Status;
             staff.VehicleInfo = staffDto.VehicleInfo;
 
-            _unitOfWork.Staffs.Update(staff);
+            await _unitOfWork.Staffs.UpdateAsync(staff);
             await _unitOfWork.SaveChangesAsync();
 
             return MapToDTO(staff);
