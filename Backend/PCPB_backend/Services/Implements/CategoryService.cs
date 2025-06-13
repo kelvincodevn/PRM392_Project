@@ -74,7 +74,7 @@ namespace Services.Implements
             existingCategory.InverseParentCategory = category.InverseParentCategory;
             existingCategory.ParentCategoryId = category.ParentCategoryId;
 
-            _unitOfWork.Categories.Update(existingCategory); // Using Update from generic repository
+            await _unitOfWork.Categories.UpdateAsync(existingCategory); // Using UpdateAsync from generic repository
             await _unitOfWork.SaveChangesAsync(); // Save changes through the unit of work
             return existingCategory;
         }
@@ -88,7 +88,7 @@ namespace Services.Implements
                 throw new Exception("Category not found");
             }
 
-            _unitOfWork.Categories.Delete(categoryToDelete); // Using Remove from generic repository
+            await _unitOfWork.Categories.DeleteAsync(categoryToDelete); // Using DeleteAsync from generic repository
             var rowsAffected = await _unitOfWork.SaveChangesAsync(); // Save changes through the unit of work
             return rowsAffected > 0;
         }

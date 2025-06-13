@@ -61,6 +61,10 @@ builder.Services.AddScoped<IThirdPartyService, ThirdPartyService>();
 builder.Services.AddScoped<ICommissionService, CommissionService>();
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderItemService, OrderItemService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

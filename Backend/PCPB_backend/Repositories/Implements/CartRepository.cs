@@ -29,7 +29,7 @@ namespace Repositories.Implements
             if (cart == null)
                 return false;
 
-            Delete(cart);
+            DeleteAsync(cart);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -52,7 +52,7 @@ namespace Repositories.Implements
         public async Task<Cart> UpdateCart(Cart cart)
         {
             cart.UpdatedAt = DateTime.Now;
-            Update(cart);
+            await UpdateAsync(cart);
             await _context.SaveChangesAsync();
             return cart;
         }
