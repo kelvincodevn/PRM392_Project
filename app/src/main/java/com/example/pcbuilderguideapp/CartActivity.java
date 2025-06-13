@@ -69,7 +69,7 @@ public class CartActivity extends AppCompatActivity {
             });
     }
 
-    private void updateTotalPrice() {
+    public void updateTotalPrice() {
         double total = 0;
         for (CartItem item : cartItems) {
             if (item.getProduct() != null) {

@@ -9,6 +9,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Body;
 import retrofit2.http.Query;
+import retrofit2.http.PUT;
 
 public interface ApiService {
     @GET("Product/{id}")
@@ -19,4 +20,7 @@ public interface ApiService {
 
     @GET("Cart")
     Call<Cart> getCart();
+
+    @PUT("Cart/items/{cartItemId}")
+    Call<Void> updateCartItem(@Path("cartItemId") int cartItemId, @Query("quantity") int quantity);
 } 

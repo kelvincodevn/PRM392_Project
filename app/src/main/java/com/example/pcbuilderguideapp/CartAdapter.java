@@ -10,6 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pcbuilderguideapp.models.CartItem;
 import com.squareup.picasso.Picasso;
 import java.util.List;
+import com.example.pcbuilderguideapp.network.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import android.widget.Toast;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     private List<CartItem> cartItems;
@@ -39,6 +44,50 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             }
         }
         holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
+
+        // Quantity logic
+        int maxQuantity = item.getProduct() != null ? item.getProduct().getQuantity() : Integer.MAX_VALUE;
+        holder.btnDecreaseQuantity.setOnClickListener(v -> {
+            int current = item.getQuantity();
+            if (current > 1) {
+                updateQuantity(holder, item, current - 1, maxQuantity);
+            } else {
+                Toast.makeText(holder.itemView.getContext(), "Quantity must be at least 1", Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.btnIncreaseQuantity.setOnClickListener(v -> {
+            int current = item.getQuantity();
+            if (current < maxQuantity) {
+                updateQuantity(holder, item, current + 1, maxQuantity);
+            } else {
+                Toast.makeText(holder.itemView.getContext(), "Maximum stock reached", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void updateQuantity(CartViewHolder holder, CartItem item, int newQuantity, int maxQuantity) {
+        RetrofitClient.getInstance(holder.itemView.getContext())
+            .getApiService()
+            .updateCartItem(item.getCartItemId(), newQuantity)
+            .enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.isSuccessful()) {
+                        item.setQuantity(newQuantity);
+                        holder.tvQuantity.setText(String.valueOf(newQuantity));
+                        // Optionally notify parent to update total price
+                        if (holder.itemView.getContext() instanceof CartActivity) {
+                            ((CartActivity) holder.itemView.getContext()).updateTotalPrice();
+                        }
+                    } else {
+                        Toast.makeText(holder.itemView.getContext(), "Failed to update quantity", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    Toast.makeText(holder.itemView.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 
     @Override
@@ -49,6 +98,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     static class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView ivProductImage;
         TextView tvProductName, tvCompanyName, tvProductPrice, tvQuantity;
+        ImageView btnDecreaseQuantity, btnIncreaseQuantity;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,6 +107,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             tvCompanyName = itemView.findViewById(R.id.tvCompanyName);
             tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
             tvQuantity = itemView.findViewById(R.id.tvQuantity);
+            btnDecreaseQuantity = itemView.findViewById(R.id.btnDecreaseQuantity);
+            btnIncreaseQuantity = itemView.findViewById(R.id.btnIncreaseQuantity);
         }
     }
 } 
