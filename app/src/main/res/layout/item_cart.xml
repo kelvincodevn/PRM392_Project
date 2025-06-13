@@ -79,6 +79,15 @@
                 android:src="@drawable/ic_plus_gradient"
                 android:contentDescription="Increase"
                 android:background="?attr/selectableItemBackgroundBorderless"/>
+
+            <ImageView
+                android:id="@+id/btnDeleteItem"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_trash"
+                android:contentDescription="Delete"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_marginStart="12dp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout> 

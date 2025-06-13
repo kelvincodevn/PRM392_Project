@@ -10,6 +10,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Body;
 import retrofit2.http.Query;
 import retrofit2.http.PUT;
+import retrofit2.http.DELETE;
 
 public interface ApiService {
     @GET("Product/{id}")
@@ -23,4 +24,7 @@ public interface ApiService {
 
     @PUT("Cart/items/{cartItemId}")
     Call<Void> updateCartItem(@Path("cartItemId") int cartItemId, @Query("quantity") int quantity);
+
+    @DELETE("Cart/items/{id}")
+    Call<Void> deleteCartItem(@Path("id") int id);
 } 

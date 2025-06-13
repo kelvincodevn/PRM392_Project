@@ -63,6 +63,34 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 Toast.makeText(holder.itemView.getContext(), "Maximum stock reached", Toast.LENGTH_SHORT).show();
             }
         });
+
+        holder.btnDeleteItem.setOnClickListener(v -> {
+            RetrofitClient.getInstance(holder.itemView.getContext())
+                .getApiService()
+                .deleteCartItem(item.getCartItemId())
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            int pos = holder.getAdapterPosition();
+                            if (pos != RecyclerView.NO_POSITION) {
+                                cartItems.remove(pos);
+                                notifyItemRemoved(pos);
+                                // Optionally update total price
+                                if (holder.itemView.getContext() instanceof CartActivity) {
+                                    ((CartActivity) holder.itemView.getContext()).updateTotalPrice();
+                                }
+                            }
+                        } else {
+                            Toast.makeText(holder.itemView.getContext(), "Failed to delete item", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(holder.itemView.getContext(), "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+        });
     }
 
     private void updateQuantity(CartViewHolder holder, CartItem item, int newQuantity, int maxQuantity) {
@@ -98,7 +126,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     static class CartViewHolder extends RecyclerView.ViewHolder {
         ImageView ivProductImage;
         TextView tvProductName, tvCompanyName, tvProductPrice, tvQuantity;
-        ImageView btnDecreaseQuantity, btnIncreaseQuantity;
+        ImageView btnDecreaseQuantity, btnIncreaseQuantity, btnDeleteItem;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,6 +137,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             tvQuantity = itemView.findViewById(R.id.tvQuantity);
             btnDecreaseQuantity = itemView.findViewById(R.id.btnDecreaseQuantity);
             btnIncreaseQuantity = itemView.findViewById(R.id.btnIncreaseQuantity);
+            btnDeleteItem = itemView.findViewById(R.id.btnDeleteItem);
         }
     }
 } 
