@@ -19,6 +19,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.IOException;
+
 public class ShopDetailActivity extends AppCompatActivity {
     private TextView tvProductName, tvCompanyName, tvPrice, tvStock, tvDescription, tvQuantity;
     private ImageView ivProductImage, ivBack, ivFavorite;
@@ -67,7 +69,7 @@ public class ShopDetailActivity extends AppCompatActivity {
     }
 
     private void loadProductDetails() {
-        RetrofitClient.getInstance()
+        RetrofitClient.getInstance(this)
                 .getApiService()
                 .getProduct(productId)
                 .enqueue(new Callback<Product>() {
@@ -165,9 +167,12 @@ public class ShopDetailActivity extends AppCompatActivity {
             return;
         }
 
-        RetrofitClient.getInstance()
+        Log.d("ShopDetailActivity", "Selected quantity: " + selectedQuantity);
+        Log.d("ShopDetailActivity", "Product ID: " + productId);
+
+        RetrofitClient.getInstance(this)
                 .getApiService()
-                .addToCart(new CartItemRequest(productId, selectedQuantity))
+                .addToCart(productId, selectedQuantity)
                 .enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
@@ -176,17 +181,27 @@ public class ShopDetailActivity extends AppCompatActivity {
                                 "Added to cart successfully",
                                 Toast.LENGTH_SHORT).show();
                         } else {
+                            String errorBody = "";
+                            try {
+                                if (response.errorBody() != null) {
+                                    errorBody = response.errorBody().string();
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Log.e("ShopDetailActivity", "Failed to add to cart. Error code: " + response.code() + ", Error body: " + errorBody);
                             Toast.makeText(ShopDetailActivity.this,
-                                "Failed to add to cart",
-                                Toast.LENGTH_SHORT).show();
+                                "Failed to add to cart: " + errorBody,
+                                Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
+                        Log.e("ShopDetailActivity", "Error adding to cart: " + t.getMessage(), t);
                         Toast.makeText(ShopDetailActivity.this,
                             "Error: " + t.getMessage(),
-                            Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_LONG).show();
                     }
                 });
     }

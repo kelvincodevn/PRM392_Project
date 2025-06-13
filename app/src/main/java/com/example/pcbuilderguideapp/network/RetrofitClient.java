@@ -1,5 +1,6 @@
 package com.example.pcbuilderguideapp.network;
 
+import android.content.Context;
 import java.security.cert.CertificateException;
 import java.util.concurrent.TimeUnit;
 
@@ -10,16 +11,25 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import com.example.pcbuilderguideapp.utils.TokenManager;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import java.io.IOException;
+import android.util.Log;
 
 public class RetrofitClient {
     private static final String BASE_URL = "https://10.0.2.2:7182/api/";
     private static RetrofitClient instance;
     private final Retrofit retrofit;
+    private final Context context;
 
-    private RetrofitClient() {
+    private RetrofitClient(Context context) {
+        this.context = context.getApplicationContext();
+        
         // Create a trust manager that does not validate certificate chains
         TrustManager[] trustAllCerts = new TrustManager[]{
             new X509TrustManager() {
@@ -44,13 +54,31 @@ public class RetrofitClient {
             sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
             SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 
-            // Create OkHttpClient with SSL configuration
+            // Create OkHttpClient with SSL configuration and auth interceptor
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0])
                 .hostnameVerifier(new HostnameVerifier() {
                     @Override
                     public boolean verify(String hostname, SSLSession session) {
                         return true;
+                    }
+                })
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request original = chain.request();
+                        String token = TokenManager.getInstance(context).getToken();
+                        
+                        Request.Builder builder = original.newBuilder();
+                        if (token != null) {
+                            builder.header("Authorization", "Bearer " + token);
+                            Log.d("RetrofitClient", "Adding Bearer token to request");
+                        } else {
+                            Log.d("RetrofitClient", "No token available for request");
+                        }
+                        
+                        Request request = builder.build();
+                        return chain.proceed(request);
                     }
                 })
                 .connectTimeout(30, TimeUnit.SECONDS)
@@ -69,9 +97,9 @@ public class RetrofitClient {
         }
     }
 
-    public static synchronized RetrofitClient getInstance() {
+    public static synchronized RetrofitClient getInstance(Context context) {
         if (instance == null) {
-            instance = new RetrofitClient();
+            instance = new RetrofitClient(context);
         }
         return instance;
     }

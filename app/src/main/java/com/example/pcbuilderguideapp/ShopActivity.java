@@ -1,5 +1,6 @@
 package com.example.pcbuilderguideapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.text.DecimalFormat;
+import android.widget.ImageView;
 
 public class ShopActivity extends AppCompatActivity {
     private static final String TAG = "ShopActivity";
@@ -43,6 +45,12 @@ public class ShopActivity extends AppCompatActivity {
 
         // Trust all certificates for development
         trustAllCertificates();
+
+        // Cart icon navigation
+        ImageView ivCart = findViewById(R.id.ivCart);
+        ivCart.setOnClickListener(v -> {
+            startActivity(new Intent(ShopActivity.this, CartActivity.class));
+        });
 
         // Categories
         RecyclerView rvCategories = findViewById(R.id.rvCategories);

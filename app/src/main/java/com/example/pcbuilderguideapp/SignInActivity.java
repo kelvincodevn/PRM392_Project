@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.pcbuilderguideapp.utils.TokenManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -140,8 +141,18 @@ public class SignInActivity extends AppCompatActivity {
                     Toast.makeText(SignInActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
                     
                     try {
-                        // Get user role from response
+                        // Get user role and token from response
                         String role = response.getString("role");
+                        String token = response.getString("token");
+                        int userId = response.getInt("userId");
+                        
+                        // Save token and userId
+                        TokenManager.getInstance(SignInActivity.this).saveToken(token);
+                        TokenManager.getInstance(SignInActivity.this).saveUserId(userId);
+                        
+                        Log.d(TAG, "Saved token: " + token);
+                        Log.d(TAG, "Saved userId: " + userId);
+                        
                         Intent intent;
                         
                         // Route to appropriate activity based on role
@@ -167,7 +178,7 @@ public class SignInActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } catch (JSONException e) {
-                        Log.e(TAG, "Error parsing role from response: " + e.getMessage());
+                        Log.e(TAG, "Error parsing response: " + e.getMessage());
                         Toast.makeText(SignInActivity.this, "Error processing login response", Toast.LENGTH_SHORT).show();
                     }
                 },

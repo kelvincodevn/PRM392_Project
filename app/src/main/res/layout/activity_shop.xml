@@ -86,8 +86,9 @@
 
         <!-- Cart icon in a circle -->
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/ivCart"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/bg_component_gradient_border"
             android:padding="8dp"
