@@ -2,7 +2,10 @@ package com.example.pcbuilderguideapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -34,9 +37,11 @@ import android.widget.ImageView;
 public class ShopActivity extends AppCompatActivity {
     private static final String TAG = "ShopActivity";
     private static final String API_URL = "https://10.0.2.2:7182/api/Product";
+    private static final String SEARCH_API_URL = "https://10.0.2.2:7182/api/Product/search";
     private RecyclerView rvPopularProducts;
     private ProductAdapter productAdapter;
     private List<Product> productList;
+    private EditText etSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,25 @@ public class ShopActivity extends AppCompatActivity {
 
         // Trust all certificates for development
         trustAllCertificates();
+
+        // Initialize search EditText
+        etSearch = findViewById(R.id.etSearch);
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    searchProducts(s.toString());
+                } else {
+                    fetchProducts(); // Reset to show all products when search is empty
+                }
+            }
+        });
 
         // Cart icon navigation
         ImageView ivCart = findViewById(R.id.ivCart);
@@ -151,5 +175,74 @@ public class ShopActivity extends AppCompatActivity {
         );
 
         queue.add(jsonObjectRequest);
+    }
+
+    private void searchProducts(String query) {
+        try {
+            RequestQueue queue = Volley.newRequestQueue(this);
+            // URL encode the search query and use the correct parameter name 'productName'
+            String encodedQuery = java.net.URLEncoder.encode(query, "UTF-8");
+            String searchUrl = SEARCH_API_URL + "?productName=" + encodedQuery;
+            
+            Log.d(TAG, "Searching with URL: " + searchUrl);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                searchUrl,
+                null,
+                response -> {
+                    try {
+                        Log.d(TAG, "Search API Response: " + response.toString());
+                        productList.clear();
+                        JSONArray valuesArray = response.getJSONArray("$values");
+                        for (int i = 0; i < valuesArray.length(); i++) {
+                            JSONObject productJson = valuesArray.getJSONObject(i);
+                            Log.d(TAG, "Product JSON: " + productJson.toString());
+                            Product product = new Product();
+                            try {
+                                product.setId(productJson.getInt("id"));
+                            } catch (JSONException e) {
+                                product.setId(i + 1);
+                            }
+                            product.setName(productJson.getString("productName"));
+                            product.setDescription(productJson.optString("description", ""));
+                            product.setPrice(formatPrice(productJson.getDouble("price")));
+                            product.setStockQuantity(productJson.getInt("stockQuantity"));
+                            product.setImageUrl(productJson.optString("imageUrl", ""));
+                            product.setStatus(productJson.optString("status", ""));
+                            product.setThirdPartyName(productJson.optString("companyName", ""));
+                            productList.add(product);
+                        }
+                        productAdapter.notifyDataSetChanged();
+                    } catch (JSONException e) {
+                        Log.e(TAG, "Error parsing search JSON: " + e.getMessage());
+                        e.printStackTrace();
+                        Toast.makeText(this, "Error parsing search results", Toast.LENGTH_LONG).show();
+                    }
+                },
+                error -> {
+                    String errorMessage = "Error searching products: ";
+                    if (error.networkResponse != null) {
+                        errorMessage += "Status code: " + error.networkResponse.statusCode;
+                        try {
+                            String responseBody = new String(error.networkResponse.data, "UTF-8");
+                            errorMessage += ", Response: " + responseBody;
+                        } catch (Exception e) {
+                            errorMessage += ", Could not read response body";
+                        }
+                    } else {
+                        errorMessage += error.getMessage();
+                    }
+                    Log.e(TAG, errorMessage);
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+                }
+            );
+
+            queue.add(jsonObjectRequest);
+        } catch (Exception e) {
+            Log.e(TAG, "Error in searchProducts: " + e.getMessage());
+            e.printStackTrace();
+            Toast.makeText(this, "Error performing search: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 } 
