@@ -13,10 +13,12 @@ namespace Services.Implements
     public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IProductRepository _productRepository;
 
-        public ProductService(IUnitOfWork unitOfWork)
+        public ProductService(IUnitOfWork unitOfWork, IProductRepository productRepository)
         {
             _unitOfWork = unitOfWork;
+            _productRepository = productRepository;
         }
 
         public async Task<Product> CreateProduct(Product product, int thirdPartyId)
@@ -38,36 +40,23 @@ namespace Services.Implements
 
         public async Task<Product> GetProductById(int id)
         {
-            var product = await _unitOfWork.Products.GetByIdAsync(id); // Using GetByIdAsync from generic repository
-            if (product == null)
-            {
-                throw new Exception("Product not found");
-            }
-            return product;
+            return await _productRepository.GetProductById(id);
         }
 
         public async Task<List<Product>> GetAllProducts()
         {
-            return (await _unitOfWork.Products.GetAllAsync()).ToList(); // Using GetAllAsync from generic repository
+            return await _productRepository.GetAllProducts();
         }
 
         public async Task<List<Product>> GetProductsByThirdParty(int thirdPartyId)
         {
-            return (await _unitOfWork.Products.FindAsync(p => p.ThirdPartyId == thirdPartyId)).ToList(); // Using FindAsync
+            return await _productRepository.GetProductsByThirdParty(thirdPartyId);
         }
 
         public async Task<Product> UpdateProduct(Product product, int thirdPartyId)
         {
-            // Check if product exists and belongs to the third party in one go
-            var existingProduct = await _unitOfWork.Products.FindAsync(p => p.ProductId == product.ProductId && p.ThirdPartyId == thirdPartyId);
-            if (!existingProduct.Any())
-            {
-                throw new Exception("Product not found or you don't have permission to update this product");
-            }
-
-            // Get the actual product to update (might be different from the passed 'product' object if only some fields are updated)
-            var productToUpdate = existingProduct.FirstOrDefault();
-            if (productToUpdate == null) // Should not happen if .Any() is true, but good for null safety
+            // Check if product exists and belongs to the third party
+            if (!await _productRepository.IsProductOwnedByThirdParty(product.ProductId, thirdPartyId))
             {
                 throw new Exception("Product not found or you don't have permission to update this product");
             }
@@ -79,31 +68,23 @@ namespace Services.Implements
                 throw new Exception("Category does not exist");
             }
 
-            // Update the properties of the existing product with the new values
-            productToUpdate.ProductName = product.ProductName;
-            productToUpdate.Description = product.Description;
-            productToUpdate.Price = product.Price;
-            productToUpdate.StockQuantity = product.StockQuantity;
-            productToUpdate.CategoryId = product.CategoryId;
-            // productToUpdate.ThirdPartyId = thirdPartyId; // ThirdPartyId should not be changed, it's already set in the FindAsync filter
-
-            _unitOfWork.Products.Update(productToUpdate); // Using Update from generic repository
-            await _unitOfWork.SaveChangesAsync();
-            return productToUpdate;
+            return await _productRepository.UpdateProduct(product);
         }
 
         public async Task<bool> DeleteProduct(int id, int thirdPartyId)
         {
-            // Check if product exists and belongs to the third party in one go
-            var productToDelete = await _unitOfWork.Products.FindAsync(p => p.ProductId == id && p.ThirdPartyId == thirdPartyId);
-            if (!productToDelete.Any())
+            if (!await _productRepository.IsProductOwnedByThirdParty(id, thirdPartyId))
             {
                 throw new Exception("Product not found or you don't have permission to delete this product");
             }
 
-            _unitOfWork.Products.Delete(productToDelete.FirstOrDefault()); // Using Remove from generic repository
-            var rowsAffected = await _unitOfWork.SaveChangesAsync();
-            return rowsAffected > 0;
+            return await _productRepository.DeleteProduct(id);
+        }
+
+        public async Task<List<Product>> SearchProductsByName(string productName)
+        {
+            var products = await _unitOfWork.Products.FindAsync(p => p.ProductName.Contains(productName));
+            return products.ToList();
         }
     }
 }

@@ -54,15 +54,20 @@ builder.Services.AddScoped<CategoryDAO>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IStaffService, StaffService>();
+builder.Services.AddScoped<ProductDAO>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IThirdPartyService, ThirdPartyService>();
 builder.Services.AddScoped<ICommissionService, CommissionService>();
-
-// Register cart services
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<ICartService, CartService>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.MaxDepth = 32;
+    });
 builder.Services.AddEndpointsApiExplorer();
 
 // Add AutoMapper

@@ -17,16 +17,20 @@
         android:theme="@style/Theme.PCBuilderGuideApp"
         tools:targetApi="31">
         <activity android:name=".SignInActivity" android:exported="true">
+        </activity>
+        <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" android:exported="false"/>
         <activity android:name=".HomeActivity" android:exported="false"/>
         <activity android:name=".AdminDashboardActivity" android:exported="false"/>
         <activity android:name=".ComponentManagementActivity" android:exported="false"/>
         <activity android:name=".StaffGeneralActivity" android:exported="false"/>
+        <activity android:name=".ShopActivity" android:exported="false"/>
+        <activity android:name=".ShopDetailActivity" android:exported="false"/>
+        <activity android:name=".CartActivity" />
     </application>
 
 </manifest>

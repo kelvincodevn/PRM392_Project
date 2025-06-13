@@ -32,7 +32,21 @@ namespace Services
                 cart = await _unitOfWork.Carts.CreateCart(cart);
             }
 
-            return _mapper.Map<CartDTO>(cart);
+            // Ensure cart items is initialized as an empty collection, not null
+            if (cart.CartItems == null)
+            {
+                cart.CartItems = new List<CartItem>();
+            }
+
+            var cartDto = _mapper.Map<CartDTO>(cart);
+            
+            // Ensure cartDto.CartItems is an empty list, not a list with default values
+            if (cartDto.CartItems == null || !cartDto.CartItems.Any())
+            {
+                cartDto.CartItems = new List<CartItemDTO>();
+            }
+            
+            return cartDto;
         }
 
         public async Task<CartDTO> AddItemToCart(int userId, int productId, int quantity)
@@ -90,9 +104,7 @@ namespace Services
             if (cartItem == null)
                 return false;
 
-            _unitOfWork.CartItems.Delete(cartItem);
-            await _unitOfWork.SaveChangesAsync();
-            return true;
+            return await _unitOfWork.CartItems.DeleteCartItem(cartItemId);
         }
 
         public async Task<bool> ClearCart(int userId)
@@ -101,12 +113,21 @@ namespace Services
             if (cart == null)
                 return false;
 
-            foreach (var item in cart.CartItems.ToList())
+            // Get all cart items for this cart
+            var cartItems = await _unitOfWork.CartItems.GetCartItemsByCartId(cart.CartId);
+            
+            // Delete each cart item
+            foreach (var item in cartItems)
             {
-                _unitOfWork.CartItems.Delete(item);
+                await _unitOfWork.CartItems.DeleteCartItem(item.CartItemId);
             }
-
-            await _unitOfWork.SaveChangesAsync();
+            
+            // Clear the in-memory collection
+            cart.CartItems.Clear();
+            
+            // Update the cart to reflect the changes
+            await _unitOfWork.Carts.UpdateCart(cart);
+            
             return true;
         }
     }

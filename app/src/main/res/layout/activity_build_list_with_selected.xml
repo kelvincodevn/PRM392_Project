@@ -204,28 +204,28 @@
                     app:cardBackgroundColor="@android:color/white">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_width="362dp"
+                        android:layout_height="match_parent"
                         android:background="@drawable/bg_card_gradient_border"
-                        android:padding="12dp"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
 
                         <!-- Product Image with Gradient Border -->
                         <FrameLayout
                             android:layout_width="80dp"
                             android:layout_height="80dp"
-                            android:background="@drawable/bg_card_gradient_border"
-                            android:layout_gravity="center_vertical">
+                            android:layout_gravity="center_vertical"
+                            android:background="@drawable/bg_card_gradient_border">
 
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/cpu_img_1"
+                                android:layout_gravity="center"
                                 android:background="@android:color/white"
                                 android:padding="8dp"
-                                android:layout_gravity="center" />
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/cpu_img_1" />
                         </FrameLayout>
 
                         <!-- Info Section -->
@@ -242,25 +242,25 @@
                                 android:layout_height="wrap_content"
                                 android:text="PROCESSOR"
                                 android:textColor="#000000"
-                                android:textStyle="bold"
-                                android:textSize="18sp" />
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:ellipsize="end"
+                                android:maxLines="2"
                                 android:text="Intel Core i9 13900K / 3.0Ghz\nTurbo 5.8Ghz"
                                 android:textColor="#444444"
-                                android:textSize="14sp"
-                                android:maxLines="2"
-                                android:ellipsize="end"
-                                android:layout_marginTop="2dp" />
+                                android:textSize="14sp" />
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
+                                android:layout_marginTop="4dp"
                                 android:gravity="center_vertical"
-                                android:layout_marginTop="4dp">
+                                android:orientation="horizontal">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -270,76 +270,97 @@
                                     android:textSize="14sp" />
 
                                 <!-- Star icons -->
-                                <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_star_filled" />
-                                <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_star_filled" />
-                                <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_star_filled" />
-                                <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_star_filled" />
-                                <ImageView android:layout_width="16dp" android:layout_height="16dp" android:src="@drawable/ic_star_outline" />
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:src="@drawable/ic_star_filled" />
+
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:src="@drawable/ic_star_filled" />
+
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:src="@drawable/ic_star_filled" />
+
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:src="@drawable/ic_star_filled" />
+
+                                <ImageView
+                                    android:layout_width="16dp"
+                                    android:layout_height="16dp"
+                                    android:src="@drawable/ic_star_outline" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="4dp"
                                     android:text="(315)"
                                     android:textColor="#888888"
-                                    android:textSize="13sp"
-                                    android:layout_marginStart="4dp" />
+                                    android:textSize="13sp" />
                             </LinearLayout>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:text="$276.99"
                                 android:textColor="#000000"
-                                android:textStyle="bold"
                                 android:textSize="22sp"
-                                android:layout_marginTop="4dp" />
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <!-- Controls Section -->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
+                            android:layout_marginStart="8dp"
                             android:gravity="center"
-                            android:layout_marginStart="8dp">
+                            android:orientation="vertical">
 
                             <!-- Quantity Controls -->
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
                                 <!-- Minus Button -->
                                 <FrameLayout
                                     android:layout_width="36dp"
                                     android:layout_height="36dp">
+
                                     <ImageView
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
-                                        android:src="@drawable/ic_minus_gradient"
-                                        android:layout_gravity="center" />
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/ic_minus_gradient" />
                                 </FrameLayout>
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="36dp"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginEnd="8dp"
+                                    android:gravity="center"
                                     android:text="1x"
                                     android:textColor="#000000"
-                                    android:textSize="18sp"
-                                    android:gravity="center"
-                                    android:layout_marginStart="8dp"
-                                    android:layout_marginEnd="8dp" />
+                                    android:textSize="18sp" />
 
                                 <!-- Plus Button -->
                                 <FrameLayout
                                     android:layout_width="36dp"
                                     android:layout_height="36dp">
+
                                     <ImageView
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
-                                        android:src="@drawable/ic_plus_gradient"
-                                        android:layout_gravity="center" />
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/ic_plus_gradient" />
                                 </FrameLayout>
                             </LinearLayout>
 
@@ -347,23 +368,24 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal"
+                                android:layout_marginTop="8dp"
                                 android:gravity="center"
-                                android:layout_marginTop="8dp">
+                                android:orientation="horizontal">
 
                                 <!-- Swap Button -->
                                 <LinearLayout
                                     android:layout_width="72dp"
                                     android:layout_height="36dp"
+                                    android:layout_marginEnd="8dp"
                                     android:background="@drawable/bg_circle_gradient"
                                     android:gravity="center"
-                                    android:orientation="horizontal"
-                                    android:layout_marginEnd="8dp">
+                                    android:orientation="horizontal">
+
                                     <ImageView
                                         android:layout_width="24dp"
                                         android:layout_height="24dp"
-                                        android:src="@drawable/ic_swap"
-                                        android:layout_gravity="center" />
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/ic_swap" />
                                 </LinearLayout>
 
                                 <!-- Delete Button -->
@@ -371,11 +393,12 @@
                                     android:layout_width="36dp"
                                     android:layout_height="36dp"
                                     android:background="@drawable/bg_component_gradient_border">
+
                                     <ImageView
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
-                                        android:src="@drawable/ic_delete"
-                                        android:layout_gravity="center" />
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/ic_delete" />
                                 </FrameLayout>
                             </LinearLayout>
                         </LinearLayout>
@@ -405,11 +428,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:paddingStart="12dp"
                     android:text="GPU"
                     android:textColor="#000000"
-                    android:textStyle="bold"
                     android:textSize="20sp"
-                    android:paddingStart="12dp" />
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="28dp"

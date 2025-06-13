@@ -1,0 +1,98 @@
+package com.example.pcbuilderguideapp.model;
+
+import android.content.Context;
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.pcbuilderguideapp.R;
+import com.example.pcbuilderguideapp.ShopDetailActivity;
+import com.squareup.picasso.Picasso;
+import java.util.List;
+
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+    private final List<Product> products;
+    private final Context context;
+
+    public ProductAdapter(Context context, List<Product> products) {
+        this.context = context;
+        this.products = products;
+    }
+
+    @NonNull
+    @Override
+    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.item_product, parent, false);
+        return new ProductViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+        Product product = products.get(position);
+        
+        // Set product name
+        holder.tvProductName.setText(product.getName());
+        
+        // Set price
+        holder.tvProductPrice.setText(product.getPrice());
+        
+        // Set company name
+        holder.tvCompanyName.setText(product.getThirdPartyName());
+        
+        // Set stock quantity
+        holder.tvStockQuantity.setText("In Stock: " + product.getStockQuantity());
+        
+        // Set description
+        holder.tvProductDetails.setText(product.getDescription());
+
+        // Load image
+        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
+            Picasso.get()
+                .load(product.getImageUrl())
+                .placeholder(R.drawable.ic_gpu_sample)
+                .error(R.drawable.ic_gpu_sample)
+                .into(holder.ivProductImage);
+        } else if (product.getImageResId() != 0) {
+            holder.ivProductImage.setImageResource(product.getImageResId());
+        } else {
+            holder.ivProductImage.setImageResource(R.drawable.ic_gpu_sample);
+        }
+
+        // Set click listener
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ShopDetailActivity.class);
+            intent.putExtra("product_id", product.getId());
+            intent.putExtra("product_name", product.getName());
+            intent.putExtra("product_price", product.getPrice());
+            intent.putExtra("product_description", product.getDescription());
+            intent.putExtra("product_company", product.getThirdPartyName());
+            intent.putExtra("product_stock", product.getStockQuantity());
+            intent.putExtra("product_image_url", product.getImageUrl());
+            context.startActivity(intent);
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return products.size();
+    }
+
+    static class ProductViewHolder extends RecyclerView.ViewHolder {
+        ImageView ivProductImage;
+        TextView tvProductName, tvProductPrice, tvProductDetails, tvCompanyName, tvStockQuantity;
+        ProductViewHolder(View itemView) {
+            super(itemView);
+            ivProductImage = itemView.findViewById(R.id.ivProductImage);
+            tvProductName = itemView.findViewById(R.id.tvProductName);
+            tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
+            tvProductDetails = itemView.findViewById(R.id.tvProductDetails);
+            tvCompanyName = itemView.findViewById(R.id.tvCompanyName);
+            tvStockQuantity = itemView.findViewById(R.id.tvStockQuantity);
+        }
+    }
+} 

@@ -8,6 +8,7 @@ using Services.Interfaces;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace PCPB_backend.Controllers
 {
@@ -80,13 +81,27 @@ namespace PCPB_backend.Controllers
         /// <summary>
         /// Gets all products
         /// </summary>
-        /// <returns>List of all products</returns>
+        /// <returns>List of all products with company names</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(List<Product>), 200)]
-        public async Task<ActionResult<List<Product>>> GetAllProducts()
+        [ProducesResponseType(typeof(List<ProductWithCompanyDTO>), 200)]
+        public async Task<ActionResult<List<ProductWithCompanyDTO>>> GetAllProducts()
         {
             var products = await _productService.GetAllProducts();
-            return Ok(products);
+            var productDtos = products.Select(p => new ProductWithCompanyDTO
+            {
+                ProductId = p.ProductId,
+                ProductName = p.ProductName,
+                Description = p.Description,
+                Price = p.Price,
+                StockQuantity = p.StockQuantity,
+                ImageUrl = p.ImageUrl,
+                Status = p.Status,
+                CreatedAt = p.CreatedAt,
+                UpdatedAt = p.UpdatedAt,
+                CompanyName = p.ThirdParty?.CompanyName
+            }).ToList();
+            
+            return Ok(productDtos);
         }
 
         /// <summary>
@@ -161,6 +176,33 @@ namespace PCPB_backend.Controllers
             {
                 return NotFound(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Search products by name
+        /// </summary>
+        /// <param name="productName">The product name to search for</param>
+        /// <returns>List of products matching the search criteria</returns>
+        [HttpGet("search")]
+        [ProducesResponseType(typeof(List<ProductWithCompanyDTO>), 200)]
+        public async Task<ActionResult<List<ProductWithCompanyDTO>>> SearchProducts([FromQuery] string productName)
+        {
+            var products = await _productService.SearchProductsByName(productName);
+            var productDtos = products.Select(p => new ProductWithCompanyDTO
+            {
+                ProductId = p.ProductId,
+                ProductName = p.ProductName,
+                Description = p.Description,
+                Price = p.Price,
+                StockQuantity = p.StockQuantity,
+                ImageUrl = p.ImageUrl,
+                Status = p.Status,
+                CreatedAt = p.CreatedAt,
+                UpdatedAt = p.UpdatedAt,
+                CompanyName = p.ThirdParty?.CompanyName
+            }).ToList();
+            
+            return Ok(productDtos);
         }
     }
 } 

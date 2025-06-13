@@ -106,11 +106,11 @@ namespace PCPB_backend.Controllers
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var result = await _cartService.RemoveCartItem(userId, cartItemId);
-            
+
             if (!result)
                 return NotFound("Cart item not found");
-                
-            return NoContent();
+            var cart = await _cartService.GetCartByUserId(userId);
+            return Ok(cart);
         }
 
         /// <summary>
@@ -124,11 +124,13 @@ namespace PCPB_backend.Controllers
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
             var result = await _cartService.ClearCart(userId);
-            
+
             if (!result)
                 return NotFound("Cart not found");
-                
-            return NoContent();
+
+            // Return the empty cart
+            var emptyCart = await _cartService.GetCartByUserId(userId);
+            return Ok(emptyCart);
         }
     }
 }
