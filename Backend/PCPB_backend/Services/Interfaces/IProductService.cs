@@ -15,5 +15,6 @@ namespace Services.Interfaces
         Task<List<Product>> GetProductsByThirdParty(int thirdPartyId);
         Task<Product> UpdateProduct(Product product, int thirdPartyId);
         Task<bool> DeleteProduct(int id, int thirdPartyId);
+        Task<List<Product>> SearchProductsByName(string productName);
     }
 }

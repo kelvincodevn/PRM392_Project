@@ -80,5 +80,11 @@ namespace Services.Implements
 
             return await _productRepository.DeleteProduct(id);
         }
+
+        public async Task<List<Product>> SearchProductsByName(string productName)
+        {
+            var products = await _unitOfWork.Products.FindAsync(p => p.ProductName.Contains(productName));
+            return products.ToList();
+        }
     }
 }

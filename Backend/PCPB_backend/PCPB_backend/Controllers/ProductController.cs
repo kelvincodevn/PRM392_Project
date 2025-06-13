@@ -177,5 +177,32 @@ namespace PCPB_backend.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Search products by name
+        /// </summary>
+        /// <param name="productName">The product name to search for</param>
+        /// <returns>List of products matching the search criteria</returns>
+        [HttpGet("search")]
+        [ProducesResponseType(typeof(List<ProductWithCompanyDTO>), 200)]
+        public async Task<ActionResult<List<ProductWithCompanyDTO>>> SearchProducts([FromQuery] string productName)
+        {
+            var products = await _productService.SearchProductsByName(productName);
+            var productDtos = products.Select(p => new ProductWithCompanyDTO
+            {
+                ProductId = p.ProductId,
+                ProductName = p.ProductName,
+                Description = p.Description,
+                Price = p.Price,
+                StockQuantity = p.StockQuantity,
+                ImageUrl = p.ImageUrl,
+                Status = p.Status,
+                CreatedAt = p.CreatedAt,
+                UpdatedAt = p.UpdatedAt,
+                CompanyName = p.ThirdParty?.CompanyName
+            }).ToList();
+            
+            return Ok(productDtos);
+        }
     }
 } 
