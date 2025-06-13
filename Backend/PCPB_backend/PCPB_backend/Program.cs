@@ -46,7 +46,8 @@ builder.Services.AddAuthorization(options =>
 
 // Add services to the container.
 builder.Services.AddDbContext<PCPBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PCPBConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PCPBConnection"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure()));
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAuthService, AuthService>();
