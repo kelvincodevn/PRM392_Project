@@ -31,7 +31,8 @@ namespace Services.Implements
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.Product)
                 .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.ThirdParty);
+                    .ThenInclude(oi => oi.ThirdParty)
+                .Include(o => o.Customer);
 
             if (!string.IsNullOrEmpty(orderStatus))
             {
@@ -66,6 +67,7 @@ namespace Services.Implements
                     .ThenInclude(oi => oi.Product)
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.ThirdParty)
+                .Include(o => o.Customer)
                 .FirstOrDefaultAsync(o => o.OrderId == id);
 
             if (order == null)
@@ -82,6 +84,7 @@ namespace Services.Implements
                     .ThenInclude(oi => oi.Product)
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.ThirdParty)
+                .Include(o => o.Customer)
                 .Where(o => o.CustomerId == customerId)
                 .ToListAsync();
             return orders.Select(MapToDTO).ToList();
@@ -94,6 +97,7 @@ namespace Services.Implements
                     .ThenInclude(oi => oi.Product)
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.ThirdParty)
+                .Include(o => o.Customer)
                 .Where(o => o.StaffId == staffId)
                 .ToListAsync();
             return orders.Select(MapToDTO).ToList();
@@ -108,6 +112,7 @@ namespace Services.Implements
                     .ThenInclude(oi => oi.Product)
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.ThirdParty)
+                .Include(o => o.Customer)
                 .Where(o => orderIds.Contains(o.OrderId))
                 .ToListAsync();
             return orders.Select(MapToDTO).ToList();
@@ -350,6 +355,8 @@ namespace Services.Implements
             {
                 OrderId = order.OrderId,
                 CustomerId = order.CustomerId,
+                CustomerPhone = order.Customer?.PhoneNumber,
+                CustomerName = order.Customer?.FullName,
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,
                 ShippingFee = order.ShippingFee,
@@ -363,7 +370,7 @@ namespace Services.Implements
                 IsDeleted = order.IsDeleted,
                 CreatedAt = order.CreatedAt,
                 UpdatedAt = order.UpdatedAt,
-                OrderItems = order.OrderItems.Select(MapToDTO).ToList() // Map nested OrderItems
+                OrderItems = order.OrderItems.Select(MapToDTO).ToList()
             };
         }
 

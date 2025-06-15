@@ -146,12 +146,25 @@ public class SignInActivity extends AppCompatActivity {
                         String token = response.getString("token");
                         int userId = response.getInt("userId");
                         
-                        // Save token and userId
+                        // Get optional fields with null checks
+                        String fullName = response.has("fullName") && !response.isNull("fullName") 
+                            ? response.getString("fullName") 
+                            : "";
+                        String phoneNumber = response.has("phoneNumber") && !response.isNull("phoneNumber") 
+                            ? response.getString("phoneNumber") 
+                            : "";
+                        
+                        // Save token and user info
                         TokenManager.getInstance(SignInActivity.this).saveToken(token);
                         TokenManager.getInstance(SignInActivity.this).saveUserId(userId);
+                        TokenManager.getInstance(SignInActivity.this).saveFullName(fullName);
+                        TokenManager.getInstance(SignInActivity.this).savePhoneNumber(phoneNumber);
                         
-                        Log.d(TAG, "Saved token: " + token);
-                        Log.d(TAG, "Saved userId: " + userId);
+                        Log.d(TAG, "Login successful - Token: " + token);
+                        Log.d(TAG, "User ID: " + userId);
+                        Log.d(TAG, "Role: " + role);
+                        Log.d(TAG, "Full Name: " + fullName);
+                        Log.d(TAG, "Phone Number: " + phoneNumber);
                         
                         Intent intent;
                         
@@ -170,7 +183,7 @@ public class SignInActivity extends AppCompatActivity {
                                 intent = new Intent(SignInActivity.this, StaffGeneralActivity.class);
                                 break;
                             default:
-                                Toast.makeText(SignInActivity.this, "Unknown user role", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignInActivity.this, "Unknown user role: " + role, Toast.LENGTH_SHORT).show();
                                 return;
                         }
                         
@@ -178,7 +191,8 @@ public class SignInActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } catch (JSONException e) {
-                        Log.e(TAG, "Error parsing response: " + e.getMessage());
+                        Log.e(TAG, "Error parsing login response: " + e.getMessage());
+                        Log.e(TAG, "Response content: " + response.toString());
                         Toast.makeText(SignInActivity.this, "Error processing login response", Toast.LENGTH_SHORT).show();
                     }
                 },

@@ -20,8 +20,9 @@ namespace BusinessObjects.DTOs
         public bool IsDeleted { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        
+
         // Navigation properties
+        public string CustomerPhone { get; set; }
         public string CustomerName { get; set; }
         public string StaffName { get; set; }
         public List<OrderItemDTO> OrderItems { get; set; }

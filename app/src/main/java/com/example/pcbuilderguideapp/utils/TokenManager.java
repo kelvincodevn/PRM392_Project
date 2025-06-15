@@ -7,6 +7,8 @@ public class TokenManager {
     private static final String PREF_NAME = "AuthPrefs";
     private static final String KEY_TOKEN = "auth_token";
     private static final String KEY_USER_ID = "user_id";
+    private static final String KEY_FULL_NAME = "full_name";
+    private static final String KEY_PHONE_NUMBER = "phone_number";
     private static TokenManager instance;
     private final SharedPreferences prefs;
 
@@ -33,6 +35,18 @@ public class TokenManager {
         editor.apply();
     }
 
+    public void saveFullName(String fullName) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(KEY_FULL_NAME, fullName);
+        editor.apply();
+    }
+
+    public void savePhoneNumber(String phoneNumber) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(KEY_PHONE_NUMBER, phoneNumber);
+        editor.apply();
+    }
+
     public String getToken() {
         return prefs.getString(KEY_TOKEN, null);
     }
@@ -41,10 +55,20 @@ public class TokenManager {
         return prefs.getInt(KEY_USER_ID, -1);
     }
 
+    public String getFullName() {
+        return prefs.getString(KEY_FULL_NAME, null);
+    }
+
+    public String getPhoneNumber() {
+        return prefs.getString(KEY_PHONE_NUMBER, null);
+    }
+
     public void clearToken() {
         SharedPreferences.Editor editor = prefs.edit();
         editor.remove(KEY_TOKEN);
         editor.remove(KEY_USER_ID);
+        editor.remove(KEY_FULL_NAME);
+        editor.remove(KEY_PHONE_NUMBER);
         editor.apply();
     }
 } 
