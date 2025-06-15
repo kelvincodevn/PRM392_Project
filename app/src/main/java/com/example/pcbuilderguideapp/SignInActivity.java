@@ -158,7 +158,7 @@ public class SignInActivity extends AppCompatActivity {
                         // Route to appropriate activity based on role
                         switch (role.toLowerCase()) {
                             case "customer":
-                                intent = new Intent(SignInActivity.this, ShopActivity.class);
+                                intent = new Intent(SignInActivity.this, HomeActivity.class);
                                 break;
                             case "admin":
                                 intent = new Intent(SignInActivity.this, AdminDashboardActivity.class);

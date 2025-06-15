@@ -28,5 +28,15 @@ public class SettingActivity extends AppCompatActivity {
         ivCatalog.setOnClickListener(v -> {
             startActivity(new Intent(SettingActivity.this, CatalogActivity.class));
         });
+        ImageView ivLogout = findViewById(R.id.ivLogout);
+        ivLogout.setOnClickListener(v -> {
+            startActivity(new Intent(SettingActivity.this, MainActivity.class));
+        });
+        ImageView ivLogoutArrow = findViewById(R.id.ivLogoutArrow);
+        ivLogoutArrow.setOnClickListener(v -> {
+            startActivity(new Intent(SettingActivity.this, MainActivity.class));
+            finish();
+        });
+
     }
 }
