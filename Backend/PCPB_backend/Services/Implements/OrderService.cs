@@ -27,7 +27,11 @@ namespace Services.Implements
             DateTime? startDate = null,
             DateTime? endDate = null)
         {
-            IQueryable<Order> query = _unitOfWork.Orders.GetQueryable();
+            IQueryable<Order> query = _unitOfWork.Orders.GetQueryable()
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.ThirdParty);
 
             if (!string.IsNullOrEmpty(orderStatus))
             {
@@ -47,10 +51,6 @@ namespace Services.Implements
             var totalCount = await query.CountAsync();
 
             var orders = await query
-                .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.Product)
-                .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.ThirdParty)
                 .OrderByDescending(o => o.OrderDate)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
@@ -61,7 +61,13 @@ namespace Services.Implements
 
         public async Task<OrderDTO> GetOrderByIdAsync(int id)
         {
-            var order = await _unitOfWork.Orders.GetByIdAsync(id);
+            var order = await _unitOfWork.Orders.GetQueryable()
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.ThirdParty)
+                .FirstOrDefaultAsync(o => o.OrderId == id);
+
             if (order == null)
             {
                 throw new Exception("Order not found.");
@@ -71,13 +77,25 @@ namespace Services.Implements
 
         public async Task<List<OrderDTO>> GetOrdersByCustomerIdAsync(int customerId)
         {
-            var orders = await _unitOfWork.Orders.FindAsync(o => o.CustomerId == customerId);
+            var orders = await _unitOfWork.Orders.GetQueryable()
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.ThirdParty)
+                .Where(o => o.CustomerId == customerId)
+                .ToListAsync();
             return orders.Select(MapToDTO).ToList();
         }
 
         public async Task<List<OrderDTO>> GetOrdersByStaffIdAsync(int staffId)
         {
-            var orders = await _unitOfWork.Orders.FindAsync(o => o.StaffId == staffId);
+            var orders = await _unitOfWork.Orders.GetQueryable()
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.ThirdParty)
+                .Where(o => o.StaffId == staffId)
+                .ToListAsync();
             return orders.Select(MapToDTO).ToList();
         }
 
@@ -85,7 +103,13 @@ namespace Services.Implements
         {
             var orderItems = await _unitOfWork.OrderItems.GetOrderItemsByThirdPartyIdAsync(thirdPartyId);
             var orderIds = orderItems.Select(oi => oi.OrderId).Distinct().ToList();
-            var orders = await _unitOfWork.Orders.FindAsync(o => orderIds.Contains(o.OrderId));
+            var orders = await _unitOfWork.Orders.GetQueryable()
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.ThirdParty)
+                .Where(o => orderIds.Contains(o.OrderId))
+                .ToListAsync();
             return orders.Select(MapToDTO).ToList();
         }
 
