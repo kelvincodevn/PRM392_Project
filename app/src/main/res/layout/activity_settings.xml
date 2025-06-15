@@ -338,14 +338,13 @@
                 android:layout_marginBottom="14dp"
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp">
+
                 <ImageView
-                    android:id="@+id/ivBuilder"
                     android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_info"
-                    android:contentDescription="Version info" />
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Version info"
+                    android:src="@drawable/ic_info" />
                 <TextView
-                    android:id="@+id/ivShop"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -387,6 +386,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivBuilder"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_builder" />
@@ -405,6 +405,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivShop"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_shop" />
