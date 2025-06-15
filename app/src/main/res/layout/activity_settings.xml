@@ -339,11 +339,13 @@
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp">
                 <ImageView
+                    android:id="@+id/ivBuilder"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_info"
                     android:contentDescription="Version info" />
                 <TextView
+                    android:id="@+id/ivShop"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -421,6 +423,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivHome"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_home" />
@@ -439,6 +442,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivCatalog"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_catalog" />
@@ -457,13 +461,14 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivSetting"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_settings_color" />
             <com.example.pcbuilder.GradientTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Settings"
+                android:text="Setting"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>

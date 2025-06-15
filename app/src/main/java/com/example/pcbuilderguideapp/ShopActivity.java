@@ -75,6 +75,23 @@ public class ShopActivity extends AppCompatActivity {
         ivCart.setOnClickListener(v -> {
             startActivity(new Intent(ShopActivity.this, CartActivity.class));
         });
+        //Footer Navigation
+        ImageView ivSetting = findViewById(R.id.ivSetting);
+        ivSetting.setOnClickListener(v -> {
+            startActivity(new Intent(ShopActivity.this, SettingActivity.class));
+        });
+        ImageView ivBuilder = findViewById(R.id.ivBuilder);
+        ivBuilder.setOnClickListener(v -> {
+            startActivity(new Intent(ShopActivity.this, BuilderActivity.class));
+        });
+        ImageView ivHome = findViewById(R.id.ivHome);
+        ivHome.setOnClickListener(v -> {
+            startActivity(new Intent(ShopActivity.this, HomeActivity.class));
+        });
+        ImageView ivCatalog = findViewById(R.id.ivCatalog);
+        ivCatalog.setOnClickListener(v -> {
+            startActivity(new Intent(ShopActivity.this, CatalogActivity.class));
+        });
 
         // Categories
         RecyclerView rvCategories = findViewById(R.id.rvCategories);
