@@ -30,5 +30,10 @@ public class HomeActivity extends AppCompatActivity {
         ivCatalog.setOnClickListener(v -> {
             startActivity(new Intent(HomeActivity.this, CatalogActivity.class));
         });
+        ImageView ivOrder = findViewById(R.id.ivOrder);
+        ivOrder.setOnClickListener(v -> {
+            startActivity(new Intent(HomeActivity.this, OrderActivity.class));
+        });
+
     }
 } 

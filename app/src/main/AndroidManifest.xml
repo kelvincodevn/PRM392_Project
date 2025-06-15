@@ -34,6 +34,7 @@
         <activity android:name=".BuilderActivity" android:exported="false"/>
         <activity android:name=".CatalogActivity" android:exported="false"/>
         <activity android:name=".SettingActivity" android:exported="false"/>
+        <activity android:name=".OrderActivity" android:exported="false"/>
     </application>
 
 </manifest>
