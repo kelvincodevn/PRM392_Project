@@ -118,6 +118,7 @@ namespace Services.Implements
                 FinalAmount = finalAmount,
                 OrderStatus = "Pending", // Initial status
                 ShippingAddress = orderDto.ShippingAddress,
+                StaffId = 4, //deafault 4 for now
                 PaymentMethod = orderDto.PaymentMethod,
                 PaymentStatus = "Pending", // Initial payment status
                 IsDeleted = false,
