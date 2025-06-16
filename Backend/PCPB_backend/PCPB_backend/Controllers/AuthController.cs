@@ -32,7 +32,9 @@ namespace PCPB_backend.Controllers
                 userId = user.UserId,
                 username = user.Username,
                 email = user.Email,
-                role = user.Role
+                role = user.Role,
+                fullName = user.FullName,
+                phoneNumber = user.PhoneNumber
             });
         }
 
@@ -67,7 +69,9 @@ namespace PCPB_backend.Controllers
                     userId = user.UserId,
                     username = user.Username,
                     email = user.Email,
-                    role = user.Role
+                    role = user.Role,
+                    fullName = user.FullName,
+                    phoneNumber = user.PhoneNumber
                 });
             }
             catch (ArgumentException ex)

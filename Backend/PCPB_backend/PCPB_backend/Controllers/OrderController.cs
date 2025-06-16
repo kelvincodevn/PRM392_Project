@@ -78,7 +78,19 @@ namespace PCPB_backend.Controllers
         {
             try
             {
-                var customerId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                // For testing without authorization, use a default customer ID
+                int customerId;
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (userIdClaim != null)
+                {
+                    customerId = int.Parse(userIdClaim.Value);
+                }
+                else
+                {
+                    // Use a default customer ID for testing
+                    customerId = 1; // Assuming customer with ID 1 exists
+                }
+
                 var orders = await _orderService.GetOrdersByCustomerIdAsync(customerId);
                 return Ok(orders);
             }

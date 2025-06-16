@@ -27,7 +27,12 @@ namespace Services.Implements
             DateTime? startDate = null,
             DateTime? endDate = null)
         {
-            IQueryable<Order> query = _unitOfWork.Orders.GetQueryable();
+            IQueryable<Order> query = _unitOfWork.Orders.GetQueryable()
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.ThirdParty)
+                .Include(o => o.Customer);
 
             if (!string.IsNullOrEmpty(orderStatus))
             {
@@ -47,10 +52,6 @@ namespace Services.Implements
             var totalCount = await query.CountAsync();
 
             var orders = await query
-                .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.Product)
-                .Include(o => o.OrderItems)
-                    .ThenInclude(oi => oi.ThirdParty)
                 .OrderByDescending(o => o.OrderDate)
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
@@ -61,7 +62,14 @@ namespace Services.Implements
 
         public async Task<OrderDTO> GetOrderByIdAsync(int id)
         {
-            var order = await _unitOfWork.Orders.GetByIdAsync(id);
+            var order = await _unitOfWork.Orders.GetQueryable()
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.ThirdParty)
+                .Include(o => o.Customer)
+                .FirstOrDefaultAsync(o => o.OrderId == id);
+
             if (order == null)
             {
                 throw new Exception("Order not found.");
@@ -71,13 +79,27 @@ namespace Services.Implements
 
         public async Task<List<OrderDTO>> GetOrdersByCustomerIdAsync(int customerId)
         {
-            var orders = await _unitOfWork.Orders.FindAsync(o => o.CustomerId == customerId);
+            var orders = await _unitOfWork.Orders.GetQueryable()
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.ThirdParty)
+                .Include(o => o.Customer)
+                .Where(o => o.CustomerId == customerId)
+                .ToListAsync();
             return orders.Select(MapToDTO).ToList();
         }
 
         public async Task<List<OrderDTO>> GetOrdersByStaffIdAsync(int staffId)
         {
-            var orders = await _unitOfWork.Orders.FindAsync(o => o.StaffId == staffId);
+            var orders = await _unitOfWork.Orders.GetQueryable()
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.ThirdParty)
+                .Include(o => o.Customer)
+                .Where(o => o.StaffId == staffId)
+                .ToListAsync();
             return orders.Select(MapToDTO).ToList();
         }
 
@@ -85,7 +107,14 @@ namespace Services.Implements
         {
             var orderItems = await _unitOfWork.OrderItems.GetOrderItemsByThirdPartyIdAsync(thirdPartyId);
             var orderIds = orderItems.Select(oi => oi.OrderId).Distinct().ToList();
-            var orders = await _unitOfWork.Orders.FindAsync(o => orderIds.Contains(o.OrderId));
+            var orders = await _unitOfWork.Orders.GetQueryable()
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.Product)
+                .Include(o => o.OrderItems)
+                    .ThenInclude(oi => oi.ThirdParty)
+                .Include(o => o.Customer)
+                .Where(o => orderIds.Contains(o.OrderId))
+                .ToListAsync();
             return orders.Select(MapToDTO).ToList();
         }
 
@@ -118,6 +147,7 @@ namespace Services.Implements
                 FinalAmount = finalAmount,
                 OrderStatus = "Pending", // Initial status
                 ShippingAddress = orderDto.ShippingAddress,
+                StaffId = 4, //deafault 4 for now
                 PaymentMethod = orderDto.PaymentMethod,
                 PaymentStatus = "Pending", // Initial payment status
                 IsDeleted = false,
@@ -325,6 +355,8 @@ namespace Services.Implements
             {
                 OrderId = order.OrderId,
                 CustomerId = order.CustomerId,
+                CustomerPhone = order.Customer?.PhoneNumber,
+                CustomerName = order.Customer?.FullName,
                 OrderDate = order.OrderDate,
                 TotalAmount = order.TotalAmount,
                 ShippingFee = order.ShippingFee,
@@ -338,7 +370,7 @@ namespace Services.Implements
                 IsDeleted = order.IsDeleted,
                 CreatedAt = order.CreatedAt,
                 UpdatedAt = order.UpdatedAt,
-                OrderItems = order.OrderItems.Select(MapToDTO).ToList() // Map nested OrderItems
+                OrderItems = order.OrderItems.Select(MapToDTO).ToList()
             };
         }
 

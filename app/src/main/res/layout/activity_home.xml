@@ -175,7 +175,7 @@
             <!-- Community Card 1 -->
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/bg_card_gradient_border">
                 <ImageView
@@ -196,10 +196,11 @@
             <!-- Community Card 2 -->
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/bg_card_gradient_border">
                 <ImageView
+                    android:id="@+id/ivOrder"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -207,12 +208,13 @@
                 <com.example.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Get to know about PCPB"
+                    android:text="View your Order"
                     android:textStyle="bold"
                     android:textSize="24sp"
                     android:layout_gravity="bottom|start"
                     android:layout_margin="16dp" />
             </FrameLayout>
+
 
             <!-- Back to Top -->
             <LinearLayout
@@ -231,6 +233,7 @@
                     android:text="Back to top"
                     android:textColor="#000000"
                     android:textSize="14sp"
+                    android:textStyle="bold"
                     android:layout_marginTop="4dp" />
             </LinearLayout>
 
@@ -261,6 +264,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivBuilder"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_builder" />
@@ -280,6 +284,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivShop"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_shop" />
@@ -299,6 +304,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivHome"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_home_active" />
@@ -318,6 +324,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivCatalog"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_catalog" />
@@ -337,6 +344,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivSetting"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_settings" />

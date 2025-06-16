@@ -511,6 +511,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivBuilder"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_builder" />
@@ -529,6 +530,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivShop"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_shop" />
@@ -547,6 +549,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivHome"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_home" />
@@ -565,6 +568,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivCatalog"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_catalog_color" />
@@ -582,6 +586,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivSetting"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_settings" />

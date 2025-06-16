@@ -1,0 +1,121 @@
+package com.example.pcbuilderguideapp.adapters;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.pcbuilderguideapp.R;
+import com.example.pcbuilderguideapp.models.Order;
+import com.example.pcbuilderguideapp.models.OrderItem;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Locale;
+
+public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
+    private List<Order> orders;
+    private OnOrderClickListener listener;
+    private SimpleDateFormat dateFormat;
+
+    public interface OnOrderClickListener {
+        void onExpandClick(Order order, int position);
+        void onCancelClick(Order order);
+    }
+
+    public OrderAdapter(List<Order> orders, OnOrderClickListener listener) {
+        this.orders = orders;
+        this.listener = listener;
+        this.dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+    }
+
+    @NonNull
+    @Override
+    public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_order, parent, false);
+        return new OrderViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
+        Order order = orders.get(position);
+        holder.bind(order);
+    }
+
+    @Override
+    public int getItemCount() {
+        return orders.size();
+    }
+
+    public void updateOrders(List<Order> newOrders) {
+        this.orders = newOrders;
+        notifyDataSetChanged();
+    }
+
+    class OrderViewHolder extends RecyclerView.ViewHolder {
+        private TextView tvOrderId;
+        private TextView tvOrderDate;
+        private TextView tvCustomerInfo;
+        private TextView tvOrderItems;
+        private TextView tvTotalAmount;
+        private TextView tvOrderStatus;
+        private ImageView btnExpand;
+        private Button btnCancel;
+        private View expandedContent;
+
+        public OrderViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvOrderId = itemView.findViewById(R.id.tvOrderId);
+            tvOrderDate = itemView.findViewById(R.id.tvOrderDate);
+            tvCustomerInfo = itemView.findViewById(R.id.tvCustomerInfo);
+            tvOrderItems = itemView.findViewById(R.id.tvOrderItems);
+            tvTotalAmount = itemView.findViewById(R.id.tvTotalAmount);
+            tvOrderStatus = itemView.findViewById(R.id.tvOrderStatus);
+            btnExpand = itemView.findViewById(R.id.btnExpand);
+            btnCancel = itemView.findViewById(R.id.btnCancel);
+            expandedContent = itemView.findViewById(R.id.expandedContent);
+        }
+
+        public void bind(Order order) {
+            tvOrderId.setText(String.format("Order #%d", order.getOrderId()));
+            tvOrderDate.setText(dateFormat.format(order.getOrderDate()));
+            tvOrderStatus.setText(order.getOrderStatus());
+            tvTotalAmount.setText(String.format("%.2f VND", order.getFinalAmount()));
+
+            // Expanded content
+            String customerInfo = String.format("Name: %s\nPhone: %s\nAddress: %s",
+                    order.getCustomerName(),
+                    order.getCustomerPhone(),
+                    order.getShippingAddress());
+            tvCustomerInfo.setText(customerInfo);
+
+            StringBuilder itemsText = new StringBuilder();
+            for (OrderItem item : order.getOrderItems()) {
+                itemsText.append(String.format("• %s x%d\n", item.getProductName(), item.getQuantity()));
+            }
+            tvOrderItems.setText(itemsText.toString());
+
+            // Show/hide cancel button based on order status
+            btnCancel.setVisibility(order.getOrderStatus().equals("Pending") ? View.VISIBLE : View.GONE);
+
+            // Set click listeners
+            btnExpand.setOnClickListener(v -> {
+                boolean isExpanded = expandedContent.getVisibility() == View.VISIBLE;
+                expandedContent.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
+                btnExpand.setImageResource(isExpanded ? R.drawable.ic_plus_gradient : R.drawable.ic_minus_gradient);
+                if (listener != null) {
+                    listener.onExpandClick(order, getAdapterPosition());
+                }
+            });
+
+            btnCancel.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onCancelClick(order);
+                }
+            });
+        }
+    }
+} 

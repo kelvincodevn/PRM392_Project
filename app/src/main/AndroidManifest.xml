@@ -30,7 +30,11 @@
         <activity android:name=".StaffGeneralActivity" android:exported="false"/>
         <activity android:name=".ShopActivity" android:exported="false"/>
         <activity android:name=".ShopDetailActivity" android:exported="false"/>
-        <activity android:name=".CartActivity" />
+        <activity android:name=".CartActivity" android:exported="false" />
+        <activity android:name=".BuilderActivity" android:exported="false"/>
+        <activity android:name=".CatalogActivity" android:exported="false"/>
+        <activity android:name=".SettingActivity" android:exported="false"/>
+        <activity android:name=".OrderActivity" android:exported="false"/>
     </application>
 
 </manifest>

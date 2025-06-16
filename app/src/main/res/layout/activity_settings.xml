@@ -327,8 +327,6 @@
                     android:src="@drawable/ic_chevron_right"
                     android:contentDescription="Chevron" />
             </LinearLayout>
-
-            <!-- Version info -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -338,22 +336,58 @@
                 android:layout_marginBottom="14dp"
                 android:paddingStart="18dp"
                 android:paddingEnd="18dp">
+
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_info"
-                    android:contentDescription="Version info" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Terms of service"
+                    android:src="@drawable/ic_term" />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Version info"
+                    android:text="Terms of service"
                     android:textColor="#000000"
                     android:textSize="18sp"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:textStyle="normal" />
                 <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_chevron_right"
+                    android:contentDescription="Chevron" />
+            </LinearLayout>
+
+            <!-- Log out -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_settings_option_gradient_border"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="14dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp">
+
+                <ImageView
+                    android:id="@+id/ivLogout"
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="Log out"
+                    android:src="@drawable/ic_logout" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Log out"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textStyle="normal" />
+                <ImageView
+                    android:id="@+id/ivLogoutArrow"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_chevron_right"
@@ -385,6 +419,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivBuilder"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_builder" />
@@ -403,6 +438,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivShop"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_shop" />
@@ -421,6 +457,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivHome"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_home" />
@@ -439,6 +476,7 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivCatalog"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_catalog" />
@@ -457,13 +495,14 @@
             android:orientation="vertical"
             android:gravity="center">
             <ImageView
+                android:id="@+id/ivSetting"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_settings_color" />
             <com.example.pcbuilder.GradientTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Settings"
+                android:text="Setting"
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
