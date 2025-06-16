@@ -139,6 +139,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
+                        android:text="Price"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/product_price_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:text="$999.99"
+                        android:textColor="#E040FB"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
                         android:text="Quantity"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -187,6 +205,7 @@
                 android:gravity="center">
 
                 <Button
+                    android:id="@+id/btn_delete_1"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
@@ -265,6 +284,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
+                        android:text="Price"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/product_price_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:text="$999.99"
+                        android:textColor="#E040FB"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
                         android:text="Quantity"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -313,6 +350,7 @@
                 android:gravity="center">
 
                 <Button
+                    android:id="@+id/btn_delete_2"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
@@ -391,6 +429,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
+                        android:text="Price"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/product_price_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:text="$999.99"
+                        android:textColor="#E040FB"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
                         android:text="Quantity"
                         android:textSize="12sp"
                         android:textStyle="bold" />
@@ -439,6 +495,7 @@
                 android:gravity="center">
 
                 <Button
+                    android:id="@+id/btn_delete_3"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
