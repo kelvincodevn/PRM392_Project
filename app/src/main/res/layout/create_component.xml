@@ -173,6 +173,7 @@
                 android:textStyle="bold"/>
 
             <EditText
+                android:id="@+id/etProductName"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@drawable/custom_button"
@@ -203,6 +204,7 @@
                 android:textStyle="bold"/>
 
             <Spinner
+                android:id="@+id/spinnerCategory"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@drawable/custom_button"
@@ -229,6 +231,7 @@
                 android:textStyle="bold"/>
 
             <EditText
+                android:id="@+id/etDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_button"
@@ -259,6 +262,7 @@
                 android:textStyle="bold"/>
 
             <EditText
+                android:id="@+id/etStockQuantity"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:background="@drawable/custom_button"
@@ -294,6 +298,7 @@
                 android:background="@drawable/custom_button">
 
                 <EditText
+                    android:id="@+id/etPrice"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -326,6 +331,7 @@
             android:layout_marginBottom="24dp">
 
             <Button
+                android:id="@+id/btnCancel"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
@@ -337,6 +343,7 @@
                 />
 
             <Button
+                android:id="@+id/btnConfirm"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
