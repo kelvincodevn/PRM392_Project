@@ -58,14 +58,21 @@ namespace DAOs
         // Update
         public async Task<Product> UpdateProduct(Product product)
         {
-         
-
             var result = await _context.Products.FindAsync(product.ProductId);
             if (result == null)
                 return null;
 
-            _context.Products.Update(result);
-           
+            // Update all fields
+            result.ProductName = product.ProductName;
+            result.Description = product.Description;
+            result.Price = product.Price;
+            result.StockQuantity = product.StockQuantity;
+            result.CategoryId = product.CategoryId;
+            result.ImageUrl = product.ImageUrl;
+            result.Status = product.Status;
+            result.UpdatedAt = DateTime.Now;
+            result.ThirdPartyId = 1; // Always set to 1
+
             await _context.SaveChangesAsync();
             return result;
         }
