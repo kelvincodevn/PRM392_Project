@@ -1,8 +1,9 @@
 package com.example.pcbuilderguideapp.models;
 
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-public class ThirdParty {
+public class ThirdParty implements Serializable {
     @SerializedName("companyName")
     private String companyName;
 

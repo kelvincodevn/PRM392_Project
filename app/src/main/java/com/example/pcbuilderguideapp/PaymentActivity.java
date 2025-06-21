@@ -16,7 +16,7 @@ import android.content.Intent;
 
 public class PaymentActivity extends AppCompatActivity {
     private RecyclerView rvPaymentCartItems;
-    private TextView tvTotalPaymentPrice, tvPaymentType;
+    private TextView tvTotalPaymentPrice;
     private EditText etAddress;
     private Button btnCreateOrder, btnCancelOrder;
     private CartAdapter cartAdapter;
@@ -29,7 +29,6 @@ public class PaymentActivity extends AppCompatActivity {
 
         rvPaymentCartItems = findViewById(R.id.rvPaymentCartItems);
         tvTotalPaymentPrice = findViewById(R.id.tvTotalPaymentPrice);
-        tvPaymentType = findViewById(R.id.tvPaymentType);
         etAddress = findViewById(R.id.etAddress);
         btnCreateOrder = findViewById(R.id.btnCreateOrder);
         btnCancelOrder = findViewById(R.id.btnCancelOrder);
@@ -56,6 +55,10 @@ public class PaymentActivity extends AppCompatActivity {
                 return;
             }
             // TODO: Implement order creation logic (API call)
+            // RadioGroup rgPaymentType = findViewById(R.id.rgPaymentType);
+            // int checkedId = rgPaymentType.getCheckedRadioButtonId();
+            // String paymentType = checkedId == R.id.rbPayWhenArrive ? "Pay when order arrive" : "VN Pay";
+            // For now, only 'Pay when order arrive' is enabled.
             Toast.makeText(this, "Order created!", Toast.LENGTH_SHORT).show();
             finish();
         });
