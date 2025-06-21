@@ -138,6 +138,6 @@ public class PaymentActivity extends AppCompatActivity {
                 total += item.getProduct().getPrice() * item.getQuantity();
             }
         }
-        tvTotalPaymentPrice.setText("Total price $" + String.format("%.2f", total));
+        tvTotalPaymentPrice.setText("Total price VND" + String.format("%.2f", total));
     }
 } 

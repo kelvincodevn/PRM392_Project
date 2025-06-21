@@ -43,7 +43,7 @@
             android:id="@+id/tvProductPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="$0.00"
+            android:text="0.00 VND"
             android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="#E040FB"

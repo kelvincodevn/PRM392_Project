@@ -154,8 +154,9 @@
                 android:layout_weight="1"
                 android:text="Cancel"
                 android:textColor="#000"
-                android:background="@drawable/custom_button"
-                android:layout_marginEnd="8dp" />
+                android:background="@drawable/red_button_background"
+                android:layout_marginEnd="8dp"
+                app:backgroundTint="@null"/>
 
             <Button
                 android:id="@+id/btnConfirm"
@@ -165,7 +166,8 @@
                 android:text="Confirm"
                 android:textColor="#000"
                 android:background="@drawable/custom_button"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                app:backgroundTint="@null"/>
 
         </LinearLayout>
 

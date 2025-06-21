@@ -94,6 +94,6 @@ public class CartActivity extends AppCompatActivity {
                 total += item.getProduct().getPrice() * item.getQuantity();
             }
         }
-        tvTotalPrice.setText("Total price $" + String.format("%.2f", total));
+        tvTotalPrice.setText("Total price VND" + String.format("%.2f", total));
     }
 } 

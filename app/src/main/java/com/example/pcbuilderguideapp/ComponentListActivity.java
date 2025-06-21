@@ -299,7 +299,7 @@ public class ComponentListActivity extends AppCompatActivity {
             Product product = products.get(position);
             holder.tvProductName.setText(product.getName());
             holder.tvProductDetails.setText(product.getDescription());
-            holder.tvProductPrice.setText(String.format("$%.2f", product.getPrice()));
+            holder.tvProductPrice.setText(String.format("%.2f VND", product.getPrice()));
             holder.tvStockQuantity.setText("In Stock: " + product.getStockQuantity());
             holder.tvCompanyName.setText(product.getCompanyName());
             

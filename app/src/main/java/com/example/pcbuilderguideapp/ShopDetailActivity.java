@@ -105,7 +105,7 @@ public class ShopDetailActivity extends AppCompatActivity {
     private void displayProductDetails(Product product) {
         tvProductName.setText(product.getName());
         tvCompanyName.setText("Company: " + product.getCompanyName());
-        tvPrice.setText(String.format("$%.2f", product.getPrice()));
+        tvPrice.setText(String.format("%.2f VND", product.getPrice()));
         tvStock.setText("Stock: " + product.getQuantity());
         tvDescription.setText(product.getDescription());
         maxQuantity = product.getQuantity();
