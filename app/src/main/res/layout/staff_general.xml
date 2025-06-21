@@ -66,7 +66,7 @@
         android:visibility="visible"
         android:padding="16dp"
         app:layout_constraintTop_toBottomOf="@id/tabHeaderContainer"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -78,125 +78,8 @@
         android:visibility="gone"
         android:padding="16dp"
         app:layout_constraintTop_toBottomOf="@id/tabHeaderContainer"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavContainer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Bottom Navigation -->
-    <LinearLayout
-        android:id="@+id/bottomNavContainer"
-        android:layout_width="0dp"
-        android:layout_height="72dp"
-        android:orientation="horizontal"
-        android:background="@drawable/bg_bottom_nav_rounded"
-        android:gravity="center"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- Builder -->
-        <LinearLayout
-            android:id="@+id/tab_builder"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:id="@+id/ivBuilder"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/icon_builder" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Builder"
-                android:textColor="#000000"
-                android:textSize="12sp" />
-        </LinearLayout>
-        <!-- Shop -->
-        <LinearLayout
-            android:id="@+id/tab_shop"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:id="@+id/ivShop"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/icon_shop" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Shop"
-                android:textColor="#000000"
-                android:textSize="12sp" />
-        </LinearLayout>
-        <!-- Home (active) -->
-        <LinearLayout
-            android:id="@+id/tab_home"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:id="@+id/ivHome"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/icon_home_active" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Home"
-                android:textColor="#E040FB"
-                android:textSize="12sp" />
-        </LinearLayout>
-        <!-- Catalog -->
-        <LinearLayout
-            android:id="@+id/tab_catalog"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:id="@+id/ivCatalog"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/icon_catalog" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Catalog"
-                android:textColor="#000000"
-                android:textSize="12sp" />
-        </LinearLayout>
-        <!-- Settings -->
-        <LinearLayout
-            android:id="@+id/tab_settings"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:id="@+id/ivSetting"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/icon_settings" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Settings"
-                android:textColor="#000000"
-                android:textSize="12sp" />
-        </LinearLayout>
-    </LinearLayout>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout> 

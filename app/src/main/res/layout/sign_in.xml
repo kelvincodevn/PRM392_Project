@@ -142,7 +142,7 @@
                 android:textSize="14sp"
                 android:fontFamily="sans-serif-light" />
 
-            <TextView
+            <com.example.pcbuilder.GradientTextView
                 android:id="@+id/tvSignUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -204,6 +204,11 @@ public class OrderActivity extends AppCompatActivity implements OrderAdapter.OnO
         });
     }
 
+    @Override
+    public void onConfirmClick(Order order) {
+        // This is not used in the customer context, so it can be empty.
+    }
+
     private void setupBottomNavigation() {
         ImageView ivShop = findViewById(R.id.ivShop);
         ivShop.setOnClickListener(v -> {

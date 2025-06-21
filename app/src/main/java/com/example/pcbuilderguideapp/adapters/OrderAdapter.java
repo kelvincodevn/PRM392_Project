@@ -18,16 +18,23 @@ import java.util.Locale;
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
     private List<Order> orders;
     private OnOrderClickListener listener;
+    private boolean isStaffContext;
     private SimpleDateFormat dateFormat;
 
     public interface OnOrderClickListener {
         void onExpandClick(Order order, int position);
         void onCancelClick(Order order);
+        void onConfirmClick(Order order);
     }
 
     public OrderAdapter(List<Order> orders, OnOrderClickListener listener) {
+        this(orders, listener, false);
+    }
+
+    public OrderAdapter(List<Order> orders, OnOrderClickListener listener, boolean isStaffContext) {
         this.orders = orders;
         this.listener = listener;
+        this.isStaffContext = isStaffContext;
         this.dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
     }
 
@@ -63,8 +70,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         private TextView tvTotalAmount;
         private TextView tvOrderStatus;
         private ImageView btnExpand;
-        private Button btnCancel;
-        private View expandedContent;
+        private Button btnCancel, btnConfirm, btnCustomerCancel;
+        private View expandedContent, staffActionsContainer;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +83,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             tvOrderStatus = itemView.findViewById(R.id.tvOrderStatus);
             btnExpand = itemView.findViewById(R.id.btnExpand);
             btnCancel = itemView.findViewById(R.id.btnCancel);
+            btnConfirm = itemView.findViewById(R.id.btnConfirm);
+            btnCustomerCancel = itemView.findViewById(R.id.btnCustomerCancel);
+            staffActionsContainer = itemView.findViewById(R.id.staffActionsContainer);
             expandedContent = itemView.findViewById(R.id.expandedContent);
         }
 
@@ -98,22 +108,33 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             }
             tvOrderItems.setText(itemsText.toString());
 
-            // Show/hide cancel button based on order status
-            btnCancel.setVisibility(order.getOrderStatus().equals("Pending") ? View.VISIBLE : View.GONE);
-
+            // Button visibility logic
+            if (isStaffContext) {
+                btnCustomerCancel.setVisibility(View.GONE);
+                boolean canUpdate = "Pending".equalsIgnoreCase(order.getOrderStatus()) || "Processing".equalsIgnoreCase(order.getOrderStatus());
+                staffActionsContainer.setVisibility(canUpdate ? View.VISIBLE : View.GONE);
+            } else {
+                staffActionsContainer.setVisibility(View.GONE);
+                btnCustomerCancel.setVisibility("Pending".equalsIgnoreCase(order.getOrderStatus()) ? View.VISIBLE : View.GONE);
+            }
+            
             // Set click listeners
+            btnConfirm.setOnClickListener(v -> {
+                if (listener != null) listener.onConfirmClick(order);
+            });
+            btnCancel.setOnClickListener(v -> {
+                if (listener != null) listener.onCancelClick(order);
+            });
+            btnCustomerCancel.setOnClickListener(v -> {
+                if (listener != null) listener.onCancelClick(order);
+            });
+
             btnExpand.setOnClickListener(v -> {
                 boolean isExpanded = expandedContent.getVisibility() == View.VISIBLE;
                 expandedContent.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
                 btnExpand.setImageResource(isExpanded ? R.drawable.ic_plus_gradient : R.drawable.ic_minus_gradient);
                 if (listener != null) {
                     listener.onExpandClick(order, getAdapterPosition());
-                }
-            });
-
-            btnCancel.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onCancelClick(order);
                 }
             });
         }
