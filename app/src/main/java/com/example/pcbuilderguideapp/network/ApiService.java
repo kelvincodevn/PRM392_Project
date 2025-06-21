@@ -38,4 +38,7 @@ public interface ApiService {
 
     @PATCH("Order/{id}/status")
     Call<Void> updateOrderStatus(@Path("id") int orderId, @Body OrderStatusRequest statusRequest);
+
+    @POST("Order")
+    Call<Order> createOrder(@Body com.example.pcbuilderguideapp.models.CreateOrderDTO orderDto);
 } 

@@ -143,7 +143,7 @@ namespace Services.Implements
                 CustomerId = customerId,
                 OrderDate = DateTime.Now,
                 TotalAmount = totalAmount,
-                ShippingFee = shippingFee,
+                ShippingFee = 0,
                 FinalAmount = finalAmount,
                 OrderStatus = "Pending", // Initial status
                 ShippingAddress = orderDto.ShippingAddress,
@@ -167,7 +167,7 @@ namespace Services.Implements
                     Quantity = itemDto.Quantity,
                     PriceAtOrder = itemDto.PriceAtOrder,
                     Subtotal = itemDto.PriceAtOrder * itemDto.Quantity,
-                    ThirdPartyId = itemDto.ThirdPartyId, // Assuming ThirdPartyId is provided
+                    ThirdPartyId = 1, // Assuming ThirdPartyId is provided
                     CreatedAt = DateTime.Now,
                     UpdatedAt = DateTime.Now
                 };

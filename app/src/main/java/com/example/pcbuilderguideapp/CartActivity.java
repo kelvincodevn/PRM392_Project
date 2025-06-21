@@ -41,8 +41,13 @@ public class CartActivity extends AppCompatActivity {
         rvCartItems.setLayoutManager(new LinearLayoutManager(this));
 
         btnProceedToPayment.setOnClickListener(v -> {
+            ArrayList<com.example.pcbuilderguideapp.models.SimpleCartItem> simpleCartItems = new ArrayList<>();
+            for (CartItem item : cartItems) {
+                simpleCartItems.add(new com.example.pcbuilderguideapp.models.SimpleCartItem(item.getProductId(), item.getQuantity()));
+            }
             Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
             intent.putExtra("cart_items", new java.util.ArrayList<>(cartItems));
+            intent.putExtra("simple_cart_items", simpleCartItems);
             startActivity(intent);
         });
 
@@ -61,6 +66,12 @@ public class CartActivity extends AppCompatActivity {
                         List<CartItem> items = response.body().getCartItems();
                         if (items != null) {
                             cartItems.addAll(items);
+                            for (CartItem item : cartItems) {
+                                if (item.getProduct() != null && item.getProduct().getId() != 0) {
+                                    item.setProductId(item.getProduct().getId());
+                                }
+                                android.util.Log.d("CartActivity", "CartItem: productId=" + item.getProductId() + ", quantity=" + item.getQuantity());
+                            }
                         }
                         cartAdapter.notifyDataSetChanged();
                         updateTotalPrice();

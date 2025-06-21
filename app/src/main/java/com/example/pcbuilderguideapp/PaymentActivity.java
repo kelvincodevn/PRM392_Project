@@ -13,6 +13,15 @@ import com.example.pcbuilderguideapp.models.CartItem;
 import java.util.ArrayList;
 import java.util.List;
 import android.content.Intent;
+import com.example.pcbuilderguideapp.models.CreateOrderDTO;
+import com.example.pcbuilderguideapp.models.CreateOrderItemDTO;
+import com.example.pcbuilderguideapp.network.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import android.app.ProgressDialog;
+import android.util.Log;
+import com.example.pcbuilderguideapp.models.SimpleCartItem;
 
 public class PaymentActivity extends AppCompatActivity {
     private RecyclerView rvPaymentCartItems;
@@ -21,6 +30,8 @@ public class PaymentActivity extends AppCompatActivity {
     private Button btnCreateOrder, btnCancelOrder;
     private CartAdapter cartAdapter;
     private List<CartItem> cartItems = new ArrayList<>();
+    private List<SimpleCartItem> simpleCartItems = new ArrayList<>();
+    private static final String TAG = "PaymentActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +46,19 @@ public class PaymentActivity extends AppCompatActivity {
         ImageView ivBack = findViewById(R.id.ivBack);
         ivBack.setOnClickListener(v -> finish());
 
-        // Get cart items from intent
+        // Get cart items for display
         Intent intent = getIntent();
-        ArrayList<CartItem> items = (ArrayList<CartItem>) intent.getSerializableExtra("cart_items");
+        ArrayList<CartItem> displayItems = (ArrayList<CartItem>) intent.getSerializableExtra("cart_items");
+        if (displayItems != null) {
+            cartItems.addAll(displayItems);
+        }
+        // Get simple cart items for order creation
+        ArrayList<SimpleCartItem> items = (ArrayList<SimpleCartItem>) intent.getSerializableExtra("simple_cart_items");
         if (items != null) {
-            cartItems.addAll(items);
+            simpleCartItems.addAll(items);
+            for (SimpleCartItem item : simpleCartItems) {
+                android.util.Log.d(TAG, "PaymentActivity SimpleCartItem: productId=" + item.getProductId() + ", quantity=" + item.getQuantity());
+            }
         }
 
         cartAdapter = new CartAdapter(cartItems, true);
@@ -54,13 +73,59 @@ public class PaymentActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please enter your address", Toast.LENGTH_SHORT).show();
                 return;
             }
-            // TODO: Implement order creation logic (API call)
-            // RadioGroup rgPaymentType = findViewById(R.id.rgPaymentType);
-            // int checkedId = rgPaymentType.getCheckedRadioButtonId();
-            // String paymentType = checkedId == R.id.rbPayWhenArrive ? "Pay when order arrive" : "VN Pay";
-            // For now, only 'Pay when order arrive' is enabled.
-            Toast.makeText(this, "Order created!", Toast.LENGTH_SHORT).show();
-            finish();
+            // Build order items
+            java.util.List<CreateOrderItemDTO> orderItems = new java.util.ArrayList<>();
+            for (SimpleCartItem item : simpleCartItems) {
+                int productId = item.getProductId();
+                int quantity = item.getQuantity();
+                int thirdPartyId = 1; // As requested
+                orderItems.add(new CreateOrderItemDTO(productId, quantity, thirdPartyId));
+            }
+            // Build order DTO
+            String paymentMethod = "Pay when order arrive";
+            CreateOrderDTO orderDTO = new CreateOrderDTO(address, paymentMethod, orderItems);
+
+            Log.d(TAG, "Creating order with address: " + address + ", paymentMethod: " + paymentMethod + ", items: " + orderItems.size());
+            for (CreateOrderItemDTO item : orderItems) {
+                Log.d(TAG, "OrderItem - productId: " + item.getProductId() + ", quantity: " + item.getQuantity() + ", thirdPartyId: " + item.getThirdPartyId());
+            }
+
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Creating order...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
+            RetrofitClient.getInstance(this)
+                .getApiService()
+                .createOrder(orderDTO)
+                .enqueue(new Callback<com.example.pcbuilderguideapp.models.Order>() {
+                    @Override
+                    public void onResponse(Call<com.example.pcbuilderguideapp.models.Order> call, Response<com.example.pcbuilderguideapp.models.Order> response) {
+                        progressDialog.dismiss();
+                        Log.d(TAG, "Order creation response: " + response.code() + ", body: " + response.body());
+                        if (response.isSuccessful() && response.body() != null) {
+                            Toast.makeText(PaymentActivity.this, "Order created!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            String errorBody = "";
+                            try {
+                                if (response.errorBody() != null) {
+                                    errorBody = response.errorBody().string();
+                                }
+                            } catch (Exception e) {
+                                errorBody = "Error reading errorBody: " + e.getMessage();
+                            }
+                            Log.e(TAG, "Order creation failed: " + response.message() + ", errorBody: " + errorBody);
+                            Toast.makeText(PaymentActivity.this, "Failed to create order: " + errorBody, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<com.example.pcbuilderguideapp.models.Order> call, Throwable t) {
+                        progressDialog.dismiss();
+                        Log.e(TAG, "Order creation error: ", t);
+                        Toast.makeText(PaymentActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
         });
 
         btnCancelOrder.setOnClickListener(v -> finish());
