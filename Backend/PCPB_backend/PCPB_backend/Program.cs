@@ -82,10 +82,11 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly,
 // Configure Swagger to use JWT authentication
 builder.Services.AddSwaggerGen(c =>
 {
+    var swaggerSettings = builder.Configuration.GetSection("SwaggerSettings");
     c.SwaggerDoc("v1", new OpenApiInfo { 
-        Title = "PC Builder API", 
-        Version = "v1",
-        Description = "API for PC Builder Application"
+        Title = swaggerSettings["Title"] ?? "PC Builder API", 
+        Version = swaggerSettings["Version"] ?? "v1",
+        Description = swaggerSettings["Description"] ?? "API for PC Builder Application"
     });
     
     // Define the security scheme
@@ -124,19 +125,35 @@ builder.Services.AddCors(options =>
                .AllowAnyMethod()
                .AllowAnyHeader();
     });
+    
+    // Add specific policy for local development
+    options.AddPolicy("LocalDevelopment", builder =>
+    {
+        builder.WithOrigins("https://localhost:7182", "http://localhost:5232")
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials();
+    });
 });
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+// Enable Swagger for local development and testing
+var enableSwagger = app.Configuration.GetValue<bool>("EnableSwagger", false) || 
+                   app.Environment.IsDevelopment() || 
+                   app.Environment.IsEnvironment("Local");
 
-   app.UseSwagger();
-   app.UseSwaggerUI(c =>
-   {
-       c.SwaggerEndpoint("/swagger/v1/swagger.json", "PC Builder API V1");
-       c.RoutePrefix = String.Empty;
-   });
-
+if (enableSwagger)
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "PC Builder API V1");
+        c.RoutePrefix = String.Empty;
+        c.DocumentTitle = app.Configuration.GetSection("SwaggerSettings")["Title"] ?? "PC Builder API";
+    });
+}
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
