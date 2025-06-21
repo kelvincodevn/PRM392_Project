@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSignUp;
     private CheckBox cbTerms;
     private boolean isPasswordVisible = false;
-    private static final String REGISTER_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/Auth/Register";
+    private static final String REGISTER_URL = "https://10.0.2.2:7182/api/Auth/Register";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

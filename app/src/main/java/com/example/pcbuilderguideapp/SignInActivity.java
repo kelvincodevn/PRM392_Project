@@ -40,7 +40,7 @@ public class SignInActivity extends AppCompatActivity {
     private Button btnLogin;
     private boolean isPasswordVisible = false; // Flag to track password visibility state
     // Change localhost to 10.0.2.2 for Android Emulator
-    private static final String LOGIN_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/Auth/Login";
+    private static final String LOGIN_URL = "https://10.0.2.2:7182/api/Auth/Login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,7 +176,7 @@ public class SignInActivity extends AppCompatActivity {
                             case "admin":
                                 intent = new Intent(SignInActivity.this, AdminDashboardActivity.class);
                                 break;
-                            case "thirdparty":
+                            case "third party":
                                 intent = new Intent(SignInActivity.this, ComponentManagementActivity.class);
                                 break;
                             case "staff":

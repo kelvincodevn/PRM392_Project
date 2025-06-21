@@ -58,14 +58,16 @@ namespace DAOs
         // Update
         public async Task<Product> UpdateProduct(Product product)
         {
-            if (product == null)
-            {
-                throw new ArgumentNullException(nameof(product));
-            }
+         
 
-            _context.Entry(product).State = EntityState.Modified;
+            var result = await _context.Products.FindAsync(product.ProductId);
+            if (result == null)
+                return null;
+
+            _context.Products.Update(result);
+           
             await _context.SaveChangesAsync();
-            return product;
+            return result;
         }
 
         // Delete

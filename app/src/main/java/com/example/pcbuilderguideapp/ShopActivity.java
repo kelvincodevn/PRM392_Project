@@ -36,8 +36,8 @@ import android.widget.ImageView;
 
 public class ShopActivity extends AppCompatActivity {
     private static final String TAG = "ShopActivity";
-    private static final String API_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/Product";
-    private static final String SEARCH_API_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/Product/search";
+    private static final String API_URL = "https://10.0.2.2:7182/api/Product";
+    private static final String SEARCH_API_URL = "https://10.0.2.2:7182/api/Product/search";
     private RecyclerView rvPopularProducts;
     private ProductAdapter productAdapter;
     private List<Product> productList;

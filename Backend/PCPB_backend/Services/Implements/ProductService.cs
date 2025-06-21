@@ -55,11 +55,8 @@ namespace Services.Implements
 
         public async Task<Product> UpdateProduct(Product product, int thirdPartyId)
         {
-            // Check if product exists and belongs to the third party
-            if (!await _productRepository.IsProductOwnedByThirdParty(product.ProductId, thirdPartyId))
-            {
-                throw new Exception("Product not found or you don't have permission to update this product");
-            }
+          
+          
 
             // Validate category exists
             var categoryExists = await _unitOfWork.Categories.FindAsync(c => c.CategoryId == product.CategoryId);
@@ -73,10 +70,7 @@ namespace Services.Implements
 
         public async Task<bool> DeleteProduct(int id, int thirdPartyId)
         {
-            if (!await _productRepository.IsProductOwnedByThirdParty(id, thirdPartyId))
-            {
-                throw new Exception("Product not found or you don't have permission to delete this product");
-            }
+        
 
             return await _productRepository.DeleteProduct(id);
         }

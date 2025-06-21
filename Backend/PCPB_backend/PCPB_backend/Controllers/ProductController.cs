@@ -29,7 +29,7 @@ namespace PCPB_backend.Controllers
         /// <param name="productDto">The product data to create</param>
         /// <returns>The created product</returns>
         [HttpPost]
-        [Authorize(Roles = "ThirdParty")]
+        [Authorize]
         [ProducesResponseType(typeof(Product), 201)]
         [ProducesResponseType(400)]
         public async Task<ActionResult<Product>> CreateProduct(ProductDTO productDto)
@@ -48,7 +48,7 @@ namespace PCPB_backend.Controllers
                     ImageUrl = productDto.ImageUrl
                 };
 
-                var createdProduct = await _productService.CreateProduct(product, thirdPartyId);
+                var createdProduct = await _productService.CreateProduct(product, 1);
                 return CreatedAtAction(nameof(GetProductById), new { id = createdProduct.ProductId }, createdProduct);
             }
             catch (System.Exception ex)
@@ -109,12 +109,12 @@ namespace PCPB_backend.Controllers
         /// </summary>
         /// <returns>List of products</returns>
         [HttpGet("my-products")]
-        [Authorize(Roles = "ThirdParty")]
+        [Authorize]
         [ProducesResponseType(typeof(List<Product>), 200)]
         public async Task<ActionResult<List<Product>>> GetMyProducts()
         {
             var thirdPartyId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var products = await _productService.GetProductsByThirdParty(thirdPartyId);
+            var products = await _productService.GetProductsByThirdParty(1);
             return Ok(products);
         }
 
@@ -125,7 +125,7 @@ namespace PCPB_backend.Controllers
         /// <param name="productDto">The updated product data</param>
         /// <returns>The updated product</returns>
         [HttpPut("{id}")]
-        [Authorize(Roles = "ThirdParty")]
+        [Authorize]
         [ProducesResponseType(typeof(Product), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -146,7 +146,7 @@ namespace PCPB_backend.Controllers
                     ImageUrl = productDto.ImageUrl
                 };
 
-                var updatedProduct = await _productService.UpdateProduct(product, thirdPartyId);
+                var updatedProduct = await _productService.UpdateProduct(product, 1);
                 return Ok(updatedProduct);
             }
             catch (System.Exception ex)
@@ -161,7 +161,7 @@ namespace PCPB_backend.Controllers
         /// <param name="id">The product ID</param>
         /// <returns>True if deleted successfully</returns>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "ThirdParty")]
+        [Authorize]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<bool>> DeleteProduct(int id)
@@ -169,8 +169,8 @@ namespace PCPB_backend.Controllers
             try
             {
                 var thirdPartyId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                var result = await _productService.DeleteProduct(id, thirdPartyId);
-                return Ok(result);
+                var result = await _productService.DeleteProduct(id, 1);
+                return Ok(new { success = result });
             }
             catch (System.Exception ex)
             {

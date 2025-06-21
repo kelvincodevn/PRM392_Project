@@ -37,6 +37,7 @@
         <activity android:name=".OrderActivity" android:exported="false"/>
         <activity android:name=".CreateComponentActivity" />
         <activity android:name=".ComponentListActivity" />
+        <activity android:name=".UpdateComponentActivity" />
     </application>
 
 </manifest>
