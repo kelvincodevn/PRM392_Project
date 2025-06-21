@@ -1,6 +1,8 @@
 package com.example.pcbuilderguideapp.models;
 
-public class CartItem {
+import java.io.Serializable;
+
+public class CartItem implements Serializable {
     private int cartItemId;
     private int productId;
     private int quantity;

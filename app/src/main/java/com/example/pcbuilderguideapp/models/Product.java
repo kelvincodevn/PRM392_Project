@@ -1,8 +1,9 @@
 package com.example.pcbuilderguideapp.models;
 
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-public class Product {
+public class Product implements Serializable {
     @SerializedName("id")
     private int id;
 

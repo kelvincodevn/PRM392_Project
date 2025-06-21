@@ -16,6 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import android.widget.ImageView;
+import android.content.Intent;
 
 public class CartActivity extends AppCompatActivity {
     private RecyclerView rvCartItems;
@@ -38,6 +39,12 @@ public class CartActivity extends AppCompatActivity {
         cartAdapter = new CartAdapter(cartItems);
         rvCartItems.setAdapter(cartAdapter);
         rvCartItems.setLayoutManager(new LinearLayoutManager(this));
+
+        btnProceedToPayment.setOnClickListener(v -> {
+            Intent intent = new Intent(CartActivity.this, PaymentActivity.class);
+            intent.putExtra("cart_items", new java.util.ArrayList<>(cartItems));
+            startActivity(intent);
+        });
 
         fetchCart();
     }
