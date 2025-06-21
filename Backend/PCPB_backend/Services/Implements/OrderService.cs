@@ -32,7 +32,8 @@ namespace Services.Implements
                     .ThenInclude(oi => oi.Product)
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.ThirdParty)
-                .Include(o => o.Customer);
+                .Include(o => o.Customer)
+                .Where(o => !o.IsDeleted);
 
             if (!string.IsNullOrEmpty(orderStatus))
             {
@@ -68,7 +69,7 @@ namespace Services.Implements
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.ThirdParty)
                 .Include(o => o.Customer)
-                .FirstOrDefaultAsync(o => o.OrderId == id);
+                .FirstOrDefaultAsync(o => o.OrderId == id && !o.IsDeleted);
 
             if (order == null)
             {
@@ -85,7 +86,7 @@ namespace Services.Implements
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.ThirdParty)
                 .Include(o => o.Customer)
-                .Where(o => o.CustomerId == customerId)
+                .Where(o => o.CustomerId == customerId && !o.IsDeleted)
                 .ToListAsync();
             return orders.Select(MapToDTO).ToList();
         }
@@ -98,7 +99,7 @@ namespace Services.Implements
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.ThirdParty)
                 .Include(o => o.Customer)
-                .Where(o => o.StaffId == staffId)
+                .Where(o => o.StaffId == staffId && !o.IsDeleted)
                 .ToListAsync();
             return orders.Select(MapToDTO).ToList();
         }
@@ -113,7 +114,7 @@ namespace Services.Implements
                 .Include(o => o.OrderItems)
                     .ThenInclude(oi => oi.ThirdParty)
                 .Include(o => o.Customer)
-                .Where(o => orderIds.Contains(o.OrderId))
+                .Where(o => orderIds.Contains(o.OrderId) && !o.IsDeleted)
                 .ToListAsync();
             return orders.Select(MapToDTO).ToList();
         }
@@ -248,7 +249,8 @@ namespace Services.Implements
 
         public async Task<OrderStatisticsDTO> GetOrderStatisticsAsync(DateTime? startDate = null, DateTime? endDate = null)
         {
-            IQueryable<Order> query = _unitOfWork.Orders.GetQueryable();
+            IQueryable<Order> query = _unitOfWork.Orders.GetQueryable()
+                .Where(o => !o.IsDeleted);
 
             if (startDate.HasValue)
             {

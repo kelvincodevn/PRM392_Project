@@ -41,4 +41,7 @@ public interface ApiService {
 
     @POST("Order")
     Call<Order> createOrder(@Body com.example.pcbuilderguideapp.models.CreateOrderDTO orderDto);
+
+    @GET("Order/my-deliveries")
+    Call<com.example.pcbuilderguideapp.models.OrderListResponse> getMyDeliveries();
 } 

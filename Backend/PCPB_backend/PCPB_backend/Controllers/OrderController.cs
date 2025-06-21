@@ -111,7 +111,8 @@ namespace PCPB_backend.Controllers
         {
             try
             {
-                var staffId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                // Hard code staff ID to 4 for testing
+                var staffId = 4;
                 var orders = await _orderService.GetOrdersByStaffIdAsync(staffId);
                 return Ok(orders);
             }
