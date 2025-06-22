@@ -31,8 +31,8 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 public class UpdateComponentActivity extends AppCompatActivity {
-    private static final String API_URL = "https://10.0.2.2:7182/api/Product";
-    private static final String CATEGORY_API_URL = "https://10.0.2.2:7182/api/Category";
+    private static final String API_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/Product";
+    private static final String CATEGORY_API_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/Category";
     
     private EditText etProductName, etDescription, etPrice, etStockQuantity;
     private Spinner spinnerCategory;

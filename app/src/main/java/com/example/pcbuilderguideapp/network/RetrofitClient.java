@@ -22,7 +22,7 @@ import java.io.IOException;
 import android.util.Log;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "https://10.0.2.2:7182/api/";
+    private static final String BASE_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/";
     private static RetrofitClient instance;
     private final Retrofit retrofit;
     private final Context context;

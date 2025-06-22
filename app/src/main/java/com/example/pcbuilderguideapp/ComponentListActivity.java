@@ -37,7 +37,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 public class ComponentListActivity extends AppCompatActivity {
-    private static final String API_URL = "https://10.0.2.2:7182/api/Product";
+    private static final String API_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/Product";
     private RecyclerView recyclerView;
     private ProductAdapter adapter;
     private List<Product> products = new ArrayList<>();
