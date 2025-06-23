@@ -26,13 +26,34 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="16dp"/>
 
-    <EditText
-        android:id="@+id/etAddress"
+    <!-- Address with location button -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your address"
-        android:inputType="textPostalAddress"
-        android:layout_marginBottom="12dp"/>
+        android:orientation="horizontal"
+        android:layout_marginBottom="12dp">
+
+        <EditText
+            android:id="@+id/etAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Enter your address or use current location"
+            android:inputType="textPostalAddress"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/btnGetLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📍"
+            android:textSize="16sp"
+            android:minWidth="48dp"
+            android:background="@drawable/custom_button"
+            android:textColor="#000"
+            app:backgroundTint="@null"/>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPaymentCartItems"

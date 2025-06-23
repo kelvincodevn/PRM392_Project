@@ -75,6 +75,70 @@
             android:background="@drawable/custom_button"
             android:layout_marginBottom="16dp" />
 
+        <!-- Product Image -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Product Image"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Image Preview Area -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/custom_button"
+            android:layout_marginBottom="12dp">
+
+            <ImageView
+                android:id="@+id/ivProductImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder"
+                android:contentDescription="Product image preview" />
+
+            <!-- Upload Button Overlay -->
+            <LinearLayout
+                android:id="@+id/llUploadOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#80000000"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="Upload icon"
+                    android:src="@drawable/ic_plus"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap to upload image"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:layout_marginTop="8dp" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <!-- Upload Button -->
+        <Button
+            android:id="@+id/btnUploadImage"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Upload Image"
+            android:textColor="#000"
+            android:background="@drawable/custom_button"
+            android:layout_marginBottom="16dp"
+            app:backgroundTint="@null"/>
+
         <!-- Description -->
         <TextView
             android:layout_width="wrap_content"
@@ -153,7 +217,7 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:text="Cancel"
-                android:textColor="#000"
+                android:textColor="#FFFFFF"
                 android:background="@drawable/red_button_background"
                 android:layout_marginEnd="8dp"
                 app:backgroundTint="@null"/>

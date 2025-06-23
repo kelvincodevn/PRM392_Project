@@ -1,17 +1,27 @@
 package com.example.pcbuilderguideapp;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ImageView;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pcbuilderguideapp.models.CartItem;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import android.content.Intent;
 import com.example.pcbuilderguideapp.models.CreateOrderDTO;
 import com.example.pcbuilderguideapp.models.CreateOrderItemDTO;
@@ -22,16 +32,23 @@ import retrofit2.Response;
 import android.app.ProgressDialog;
 import android.util.Log;
 import com.example.pcbuilderguideapp.models.SimpleCartItem;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 
 public class PaymentActivity extends AppCompatActivity {
     private RecyclerView rvPaymentCartItems;
     private TextView tvTotalPaymentPrice;
     private EditText etAddress;
-    private Button btnCreateOrder, btnCancelOrder;
+    private Button btnCreateOrder, btnCancelOrder, btnGetLocation;
     private CartAdapter cartAdapter;
     private List<CartItem> cartItems = new ArrayList<>();
     private List<SimpleCartItem> simpleCartItems = new ArrayList<>();
     private static final String TAG = "PaymentActivity";
+    
+    // Location-related variables
+    private FusedLocationProviderClient fusedLocationClient;
+    private Geocoder geocoder;
+    private ActivityResultLauncher<String[]> locationPermissionLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +60,18 @@ public class PaymentActivity extends AppCompatActivity {
         etAddress = findViewById(R.id.etAddress);
         btnCreateOrder = findViewById(R.id.btnCreateOrder);
         btnCancelOrder = findViewById(R.id.btnCancelOrder);
+        btnGetLocation = findViewById(R.id.btnGetLocation);
         ImageView ivBack = findViewById(R.id.ivBack);
         ivBack.setOnClickListener(v -> finish());
+
+        // Initialize location services
+        initializeLocationServices();
+
+        // Set up location permission launcher
+        setupLocationPermissionLauncher();
+
+        // Set up location button click listener
+        btnGetLocation.setOnClickListener(v -> getCurrentLocation());
 
         // Get cart items for display
         Intent intent = getIntent();
@@ -139,5 +166,69 @@ public class PaymentActivity extends AppCompatActivity {
             }
         }
         tvTotalPaymentPrice.setText("Total price VND" + String.format("%.2f", total));
+    }
+
+    private void initializeLocationServices() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        geocoder = new Geocoder(this, Locale.getDefault());
+    }
+
+    private void setupLocationPermissionLauncher() {
+        locationPermissionLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestMultiplePermissions(),
+            result -> {
+                if (result.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false)) {
+                    getCurrentLocation();
+                } else {
+                    Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
+                }
+            }
+        );
+    }
+
+    private void getCurrentLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // Show loading state
+            btnGetLocation.setEnabled(false);
+            btnGetLocation.setText("⏳");
+            
+            fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, location -> {
+                    if (location != null) {
+                        try {
+                            List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                            if (addresses != null && !addresses.isEmpty()) {
+                                Address address = addresses.get(0);
+                                String fullAddress = address.getAddressLine(0);
+                                if (fullAddress != null && !fullAddress.isEmpty()) {
+                                    etAddress.setText(fullAddress);
+                                    Toast.makeText(this, "Location address set successfully!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(this, "Could not get address from location", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(this, "No address found for this location", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error getting address: ", e);
+                            Toast.makeText(this, "Error getting address: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(this, "Location not available. Please enable GPS.", Toast.LENGTH_LONG).show();
+                    }
+                    // Reset button state
+                    btnGetLocation.setEnabled(true);
+                    btnGetLocation.setText("📍");
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error getting location: ", e);
+                    Toast.makeText(this, "Error getting location: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    // Reset button state
+                    btnGetLocation.setEnabled(true);
+                    btnGetLocation.setText("📍");
+                });
+        } else {
+            locationPermissionLauncher.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
+        }
     }
 } 
