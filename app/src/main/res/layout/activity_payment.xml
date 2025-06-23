@@ -30,28 +30,55 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_marginBottom="12dp">
 
-        <EditText
-            android:id="@+id/etAddress"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Enter your address or use current location"
-            android:inputType="textPostalAddress"
-            android:layout_marginEnd="8dp"/>
-
-        <Button
-            android:id="@+id/btnGetLocation"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="📍"
+            android:text="Delivery Address"
             android:textSize="16sp"
-            android:minWidth="48dp"
-            android:background="@drawable/custom_button"
-            android:textColor="#000"
-            app:backgroundTint="@null"/>
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/etAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Enter your address or use current location"
+                android:inputType="textPostalAddress"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/edittext_underline"
+                android:padding="12dp"/>
+
+            <Button
+                android:id="@+id/btnGetLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📍"
+                android:textSize="18sp"
+                android:minWidth="56dp"
+                android:minHeight="56dp"
+                android:background="@drawable/custom_button"
+                android:textColor="#000"
+                android:contentDescription="Get current location"
+                app:backgroundTint="@null"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tap the location button to automatically fill your address"
+            android:textSize="12sp"
+            android:textColor="#666"
+            android:layout_marginTop="4dp"/>
 
     </LinearLayout>
 
