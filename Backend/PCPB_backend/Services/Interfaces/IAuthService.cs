@@ -9,9 +9,9 @@ namespace Services.Interfaces
         Task<User> Authenticate(string username, string password);
         Task<bool> ValidatePassword(string password, string passwordHash);
         Task<User> Register(RegisterDTO model);
-        // Task<bool> ForgotPassword(string email);
-        // Task<bool> ResetPassword(string token, string newPassword);
-        // Task<bool> ValidateResetToken(string token);
+        Task<bool> ForgotPassword(string email);
+        Task<bool> ResetPassword(string token, string newPassword);
+        Task<bool> ValidateResetToken(string token);
     }
 }
 

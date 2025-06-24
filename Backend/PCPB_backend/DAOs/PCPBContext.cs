@@ -472,6 +472,10 @@ public partial class PCPBContext : DbContext
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(20)
                 .HasColumnName("phone_number");
+            entity.Property(e => e.ResetToken)
+                .HasColumnType("nvarchar(max)");
+            entity.Property(e => e.ResetTokenExpiry)
+                .HasColumnType("datetime2");
             entity.Property(e => e.Role)
                 .HasMaxLength(50)
                 .HasColumnName("role");
