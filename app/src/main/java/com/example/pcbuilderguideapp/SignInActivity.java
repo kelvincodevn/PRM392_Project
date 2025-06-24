@@ -72,6 +72,13 @@ public class SignInActivity extends AppCompatActivity {
             finish();
         });
 
+        // Add click listener for "Forgot your password?" TextView
+        TextView tvForgotPassword = findViewById(R.id.tvForgotPassword);
+        tvForgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+        });
+
         // You can add other view initializations and click listeners here
         // For example, for the login button:
         // Button btnLogin = findViewById(R.id.btnLogin);
