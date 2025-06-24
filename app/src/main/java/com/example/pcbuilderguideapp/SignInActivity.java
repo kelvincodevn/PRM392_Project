@@ -40,7 +40,7 @@ public class SignInActivity extends AppCompatActivity {
     private Button btnLogin;
     private boolean isPasswordVisible = false; // Flag to track password visibility state
     // Change localhost to 10.0.2.2 for Android Emulator
-    private static final String LOGIN_URL = "https://10.0.2.2:7182/api/Auth/Login";
+    private static final String LOGIN_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/Auth/Login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +70,13 @@ public class SignInActivity extends AppCompatActivity {
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
+        });
+
+        // Add click listener for "Forgot your password?" TextView
+        TextView tvForgotPassword = findViewById(R.id.tvForgotPassword);
+        tvForgotPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
         });
 
         // You can add other view initializations and click listeners here

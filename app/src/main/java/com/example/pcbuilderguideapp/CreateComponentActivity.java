@@ -1,13 +1,22 @@
 package com.example.pcbuilderguideapp;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,6 +27,8 @@ import com.example.pcbuilderguideapp.utils.TokenManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,12 +42,19 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 public class CreateComponentActivity extends AppCompatActivity {
-    private static final String API_URL = "https://10.0.2.2:7182/api/Product";
-    private static final String CATEGORY_API_URL = "https://10.0.2.2:7182/api/Category";
+    private static final String API_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/Product";
+    private static final String CATEGORY_API_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/Category";
     private EditText etProductName, etDescription, etPrice, etStockQuantity;
     private Spinner spinnerCategory;
     private Button btnConfirm, btnCancel;
     private List<Category> categories = new ArrayList<>();
+    
+    // Image upload variables
+    private ImageView ivProductImage;
+    private LinearLayout llUploadOverlay;
+    private Button btnUploadImage;
+    private ActivityResultLauncher<Intent> imagePickerLauncher;
+    private Uri selectedImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +67,9 @@ public class CreateComponentActivity extends AppCompatActivity {
 
             // Initialize views
             initializeViews();
+
+            // Initialize image picker launcher
+            initializeImagePicker();
 
             // Set up back button
             ImageView backButton = findViewById(R.id.ivBack);
@@ -65,6 +86,9 @@ public class CreateComponentActivity extends AppCompatActivity {
             if (btnCancel != null) {
                 btnCancel.setOnClickListener(v -> finish());
             }
+
+            // Set up image upload functionality
+            setupImageUpload();
 
             // Load categories
             loadCategories();
@@ -83,8 +107,59 @@ public class CreateComponentActivity extends AppCompatActivity {
             spinnerCategory = findViewById(R.id.spinnerCategory);
             btnConfirm = findViewById(R.id.btnConfirm);
             btnCancel = findViewById(R.id.btnCancel);
+            ivProductImage = findViewById(R.id.ivProductImage);
+            llUploadOverlay = findViewById(R.id.llUploadOverlay);
+            btnUploadImage = findViewById(R.id.btnUploadImage);
         } catch (Exception e) {
             Toast.makeText(this, "Error initializing views: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void initializeImagePicker() {
+        imagePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    Intent data = result.getData();
+                    if (data != null && data.getData() != null) {
+                        selectedImageUri = data.getData();
+                        loadImageFromUri(selectedImageUri);
+                        llUploadOverlay.setVisibility(View.GONE);
+                        Toast.makeText(this, "Image selected successfully!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        );
+    }
+
+    private void setupImageUpload() {
+        // Set up upload button click listener
+        btnUploadImage.setOnClickListener(v -> openImagePicker());
+        
+        // Set up image preview area click listener
+        ivProductImage.setOnClickListener(v -> openImagePicker());
+        llUploadOverlay.setOnClickListener(v -> openImagePicker());
+    }
+    
+    private void openImagePicker() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        imagePickerLauncher.launch(intent);
+    }
+
+    private void loadImageFromUri(Uri uri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            if (bitmap != null) {
+                ivProductImage.setImageBitmap(bitmap);
+            }
+            if (inputStream != null) {
+                inputStream.close();
+            }
+        } catch (IOException e) {
+            Log.e("CreateComponentActivity", "Error loading image: " + e.getMessage(), e);
+            Toast.makeText(this, "Error loading image", Toast.LENGTH_SHORT).show();
         }
     }
 
