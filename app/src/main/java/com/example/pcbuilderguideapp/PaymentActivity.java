@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,14 +25,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pcbuilderguideapp.models.CartItem;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
 import com.example.pcbuilderguideapp.models.CreateOrderDTO;
 import com.example.pcbuilderguideapp.models.CreateOrderItemDTO;
 import com.example.pcbuilderguideapp.network.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import vn.momo.momo_partner.AppMoMoLib;
+
 import android.app.ProgressDialog;
 import android.util.Log;
 import com.example.pcbuilderguideapp.models.SimpleCartItem;
@@ -39,6 +45,9 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.Priority;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class PaymentActivity extends AppCompatActivity {
     private RecyclerView rvPaymentCartItems;
@@ -49,6 +58,17 @@ public class PaymentActivity extends AppCompatActivity {
     private List<CartItem> cartItems = new ArrayList<>();
     private List<SimpleCartItem> simpleCartItems = new ArrayList<>();
     private static final String TAG = "PaymentActivity";
+    private RadioButton rbMomo;
+
+
+    //layout confirm order activity
+    private String amount = "10000";
+    private String fee = "0";
+    int environment = 0;//developer default
+    private String merchantName = "PCPB";
+    private String merchantCode = "SCB01";
+    private String merchantNameLabel = "Nhà cung cấp";
+    private String description = "Mua hàng qua momo";
     
     // Location-related variables
     private FusedLocationProviderClient fusedLocationClient;
@@ -67,6 +87,7 @@ public class PaymentActivity extends AppCompatActivity {
         btnCreateOrder = findViewById(R.id.btnCreateOrder);
         btnCancelOrder = findViewById(R.id.btnCancelOrder);
         btnGetLocation = findViewById(R.id.btnGetLocation);
+        rbMomo = findViewById(R.id.rbMomo);
         ImageView ivBack = findViewById(R.id.ivBack);
         ivBack.setOnClickListener(v -> finish());
 
@@ -78,6 +99,8 @@ public class PaymentActivity extends AppCompatActivity {
 
         // Set up location button click listener
         btnGetLocation.setOnClickListener(v -> getCurrentLocation());
+        //Set enviroment for momo
+        AppMoMoLib.getInstance().setEnvironment(AppMoMoLib.ENVIRONMENT.DEVELOPMENT); // AppMoMoLib.ENVIRONMENT.PRODUCTION
 
         // Get cart items for display
         Intent intent = getIntent();
@@ -321,6 +344,92 @@ public class PaymentActivity extends AppCompatActivity {
             locationPermissionLauncher.launch(new String[]{Manifest.permission.ACCESS_FINE_LOCATION});
         }
     }
+    //payment token momo
+    //Get token through MoMo app
+    private void requestPayment(String iddonhang) {
+        AppMoMoLib.getInstance().setAction(AppMoMoLib.ACTION.PAYMENT);
+        AppMoMoLib.getInstance().setActionType(AppMoMoLib.ACTION_TYPE.GET_TOKEN);
+
+
+        Map<String, Object> eventValue = new HashMap<>();
+        //client Required
+        eventValue.put("merchantname", merchantName); //Tên đối tác. được đăng ký tại https://business.momo.vn. VD: Google, Apple, Tiki , CGV Cinemas
+        eventValue.put("merchantcode", merchantCode); //Mã đối tác, được cung cấp bởi MoMo tại https://business.momo.vn
+        eventValue.put("amount", amount); //Kiểu integer
+        eventValue.put("orderId", "orderId123456789"); //uniqueue id cho Bill order, giá trị duy nhất cho mỗi đơn hàng
+        eventValue.put("orderLabel", iddonhang); //gán nhãn
+
+        //client Optional - bill info
+        eventValue.put("merchantnamelabel", "Dịch vụ");//gán nhãn
+        eventValue.put("fee", "0"); //Kiểu integer
+        eventValue.put("description", description); //mô tả đơn hàng - short description
+
+        //client extra data
+        eventValue.put("requestId",  merchantCode+"merchant_billId_"+System.currentTimeMillis());
+        eventValue.put("partnerCode", merchantCode);
+        //Example extra data
+        JSONObject objExtraData = new JSONObject();
+        try {
+            objExtraData.put("site_code", "008");
+            objExtraData.put("site_name", "CGV Cresent Mall");
+            objExtraData.put("screen_code", 0);
+            objExtraData.put("screen_name", "Special");
+            objExtraData.put("movie_name", "Kẻ Trộm Mặt Trăng 3");
+            objExtraData.put("movie_format", "2D");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        eventValue.put("extraData", objExtraData.toString());
+
+        eventValue.put("extra", "");
+        AppMoMoLib.getInstance().requestMoMoCallBack(this, eventValue);
+
+
+    }
+    //Get token callback from MoMo app an submit to server side
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == AppMoMoLib.getInstance().REQUEST_CODE_MOMO && resultCode == -1) {
+            if(data != null) {
+                if(data.getIntExtra("status", -1) == 0) {
+                    //TOKEN IS AVAILABLE
+                    Log.d("thanhcong",data.getStringExtra("message"));
+                    String token = data.getStringExtra("data"); //Token response
+                    String phoneNumber = data.getStringExtra("phonenumber");
+                    String env = data.getStringExtra("env");
+                    if(env == null){
+                        env = "app";
+                    }
+
+                    if(token != null && !token.equals("")) {
+                        // TODO: send phoneNumber & token to your server side to process payment with MoMo server
+                        // IF Momo topup success, continue to process your order
+                    } else {
+                        Log.d("thanhcong", "khong thanh cong");
+                    }
+                } else if(data.getIntExtra("status", -1) == 1) {
+                    //TOKEN FAIL
+                    String message = data.getStringExtra("message") != null?data.getStringExtra("message"):"Thất bại";
+                    Log.d("thanhcong", "khong thanh cong");
+                } else if(data.getIntExtra("status", -1) == 2) {
+                    //TOKEN FAIL
+                    Log.d("thanhcong", "khong thanh cong");
+                } else {
+                    //TOKEN FAIL
+                    Log.d("thanhcong", "khong thanh cong");
+                }
+            } else {
+                Log.d("thanhcong", "khong thanh cong");
+            }
+        } else {
+            Log.d("thanhcong", "khong thanh cong");
+        }
+    }
+
+
+
+
+
 
     private void processLocation(Location location) {
         try {
