@@ -21,7 +21,7 @@ public class OrderItem {
     @SerializedName("quantity")
     private int quantity;
 
-    @SerializedName("unitPrice")
+    @SerializedName("priceAtOrder")
     private double unitPrice;
 
     @SerializedName("totalPrice")

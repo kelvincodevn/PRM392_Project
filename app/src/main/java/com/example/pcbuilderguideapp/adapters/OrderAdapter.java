@@ -106,8 +106,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
             StringBuilder itemsText = new StringBuilder();
             for (OrderItem item : order.getOrderItems()) {
-                itemsText.append(String.format("• %s x%d\n    Unit: %.2f VND\n",
-                        item.getProductName(), item.getQuantity(), item.getUnitPrice()));
+                double total = item.getTotalPrice();
+                if (total == 0) {
+                    total = item.getUnitPrice() * item.getQuantity();
+                }
+                itemsText.append(String.format("• %s x%d @ %.2f VND each - %.2f VND\n",
+                        item.getProductName(), item.getQuantity(), item.getUnitPrice(), total));
             }
             tvOrderItems.setText(itemsText.toString());
 
