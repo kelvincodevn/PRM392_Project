@@ -69,6 +69,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         private TextView tvOrderItems;
         private TextView tvTotalAmount;
         private TextView tvOrderStatus;
+        private TextView tvPaymentStatus;
         private ImageView btnExpand;
         private Button btnCancel, btnConfirm, btnCustomerCancel;
         private View expandedContent, staffActionsContainer;
@@ -81,6 +82,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             tvOrderItems = itemView.findViewById(R.id.tvOrderItems);
             tvTotalAmount = itemView.findViewById(R.id.tvTotalAmount);
             tvOrderStatus = itemView.findViewById(R.id.tvOrderStatus);
+            tvPaymentStatus = itemView.findViewById(R.id.tvPaymentStatus);
             btnExpand = itemView.findViewById(R.id.btnExpand);
             btnCancel = itemView.findViewById(R.id.btnCancel);
             btnConfirm = itemView.findViewById(R.id.btnConfirm);
@@ -104,9 +106,18 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
             StringBuilder itemsText = new StringBuilder();
             for (OrderItem item : order.getOrderItems()) {
-                itemsText.append(String.format("• %s x%d\n", item.getProductName(), item.getQuantity()));
+                itemsText.append(String.format("• %s x%d\n    Unit: %.2f VND\n",
+                        item.getProductName(), item.getQuantity(), item.getUnitPrice()));
             }
             tvOrderItems.setText(itemsText.toString());
+
+            // Payment status
+            String paymentStatus = order.getPaymentStatus();
+            if ("MoMo Payment".equalsIgnoreCase(order.getPaymentMethod()) && "Pending".equalsIgnoreCase(paymentStatus)
+                && !"Cancelled".equalsIgnoreCase(order.getOrderStatus()) && !"Failed".equalsIgnoreCase(order.getOrderStatus())) {
+                paymentStatus = "Paid";
+            }
+            tvPaymentStatus.setText(String.format("Payment Status: %s", paymentStatus));
 
             // Button visibility logic
             if (isStaffContext) {

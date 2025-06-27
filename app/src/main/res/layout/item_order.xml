@@ -62,6 +62,15 @@
             android:textSize="13sp"
             android:layout_marginBottom="8dp" />
 
+        <!-- Payment Status -->
+        <TextView
+            android:id="@+id/tvPaymentStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
         <!-- Total Amount and Status -->
         <LinearLayout
             android:layout_width="match_parent"

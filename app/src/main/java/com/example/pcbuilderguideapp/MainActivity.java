@@ -35,7 +35,7 @@ import javax.net.ssl.X509TrustManager;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    private EditText etUsername, etFullName, etEmail, etPassword;
+    private EditText etUsername, etFullName, etEmail, etPhoneNumber, etPassword;
     private ImageView ivTogglePasswordVisibility;
     private Button btnSignUp;
     private CheckBox cbTerms;
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etFullName = findViewById(R.id.etFullName);
         etEmail = findViewById(R.id.etEmail);
+        etPhoneNumber = findViewById(R.id.etPhoneNumber);
         etPassword = findViewById(R.id.etPassword);
         ivTogglePasswordVisibility = findViewById(R.id.ivTogglePasswordVisibility);
         btnSignUp = findViewById(R.id.btnSignUp);
@@ -113,9 +114,10 @@ public class MainActivity extends AppCompatActivity {
         String username = etUsername.getText().toString().trim();
         String fullName = etFullName.getText().toString().trim();
         String email = etEmail.getText().toString().trim();
+        String phoneNumber = etPhoneNumber.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        if (username.isEmpty() || fullName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty() || fullName.isEmpty() || email.isEmpty() || phoneNumber.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -131,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
             jsonBody.put("username", username);
             jsonBody.put("fullName", fullName);
             jsonBody.put("email", email);
+            jsonBody.put("phoneNumber", phoneNumber);
             jsonBody.put("password", password);
             Log.d(TAG, "Registration attempt with username: " + username);
         } catch (JSONException e) {
@@ -153,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                     etUsername.setText("");
                     etFullName.setText("");
                     etEmail.setText("");
+                    etPhoneNumber.setText("");
                     etPassword.setText("");
                 },
                 error -> {
