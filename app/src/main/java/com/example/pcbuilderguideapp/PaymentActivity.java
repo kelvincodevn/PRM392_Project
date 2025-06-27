@@ -71,7 +71,7 @@ public class PaymentActivity extends AppCompatActivity {
     private String description = "Mua hàng qua momo";
     
     // Test mode flag - set to true to bypass MoMo payment for testing
-    private boolean testMode = true;
+    private boolean testMode = false;
     
     // Location-related variables
     private FusedLocationProviderClient fusedLocationClient;
@@ -481,6 +481,10 @@ public class PaymentActivity extends AppCompatActivity {
                     Log.d(TAG, "Order creation response: " + response.code() + ", body: " + response.body());
                     if (response.isSuccessful() && response.body() != null) {
                         Toast.makeText(PaymentActivity.this, "Order created successfully!", Toast.LENGTH_SHORT).show();
+                        // Navigate to HomeActivity instead of just finishing
+                        Intent intent = new Intent(PaymentActivity.this, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                         finish();
                     } else {
                         String errorBody = "";
