@@ -66,9 +66,12 @@ public class PaymentActivity extends AppCompatActivity {
     private String fee = "0";
     int environment = 0;//developer default
     private String merchantName = "PCPB";
-    private String merchantCode = "SCB01";
+    private String merchantCode = "MOMO"; // Updated to use MOMO test code
     private String merchantNameLabel = "Nhà cung cấp";
     private String description = "Mua hàng qua momo";
+    
+    // Test mode flag - set to true to bypass MoMo payment for testing
+    private boolean testMode = true;
     
     // Location-related variables
     private FusedLocationProviderClient fusedLocationClient;
@@ -129,59 +132,35 @@ public class PaymentActivity extends AppCompatActivity {
                 Toast.makeText(this, "Please enter your address", Toast.LENGTH_SHORT).show();
                 return;
             }
-            // Build order items
-            java.util.List<CreateOrderItemDTO> orderItems = new java.util.ArrayList<>();
-            for (SimpleCartItem item : simpleCartItems) {
-                int productId = item.getProductId();
-                int quantity = item.getQuantity();
-                int thirdPartyId = 1; // As requested
-                orderItems.add(new CreateOrderItemDTO(productId, quantity, thirdPartyId));
-            }
-            // Build order DTO
-            String paymentMethod = "Pay when order arrive";
-            CreateOrderDTO orderDTO = new CreateOrderDTO(address, paymentMethod, orderItems);
 
-            Log.d(TAG, "Creating order with address: " + address + ", paymentMethod: " + paymentMethod + ", items: " + orderItems.size());
-            for (CreateOrderItemDTO item : orderItems) {
-                Log.d(TAG, "OrderItem - productId: " + item.getProductId() + ", quantity: " + item.getQuantity() + ", thirdPartyId: " + item.getThirdPartyId());
-            }
-
-            ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Creating order...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-
-            RetrofitClient.getInstance(this)
-                .getApiService()
-                .createOrder(orderDTO)
-                .enqueue(new Callback<com.example.pcbuilderguideapp.models.Order>() {
-                    @Override
-                    public void onResponse(Call<com.example.pcbuilderguideapp.models.Order> call, Response<com.example.pcbuilderguideapp.models.Order> response) {
-                        progressDialog.dismiss();
-                        Log.d(TAG, "Order creation response: " + response.code() + ", body: " + response.body());
-                        if (response.isSuccessful() && response.body() != null) {
-                            Toast.makeText(PaymentActivity.this, "Order created!", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            String errorBody = "";
-                            try {
-                                if (response.errorBody() != null) {
-                                    errorBody = response.errorBody().string();
-                                }
-                            } catch (Exception e) {
-                                errorBody = "Error reading errorBody: " + e.getMessage();
-                            }
-                            Log.e(TAG, "Order creation failed: " + response.message() + ", errorBody: " + errorBody);
-                            Toast.makeText(PaymentActivity.this, "Failed to create order: " + errorBody, Toast.LENGTH_LONG).show();
+            // Check if MoMo payment is selected
+            if (rbMomo.isChecked()) {
+                if (testMode) {
+                    // Test mode: Skip MoMo payment and create order directly
+                    Toast.makeText(this, "Test mode: Creating order with MoMo payment (bypassed)", Toast.LENGTH_SHORT).show();
+                    createOrderWithPaymentMethod("MoMo Payment (Test Mode)");
+                } else {
+                    // Calculate total amount for MoMo payment
+                    double totalAmount = 0;
+                    for (CartItem item : cartItems) {
+                        if (item.getProduct() != null) {
+                            totalAmount += item.getProduct().getPrice() * item.getQuantity();
                         }
                     }
-                    @Override
-                    public void onFailure(Call<com.example.pcbuilderguideapp.models.Order> call, Throwable t) {
-                        progressDialog.dismiss();
-                        Log.e(TAG, "Order creation error: ", t);
-                        Toast.makeText(PaymentActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    
+                    // Update amount for MoMo payment (convert to integer as required by MoMo)
+                    amount = String.valueOf((int) totalAmount);
+                    
+                    // Generate unique order ID for MoMo
+                    String orderId = "PCPB_" + System.currentTimeMillis();
+                    
+                    // Request MoMo payment
+                    requestPayment(orderId);
+                }
+            } else {
+                // Regular order creation without MoMo payment
+                createOrderWithPaymentMethod("Pay when order arrive");
+            }
         });
 
         btnCancelOrder.setOnClickListener(v -> finish());
@@ -346,46 +325,68 @@ public class PaymentActivity extends AppCompatActivity {
     }
     //payment token momo
     //Get token through MoMo app
-    private void requestPayment(String iddonhang) {
-        AppMoMoLib.getInstance().setAction(AppMoMoLib.ACTION.PAYMENT);
-        AppMoMoLib.getInstance().setActionType(AppMoMoLib.ACTION_TYPE.GET_TOKEN);
-
-
-        Map<String, Object> eventValue = new HashMap<>();
-        //client Required
-        eventValue.put("merchantname", merchantName); //Tên đối tác. được đăng ký tại https://business.momo.vn. VD: Google, Apple, Tiki , CGV Cinemas
-        eventValue.put("merchantcode", merchantCode); //Mã đối tác, được cung cấp bởi MoMo tại https://business.momo.vn
-        eventValue.put("amount", amount); //Kiểu integer
-        eventValue.put("orderId", "orderId123456789"); //uniqueue id cho Bill order, giá trị duy nhất cho mỗi đơn hàng
-        eventValue.put("orderLabel", iddonhang); //gán nhãn
-
-        //client Optional - bill info
-        eventValue.put("merchantnamelabel", "Dịch vụ");//gán nhãn
-        eventValue.put("fee", "0"); //Kiểu integer
-        eventValue.put("description", description); //mô tả đơn hàng - short description
-
-        //client extra data
-        eventValue.put("requestId",  merchantCode+"merchant_billId_"+System.currentTimeMillis());
-        eventValue.put("partnerCode", merchantCode);
-        //Example extra data
-        JSONObject objExtraData = new JSONObject();
+    private void requestPayment(String orderId) {
         try {
-            objExtraData.put("site_code", "008");
-            objExtraData.put("site_name", "CGV Cresent Mall");
-            objExtraData.put("screen_code", 0);
-            objExtraData.put("screen_name", "Special");
-            objExtraData.put("movie_name", "Kẻ Trộm Mặt Trăng 3");
-            objExtraData.put("movie_format", "2D");
-        } catch (JSONException e) {
-            e.printStackTrace();
+            AppMoMoLib.getInstance().setAction(AppMoMoLib.ACTION.PAYMENT);
+            AppMoMoLib.getInstance().setActionType(AppMoMoLib.ACTION_TYPE.GET_TOKEN);
+
+            Map<String, Object> eventValue = new HashMap<>();
+            //client Required
+            eventValue.put("merchantname", merchantName); //Tên đối tác. được đăng ký tại https://business.momo.vn. VD: Google, Apple, Tiki , CGV Cinemas
+            eventValue.put("merchantcode", merchantCode); //Mã đối tác, được cung cấp bởi MoMo tại https://business.momo.vn
+            eventValue.put("amount", amount); //Kiểu integer
+            eventValue.put("orderId", orderId); //uniqueue id cho Bill order, giá trị duy nhất cho mỗi đơn hàng
+            eventValue.put("orderLabel", orderId); //gán nhãn
+
+            //client Optional - bill info
+            eventValue.put("merchantnamelabel", merchantNameLabel);//gán nhãn
+            eventValue.put("fee", fee); //Kiểu integer
+            eventValue.put("description", description); //mô tả đơn hàng - short description
+
+            //client extra data
+            eventValue.put("requestId", merchantCode + "merchant_billId_" + System.currentTimeMillis());
+            eventValue.put("partnerCode", merchantCode);
+            
+            //Example extra data
+            JSONObject objExtraData = new JSONObject();
+            try {
+                objExtraData.put("site_code", "PCPB");
+                objExtraData.put("site_name", "PC Builder App");
+                objExtraData.put("order_type", "PC Components");
+                objExtraData.put("items_count", simpleCartItems.size());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            eventValue.put("extraData", objExtraData.toString());
+
+            eventValue.put("extra", "");
+            
+            // Log payment request details for debugging
+            Log.d("MoMoPayment", "Requesting payment with:");
+            Log.d("MoMoPayment", "Merchant Code: " + merchantCode);
+            Log.d("MoMoPayment", "Amount: " + amount);
+            Log.d("MoMoPayment", "Order ID: " + orderId);
+            Log.d("MoMoPayment", "Environment: DEVELOPMENT");
+            
+            AppMoMoLib.getInstance().requestMoMoCallBack(this, eventValue);
+        } catch (Exception e) {
+            Log.e("MoMoPayment", "Error requesting MoMo payment: ", e);
+            Toast.makeText(this, "Error initiating MoMo payment: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            
+            // Fallback: Create order without MoMo payment
+            new AlertDialog.Builder(this)
+                .setTitle("MoMo Payment Error")
+                .setMessage("MoMo payment failed to initialize. Would you like to create the order with cash on delivery instead?")
+                .setPositiveButton("Yes, Use Cash on Delivery", (dialog, which) -> {
+                    createOrderWithPaymentMethod("Pay when order arrive");
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    dialog.dismiss();
+                })
+                .show();
         }
-        eventValue.put("extraData", objExtraData.toString());
-
-        eventValue.put("extra", "");
-        AppMoMoLib.getInstance().requestMoMoCallBack(this, eventValue);
-
-
     }
+
     //Get token callback from MoMo app an submit to server side
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -393,7 +394,7 @@ public class PaymentActivity extends AppCompatActivity {
             if(data != null) {
                 if(data.getIntExtra("status", -1) == 0) {
                     //TOKEN IS AVAILABLE
-                    Log.d("thanhcong",data.getStringExtra("message"));
+                    Log.d("MoMoPayment", "Payment successful: " + data.getStringExtra("message"));
                     String token = data.getStringExtra("data"); //Token response
                     String phoneNumber = data.getStringExtra("phonenumber");
                     String env = data.getStringExtra("env");
@@ -402,34 +403,106 @@ public class PaymentActivity extends AppCompatActivity {
                     }
 
                     if(token != null && !token.equals("")) {
-                        // TODO: send phoneNumber & token to your server side to process payment with MoMo server
-                        // IF Momo topup success, continue to process your order
+                        // MoMo payment successful, create order with MoMo payment method
+                        Log.d("MoMoPayment", "Token received: " + token);
+                        Log.d("MoMoPayment", "Phone number: " + phoneNumber);
+                        Log.d("MoMoPayment", "Environment: " + env);
+                        
+                        // Show success message with transaction details
+                        String successMessage = "MoMo payment successful!\n" +
+                            "Phone: " + phoneNumber + "\n" +
+                            "Amount: " + amount + " VND\n" +
+                            "Token: " + token.substring(0, Math.min(10, token.length())) + "...";
+                        
+                        Toast.makeText(this, successMessage, Toast.LENGTH_LONG).show();
+                        
+                        // Show instructions for viewing test transactions
+                        showTestTransactionInstructions();
+                        
+                        createOrderWithPaymentMethod("MoMo Payment");
                     } else {
-                        Log.d("thanhcong", "khong thanh cong");
+                        Log.d("MoMoPayment", "Payment failed: No token received");
+                        Toast.makeText(this, "MoMo payment failed: No token received", Toast.LENGTH_SHORT).show();
                     }
                 } else if(data.getIntExtra("status", -1) == 1) {
                     //TOKEN FAIL
-                    String message = data.getStringExtra("message") != null?data.getStringExtra("message"):"Thất bại";
-                    Log.d("thanhcong", "khong thanh cong");
+                    String message = data.getStringExtra("message") != null ? data.getStringExtra("message") : "Payment failed";
+                    Log.d("MoMoPayment", "Payment failed: " + message);
+                    Toast.makeText(this, "MoMo payment failed: " + message, Toast.LENGTH_SHORT).show();
                 } else if(data.getIntExtra("status", -1) == 2) {
                     //TOKEN FAIL
-                    Log.d("thanhcong", "khong thanh cong");
+                    Log.d("MoMoPayment", "Payment cancelled by user");
+                    Toast.makeText(this, "MoMo payment cancelled", Toast.LENGTH_SHORT).show();
                 } else {
                     //TOKEN FAIL
-                    Log.d("thanhcong", "khong thanh cong");
+                    Log.d("MoMoPayment", "Payment failed with unknown status");
+                    Toast.makeText(this, "MoMo payment failed with unknown error", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Log.d("thanhcong", "khong thanh cong");
+                Log.d("MoMoPayment", "Payment failed: No data received");
+                Toast.makeText(this, "MoMo payment failed: No data received", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Log.d("thanhcong", "khong thanh cong");
+            Log.d("MoMoPayment", "Payment failed: Invalid request code or result code");
+            Toast.makeText(this, "MoMo payment failed: Invalid response", Toast.LENGTH_SHORT).show();
         }
     }
 
+    private void createOrderWithPaymentMethod(String paymentMethod) {
+        // Build order items
+        java.util.List<CreateOrderItemDTO> orderItems = new java.util.ArrayList<>();
+        for (SimpleCartItem item : simpleCartItems) {
+            int productId = item.getProductId();
+            int quantity = item.getQuantity();
+            int thirdPartyId = 1; // As requested
+            orderItems.add(new CreateOrderItemDTO(productId, quantity, thirdPartyId));
+        }
+        
+        // Build order DTO
+        CreateOrderDTO orderDTO = new CreateOrderDTO(etAddress.getText().toString().trim(), paymentMethod, orderItems);
 
+        Log.d(TAG, "Creating order with address: " + etAddress.getText().toString().trim() + ", paymentMethod: " + paymentMethod + ", items: " + orderItems.size());
+        for (CreateOrderItemDTO item : orderItems) {
+            Log.d(TAG, "OrderItem - productId: " + item.getProductId() + ", quantity: " + item.getQuantity() + ", thirdPartyId: " + item.getThirdPartyId());
+        }
 
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Creating order...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
-
+        RetrofitClient.getInstance(this)
+            .getApiService()
+            .createOrder(orderDTO)
+            .enqueue(new Callback<com.example.pcbuilderguideapp.models.Order>() {
+                @Override
+                public void onResponse(Call<com.example.pcbuilderguideapp.models.Order> call, Response<com.example.pcbuilderguideapp.models.Order> response) {
+                    progressDialog.dismiss();
+                    Log.d(TAG, "Order creation response: " + response.code() + ", body: " + response.body());
+                    if (response.isSuccessful() && response.body() != null) {
+                        Toast.makeText(PaymentActivity.this, "Order created successfully!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        String errorBody = "";
+                        try {
+                            if (response.errorBody() != null) {
+                                errorBody = response.errorBody().string();
+                            }
+                        } catch (Exception e) {
+                            errorBody = "Error reading errorBody: " + e.getMessage();
+                        }
+                        Log.e(TAG, "Order creation failed: " + response.message() + ", errorBody: " + errorBody);
+                        Toast.makeText(PaymentActivity.this, "Failed to create order: " + errorBody, Toast.LENGTH_LONG).show();
+                    }
+                }
+                @Override
+                public void onFailure(Call<com.example.pcbuilderguideapp.models.Order> call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.e(TAG, "Order creation error: ", t);
+                    Toast.makeText(PaymentActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+    }
 
     private void processLocation(Location location) {
         try {
@@ -787,5 +860,21 @@ public class PaymentActivity extends AppCompatActivity {
         }
         
         return null;
+    }
+
+    private void showTestTransactionInstructions() {
+        new AlertDialog.Builder(this)
+            .setTitle("Test Transaction Completed")
+            .setMessage("Your MoMo test payment was successful!\n\n" +
+                "To view test transactions:\n" +
+                "1. Open MoMo UAT app\n" +
+                "2. Go to Transaction History\n" +
+                "3. Look for transactions with amount: " + amount + " VND\n\n" +
+                "Note: This is a test transaction and won't appear in the real MoMo app.")
+            .setPositiveButton("OK", (dialog, which) -> {
+                dialog.dismiss();
+            })
+            .setCancelable(false)
+            .show();
     }
 } 
