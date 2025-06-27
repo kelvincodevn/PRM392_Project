@@ -95,7 +95,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             tvOrderId.setText(String.format("Order #%d", order.getOrderId()));
             tvOrderDate.setText(dateFormat.format(order.getOrderDate()));
             tvOrderStatus.setText(order.getOrderStatus());
-            tvTotalAmount.setText(String.format("%.2f VND", order.getFinalAmount()));
+            tvTotalAmount.setText(String.format("%,.2f VND", order.getFinalAmount()));
 
             // Expanded content
             String customerInfo = String.format("Name: %s\nPhone: %s\nAddress: %s",
@@ -110,7 +110,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 if (total == 0) {
                     total = item.getUnitPrice() * item.getQuantity();
                 }
-                itemsText.append(String.format("• %s x%d @ %.2f VND each - %.2f VND\n",
+                itemsText.append(String.format("• %s x%d @ %,.2f VND each - %,.2f VND\n",
                         item.getProductName(), item.getQuantity(), item.getUnitPrice(), total));
             }
             tvOrderItems.setText(itemsText.toString());

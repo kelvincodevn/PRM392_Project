@@ -42,7 +42,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         if (item.getProduct() != null) {
             holder.tvProductName.setText(item.getProduct().getName());
             holder.tvCompanyName.setText(item.getProduct().getCompanyName());
-            holder.tvProductPrice.setText(String.format("%.2f VND", item.getProduct().getPrice()));
+            holder.tvProductPrice.setText(String.format("%,.2f VND", item.getProduct().getPrice()));
             if (item.getProduct().getImageUrl() != null && !item.getProduct().getImageUrl().isEmpty()) {
                 Picasso.get().load(item.getProduct().getImageUrl()).into(holder.ivProductImage);
             } else {
