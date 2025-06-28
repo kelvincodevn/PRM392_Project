@@ -12,6 +12,8 @@ namespace Services.Interfaces
         Task<bool> ForgotPassword(string email);
         Task<bool> ResetPassword(string token, string newPassword);
         Task<bool> ValidateResetToken(string token);
+        Task<User> GetUserById(int userId);
+        Task<User> UpdateUser(User user);
     }
 }
 

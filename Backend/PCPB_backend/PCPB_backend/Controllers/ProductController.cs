@@ -37,12 +37,12 @@ namespace PCPB_backend.Controllers
             try
             {
                 var thirdPartyId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                
+
                 var product = new Product
                 {
                     ProductName = productDto.ProductName,
                     Description = productDto.Description,
-                    Price = productDto.Price,   
+                    Price = productDto.Price,
                     StockQuantity = productDto.StockQuantity,
                     CategoryId = productDto.CategoryId,
                     ImageUrl = productDto.ImageUrl
@@ -54,6 +54,34 @@ namespace PCPB_backend.Controllers
             catch (System.Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Creates a new product with image upload (Third Party only)
+        /// </summary>
+        /// <param name="productCreateDto">The product data with optional image file</param>
+        /// <returns>The created product</returns>
+        [HttpPost("with-image")]
+        [Authorize]
+        [ProducesResponseType(typeof(Product), 201)]
+        [ProducesResponseType(400)]
+        public async Task<ActionResult<Product>> CreateProductWithImage([FromForm] ProductCreateDTO productCreateDto)
+        {
+            try
+            {
+                var thirdPartyId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+                var createdProduct = await _productService.CreateProductWithImageAsync(productCreateDto, 1);
+                return CreatedAtAction(nameof(GetProductById), new { id = createdProduct.ProductId }, createdProduct);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
 
@@ -152,6 +180,36 @@ namespace PCPB_backend.Controllers
             catch (System.Exception ex)
             {
                 return NotFound(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Updates a product with image upload (Third Party only)
+        /// </summary>
+        /// <param name="id">The product ID</param>
+        /// <param name="productCreateDto">The updated product data with optional image file</param>
+        /// <returns>The updated product</returns>
+        [HttpPut("{id}/with-image")]
+        [Authorize]
+        [ProducesResponseType(typeof(Product), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<Product>> UpdateProductWithImage(int id, [FromForm] ProductCreateDTO productCreateDto)
+        {
+            try
+            {
+                var thirdPartyId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+                var updatedProduct = await _productService.UpdateProductWithImageAsync(id, productCreateDto, 1);
+                return Ok(updatedProduct);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            catch (System.Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
             }
         }
 

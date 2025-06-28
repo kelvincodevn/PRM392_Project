@@ -166,6 +166,18 @@ namespace Services.Implements
             return BCrypt.Net.BCrypt.HashPassword(password, 12); // 12 is the work factor
         }
 
+        public async Task<User> GetUserById(int userId)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+        }
+
+        public async Task<User> UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
+
     }
 }
 

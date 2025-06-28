@@ -12,6 +12,7 @@ using Services;
 using Repositories;
 using Helpers.Mappers;
 using AutoMapper;
+using Services.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +67,12 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IOrderItemService, OrderItemService>();
+
+// Configure Firebase options
+builder.Services.Configure<FirebaseOptions>(
+    builder.Configuration.GetSection(FirebaseOptions.SectionName));
+
+builder.Services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

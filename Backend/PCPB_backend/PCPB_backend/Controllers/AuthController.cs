@@ -165,6 +165,44 @@ namespace PCPB_backend.Controllers
                 return StatusCode(500, new { message = "An error occurred during token validation", error = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Update user role (for testing purposes)
+        /// </summary>
+        [HttpPatch("update-role/{userId}")]
+        public async Task<IActionResult> UpdateUserRole(int userId, [FromBody] string newRole)
+        {
+            try
+            {
+                // This is a simple endpoint for testing - in production you'd want proper authorization
+                var user = await _authService.GetUserById(userId);
+                if (user == null)
+                    return NotFound(new { message = "User not found" });
+
+                // Update role
+                user.Role = newRole;
+                await _authService.UpdateUser(user);
+
+                // Generate new token with updated role
+                var token = await _authService.GenerateJwtToken(user);
+
+                return Ok(new
+                {
+                    message = "Role updated successfully",
+                    token,
+                    userId = user.UserId,
+                    username = user.Username,
+                    email = user.Email,
+                    role = user.Role,
+                    fullName = user.FullName,
+                    phoneNumber = user.PhoneNumber
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }
 

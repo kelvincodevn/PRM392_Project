@@ -19,3 +19,10 @@ Backend/PCPB_backend/.vs/PCPB_backend/v17
 Backend/PCPB_backend/.vs
 .idea
 Backend/PCPB_backend/.vscode
+
+# Firebase credentials - NEVER commit these files
+firebase-service-account.json
+*firebase-adminsdk*.json
+firebase-credentials.json
+Backend/firebase-service-account.json
+Backend/*firebase-adminsdk*.json
