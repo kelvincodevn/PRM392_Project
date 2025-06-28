@@ -144,8 +144,8 @@ public class SignInActivity extends AppCompatActivity {
                 LOGIN_URL,
                 jsonBody,
                 response -> {
-                    Log.d(TAG, "Login successful. Response: " + response.toString());
-                    Toast.makeText(SignInActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Đăng nhập thành công. Response: " + response.toString());
+                    Toast.makeText(SignInActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
                     
                     try {
                         // Get user role and token from response

@@ -85,7 +85,7 @@
                 <com.example.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Galleries"
+                    android:text="Trưng bày"
                     android:textStyle="bold"
                     android:textSize="28sp"
                     android:layout_gravity="bottom|start"
@@ -121,7 +121,7 @@
                 <com.example.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Our\nrecommendation"
+                    android:text="giới thiệu về chúng tôi"
                     android:textStyle="bold"
                     android:textSize="28sp"
                     android:layout_gravity="bottom|start"
@@ -157,7 +157,7 @@
                 <com.example.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pick your\nown parts"
+                    android:text="Chọn cấu hình của bạn"
                     android:textStyle="bold"
                     android:textSize="28sp"
                     android:layout_gravity="bottom|start"
@@ -193,7 +193,7 @@
                 <com.example.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tutorial videos"
+                    android:text="Video hướng dẫn"
                     android:textStyle="bold"
                     android:textSize="28sp"
                     android:layout_gravity="bottom|start"
@@ -229,7 +229,7 @@
                 <com.example.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Guidebook"
+                    android:text="Sách hướng dẫn"
                     android:textStyle="bold"
                     android:textSize="28sp"
                     android:layout_gravity="bottom|start"
@@ -250,7 +250,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Back to top"
+                    android:text="Về lại bên trên"
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:layout_marginTop="4dp" />

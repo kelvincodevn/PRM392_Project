@@ -26,7 +26,7 @@
             <com.example.pcbuilder.GradientTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="WELCOME"
+                android:text="Xin chào"
                 android:textSize="36sp"
                 android:textStyle="bold"
                 android:layout_gravity="center_horizontal" />
@@ -36,27 +36,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="-8dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="User "
-                    android:textSize="24sp"
-                    android:textColor="#000000"
-                    android:textStyle="normal" />
-                <com.example.pcbuilder.GradientTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Username"
-                    android:textSize="24sp"
-                    android:textStyle="normal" />
-            </LinearLayout>
+                android:layout_marginTop="-8dp"/>
 
             <!-- What's New Section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="WHAT'S NEW?"
+                android:text="Có gì mới ?"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginTop="32dp"
@@ -118,14 +104,14 @@
                     <com.example.pcbuilder.GradientTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SPECIAL OFFER"
+                        android:text="Ưu đãi đặc biệt"
                         android:textStyle="bold"
                         android:textSize="18sp"
                         android:layout_gravity="center_horizontal" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lifetime Premium Subscription sale\nMarch 10 -17 only"
+                        android:text="Giảm giá gói đăng ký trọn đời\n Chỉ từ ngày 10-17 tháng 3"
                         android:textAlignment="center"
                         android:textColor="#000000"
                         android:textSize="15sp"
@@ -147,14 +133,14 @@
                     <com.example.pcbuilder.GradientTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$7.49"
+                        android:text=" 150,000 VND"
                         android:textStyle="bold"
                         android:textSize="36sp"
                         android:layout_marginTop="-4dp" />
                     <com.example.pcbuilder.GradientTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="SUBSCRIBE NOW"
+                        android:text="Đăng ký ngay"
                         android:textStyle="bold"
                         android:textSize="22sp"
                         android:layout_marginTop="8dp"
@@ -166,7 +152,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="EXPLORE OUR COMMUNITY"
+                android:text="Khám phá cộng đồng"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginTop="32dp"
@@ -186,7 +172,7 @@
                 <com.example.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Join us now"
+                    android:text="Tham gia cộng đồng"
                     android:textStyle="bold"
                     android:textSize="24sp"
                     android:layout_gravity="bottom|start"
@@ -208,7 +194,7 @@
                 <com.example.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="View your Order"
+                    android:text="Xem đơn hàng của bạn"
                     android:textStyle="bold"
                     android:textSize="24sp"
                     android:layout_gravity="bottom|start"
@@ -230,7 +216,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Back to top"
+                    android:text="Về lên trên"
                     android:textColor="#000000"
                     android:textSize="14sp"
                     android:textStyle="bold"
