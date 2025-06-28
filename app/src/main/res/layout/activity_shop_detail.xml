@@ -29,7 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Product Name"
+            android:text="Tên sản phầm"
             android:textStyle="bold"
             android:textSize="18sp"
             android:textColor="#000000"
@@ -197,24 +197,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add to Cart"
+            android:text="Thêm vào giỏ hàng"
             android:background="@drawable/custom_button"
             android:textColor="#000000"
             android:textStyle="bold"
             android:layout_marginEnd="8dp"
             app:backgroundTint="@null"/>
 
-        <Button
-            android:id="@+id/btnBuyNow"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Buy now"
-            android:background="@drawable/custom_gradient"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:layout_marginStart="8dp"
-            app:backgroundTint="@null"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout> 

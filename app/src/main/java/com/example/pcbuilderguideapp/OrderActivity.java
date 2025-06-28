@@ -142,7 +142,7 @@ public class OrderActivity extends AppCompatActivity implements OrderAdapter.OnO
                         } catch (IOException e) {
                             Log.e(TAG, "Error reading error body", e);
                         }
-                        Toast.makeText(OrderActivity.this, "No orders found", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(OrderActivity.this, "Không tìm thấy đơn hàng", Toast.LENGTH_SHORT).show();
                         onDeliveryAdapter.updateOrders(new ArrayList<>());
                         historyAdapter.updateOrders(new ArrayList<>());
                     }
@@ -154,7 +154,7 @@ public class OrderActivity extends AppCompatActivity implements OrderAdapter.OnO
                     } catch (IOException e) {
                         Log.e(TAG, "Error reading error body", e);
                     }
-                    Toast.makeText(OrderActivity.this, "Failed to load orders", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OrderActivity.this, "Failed to load", Toast.LENGTH_SHORT).show();
                     onDeliveryAdapter.updateOrders(new ArrayList<>());
                     historyAdapter.updateOrders(new ArrayList<>());
                 }

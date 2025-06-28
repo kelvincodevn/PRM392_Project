@@ -150,8 +150,8 @@ public class MainActivity extends AppCompatActivity {
                 REGISTER_URL,
                 jsonBody,
                 response -> {
-                    Log.d(TAG, "Registration successful. Response: " + response.toString());
-                    Toast.makeText(MainActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Đăng ký thành công. Response: " + response.toString());
+                    Toast.makeText(MainActivity.this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                     // Clear the input fields
                     etUsername.setText("");
                     etFullName.setText("");
@@ -160,8 +160,8 @@ public class MainActivity extends AppCompatActivity {
                     etPassword.setText("");
                 },
                 error -> {
-                    Log.e(TAG, "Registration failed. Error: " + error.toString());
-                    String errorMessage = "Registration failed";
+                    Log.e(TAG, "Đăng ký thất bại. Error: " + error.toString());
+                    String errorMessage = "Đăng ký thất bại";
                     if (error.networkResponse != null && error.networkResponse.data != null) {
                         try {
                             String errorResponse = new String(error.networkResponse.data);
