@@ -126,7 +126,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="FOR ONLY"
+                        android:text="Với Giá"
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:layout_marginTop="8dp" />
@@ -137,14 +137,6 @@
                         android:textStyle="bold"
                         android:textSize="36sp"
                         android:layout_marginTop="-4dp" />
-                    <com.example.pcbuilder.GradientTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Đăng ký ngay"
-                        android:textStyle="bold"
-                        android:textSize="22sp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="4dp" />
                 </LinearLayout>
             </FrameLayout>
 
@@ -209,10 +201,7 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_marginTop="24dp">
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_arrow_up_gradient" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pcbuilderguideapp.R;
 import com.example.pcbuilderguideapp.ShopDetailActivity;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
@@ -52,7 +52,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         // Load image
         if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
-            Picasso.get()
+            Glide.with(holder.ivProductImage.getContext())
                 .load(product.getImageUrl())
                 .placeholder(R.drawable.ic_gpu_sample)
                 .error(R.drawable.ic_gpu_sample)

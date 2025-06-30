@@ -20,6 +20,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 import android.util.Log;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.example.pcbuilderguideapp.models.Product;
+import com.example.pcbuilderguideapp.models.ProductDeserializer;
 
 public class RetrofitClient {
     private static final String BASE_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/";
@@ -87,10 +91,14 @@ public class RetrofitClient {
                 .build();
 
             // Create Retrofit instance with OkHttpClient
+            Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Product.class, new ProductDeserializer())
+                .create();
+
             retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         } catch (Exception e) {
             throw new RuntimeException(e);

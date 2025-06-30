@@ -31,7 +31,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Create Component"
+                android:text="Tạo Linh Kiện"
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:gravity="center"
@@ -43,7 +43,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Name"
+            android:text="Tên Sản Phẩm"
             android:textStyle="bold"
             android:textSize="16sp"
             android:layout_marginBottom="8dp" />
@@ -63,7 +63,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Category"
+            android:text="Loại sản phẩm"
             android:textStyle="bold"
             android:textSize="16sp"
             android:layout_marginBottom="8dp" />
@@ -79,7 +79,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product Image"
+            android:text="Ảnh Linh Kiện"
             android:textStyle="bold"
             android:textSize="16sp"
             android:layout_marginBottom="8dp" />
@@ -133,7 +133,7 @@
             android:id="@+id/btnUploadImage"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="Upload Image"
+            android:text="Đăng Ảnh"
             android:textColor="#000"
             android:background="@drawable/custom_button"
             android:layout_marginBottom="16dp"
@@ -143,7 +143,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:text="Nội Dung"
             android:textStyle="bold"
             android:textSize="16sp"
             android:layout_marginBottom="8dp" />
@@ -155,7 +155,7 @@
             android:background="@drawable/custom_button"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:hint="Enter product description"
+            android:hint="Điền Thông Tin Của Bạn"
             android:textColor="#000"
             android:gravity="top"
             android:inputType="textMultiLine"
@@ -165,7 +165,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Price"
+            android:text="Giá"
             android:textStyle="bold"
             android:textSize="16sp"
             android:layout_marginBottom="8dp" />
@@ -177,7 +177,7 @@
             android:background="@drawable/custom_button"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:hint="Enter price"
+            android:hint="Nhập giá"
             android:textColor="#000"
             android:inputType="numberDecimal"
             android:layout_marginBottom="16dp" />
@@ -186,7 +186,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Stock Quantity"
+            android:text="Số lượng tồn kho"
             android:textStyle="bold"
             android:textSize="16sp"
             android:layout_marginBottom="8dp" />
@@ -198,7 +198,7 @@
             android:background="@drawable/custom_button"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:hint="Enter stock quantity"
+            android:hint="Nhập Số lượng"
             android:textColor="#000"
             android:inputType="number"
             android:layout_marginBottom="24dp" />
@@ -216,7 +216,7 @@
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
-                android:text="Cancel"
+                android:text="Huỷ"
                 android:textColor="#FFFFFF"
                 android:background="@drawable/red_button_background"
                 android:layout_marginEnd="8dp"
@@ -227,7 +227,7 @@
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
-                android:text="Confirm"
+                android:text="Xác Nhận"
                 android:textColor="#000"
                 android:background="@drawable/custom_button"
                 android:layout_marginStart="8dp"

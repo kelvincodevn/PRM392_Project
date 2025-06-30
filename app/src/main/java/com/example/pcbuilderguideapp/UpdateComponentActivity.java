@@ -1,6 +1,9 @@
 package com.example.pcbuilderguideapp;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,6 +21,10 @@ import com.example.pcbuilderguideapp.utils.TokenManager;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +36,13 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.MultipartBody;
+import okhttp3.MediaType;
+import okhttp3.Call;
+import okhttp3.Callback;
 
 public class UpdateComponentActivity extends AppCompatActivity {
     private static final String API_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/Product";
@@ -40,6 +54,9 @@ public class UpdateComponentActivity extends AppCompatActivity {
     private List<Category> categories = new ArrayList<>();
     private int productId;
     private Product currentProduct;
+    private Uri selectedImageUri;
+    private ImageView ivProductImage;
+    private OkHttpClient okHttpClient = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +112,10 @@ public class UpdateComponentActivity extends AppCompatActivity {
             spinnerCategory = findViewById(R.id.spinnerCategory);
             btnUpdate = findViewById(R.id.btnUpdate);
             btnCancel = findViewById(R.id.btnCancel);
+            ivProductImage = findViewById(R.id.ivProductImage);
+            if (ivProductImage != null) {
+                ivProductImage.setOnClickListener(v -> openImagePicker());
+            }
         } catch (Exception e) {
             Toast.makeText(this, "Error initializing views: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -262,6 +283,21 @@ public class UpdateComponentActivity extends AppCompatActivity {
         }
     }
 
+    private void openImagePicker() {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(intent, 101);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            selectedImageUri = data.getData();
+            ivProductImage.setImageURI(selectedImageUri);
+        }
+    }
+
     private void updateProduct() {
         try {
             String token = TokenManager.getInstance(this).getToken();
@@ -269,8 +305,6 @@ public class UpdateComponentActivity extends AppCompatActivity {
                 Toast.makeText(this, "Authentication required. Please login again.", Toast.LENGTH_LONG).show();
                 return;
             }
-            
-            // Get selected category
             int selectedPosition = spinnerCategory.getSelectedItemPosition();
             if (selectedPosition <= 0 || selectedPosition > categories.size()) {
                 Toast.makeText(this, "Please select a category", Toast.LENGTH_SHORT).show();
@@ -278,48 +312,72 @@ public class UpdateComponentActivity extends AppCompatActivity {
             }
             Category selectedCategory = categories.get(selectedPosition - 1);
 
-            JSONObject productJson = new JSONObject();
-            productJson.put("productId", productId);
-            productJson.put("thirdPartyId", 1);
-            productJson.put("productName", etProductName.getText().toString());
-            productJson.put("description", etDescription.getText().toString());
-            productJson.put("price", Double.parseDouble(etPrice.getText().toString()));
-            productJson.put("stockQuantity", Integer.parseInt(etStockQuantity.getText().toString()));
-            productJson.put("categoryId", selectedCategory.getId());
-            productJson.put("imageUrl", currentProduct != null ? currentProduct.getImageUrl() : "");
-
-            // Log the payload
-            Log.d("UpdateComponentActivity", "Sending update payload: " + productJson.toString());
-
-            RequestQueue queue = Volley.newRequestQueue(this);
-            JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.PUT,
-                API_URL + "/" + productId,
-                productJson,
-                response -> {
-                    // Log the response
-                    Log.d("UpdateComponentActivity", "Update response: " + response.toString());
-                    Toast.makeText(UpdateComponentActivity.this, "Product updated successfully", Toast.LENGTH_SHORT).show();
-                    finish();
-                },
-                error -> {
-                    Log.e("UpdateComponentActivity", "Error updating product: " + error.getMessage(), error);
-                    Toast.makeText(UpdateComponentActivity.this, "Error updating product: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+            MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+            builder.addFormDataPart("productId", String.valueOf(productId));
+            builder.addFormDataPart("thirdPartyId", "1");
+            builder.addFormDataPart("productName", etProductName.getText().toString());
+            builder.addFormDataPart("description", etDescription.getText().toString());
+            builder.addFormDataPart("price", etPrice.getText().toString());
+            builder.addFormDataPart("stockQuantity", etStockQuantity.getText().toString());
+            builder.addFormDataPart("categoryId", String.valueOf(selectedCategory.getId()));
+            if (selectedImageUri != null) {
+                File imageFile = createTempFileFromUri(selectedImageUri);
+                if (imageFile != null) {
+                    builder.addFormDataPart(
+                        "imageFile",
+                        imageFile.getName(),
+                        RequestBody.create(imageFile, MediaType.parse(getContentResolver().getType(selectedImageUri)))
+                    );
                 }
-            ) {
+            } else if (currentProduct != null && currentProduct.getImageUrl() != null) {
+                builder.addFormDataPart("imageUrl", currentProduct.getImageUrl());
+            }
+            RequestBody requestBody = builder.build();
+            okhttp3.Request request = new okhttp3.Request.Builder()
+                .url(API_URL + "/" + productId + "/with-image")
+                .addHeader("Authorization", "Bearer " + token)
+                .put(requestBody)
+                .build();
+            okHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
-                public Map<String, String> getHeaders() {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", "Bearer " + token);
-                    headers.put("Content-Type", "application/json");
-                    return headers;
+                public void onFailure(Call call, IOException e) {
+                    runOnUiThread(() -> Toast.makeText(UpdateComponentActivity.this, "Error updating product: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                 }
-            };
-
-            queue.add(request);
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        runOnUiThread(() -> {
+                            Toast.makeText(UpdateComponentActivity.this, "Product updated successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                        });
+                    } else {
+                        runOnUiThread(() -> Toast.makeText(UpdateComponentActivity.this, "Error updating product: " + response.message(), Toast.LENGTH_SHORT).show());
+                    }
+                }
+            });
         } catch (Exception e) {
             Log.e("UpdateComponentActivity", "Exception in updateProduct: " + e.getMessage(), e);
             Toast.makeText(this, "Error updating product: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Helper to create a temp file from Uri for OkHttp upload
+    private File createTempFileFromUri(Uri uri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            File tempFile = File.createTempFile("upload", ".jpg", getCacheDir());
+            FileOutputStream out = new FileOutputStream(tempFile);
+            byte[] buf = new byte[4096];
+            int len;
+            while ((len = inputStream.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            out.close();
+            inputStream.close();
+            return tempFile;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

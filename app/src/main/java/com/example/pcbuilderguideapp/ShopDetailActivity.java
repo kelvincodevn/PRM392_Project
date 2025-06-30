@@ -24,7 +24,7 @@ import java.io.IOException;
 public class ShopDetailActivity extends AppCompatActivity {
     private TextView tvProductName, tvCompanyName, tvPrice, tvStock, tvDescription, tvQuantity;
     private ImageView ivProductImage, ivBack, ivFavorite;
-    private Button btnAddCart, btnBuyNow, btnDecreaseQuantity, btnIncreaseQuantity;
+    private Button btnAddCart, btnDecreaseQuantity, btnIncreaseQuantity;
     private int productId;
     private int selectedQuantity = 1;
     private int maxQuantity;
@@ -63,7 +63,6 @@ public class ShopDetailActivity extends AppCompatActivity {
         ivBack = findViewById(R.id.ivBack);
         ivFavorite = findViewById(R.id.ivFavorite);
         btnAddCart = findViewById(R.id.btnAddCart);
-        btnBuyNow = findViewById(R.id.btnBuyNow);
         btnDecreaseQuantity = findViewById(R.id.btnDecreaseQuantity);
         btnIncreaseQuantity = findViewById(R.id.btnIncreaseQuantity);
     }
@@ -87,6 +86,12 @@ public class ShopDetailActivity extends AppCompatActivity {
 
                             displayProductDetails(product);
                         } else {
+                            // Add this log for debugging
+                            try {
+                                Log.e("ShopDetailActivity", "Raw response: " + (response.errorBody() != null ? response.errorBody().string() : "null"));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             Toast.makeText(ShopDetailActivity.this, 
                                 "Failed to load product details", 
                                 Toast.LENGTH_SHORT).show();
@@ -129,11 +134,6 @@ public class ShopDetailActivity extends AppCompatActivity {
         });
 
         btnAddCart.setOnClickListener(v -> addToCart());
-
-        btnBuyNow.setOnClickListener(v -> {
-            // TODO: Implement buy now functionality
-            Toast.makeText(this, "Buy now clicked", Toast.LENGTH_SHORT).show();
-        });
 
         btnDecreaseQuantity.setOnClickListener(v -> {
             if (selectedQuantity > 1) {

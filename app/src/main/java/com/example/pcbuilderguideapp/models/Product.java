@@ -1,10 +1,11 @@
 package com.example.pcbuilderguideapp.models;
 
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 
 public class Product implements Serializable {
-    @SerializedName("id")
+    @SerializedName("productId")
     private int id;
 
     @SerializedName("productName")
@@ -25,6 +26,17 @@ public class Product implements Serializable {
     @SerializedName("imageUrl")
     private String imageUrl;
 
+    @SerializedName("category")
+    @Expose
+    private Category category;
+
+    @SerializedName("orderItems")
+    @Expose
+    private Object orderItems;
+
+    // Add a public no-argument constructor
+    public Product() {}
+
     // Getters
     public int getId() { return id; }
     public String getName() { return name; }
@@ -36,6 +48,8 @@ public class Product implements Serializable {
     public int getQuantity() { return quantity; }
     public String getDescription() { return description; }
     public String getImageUrl() { return imageUrl; }
+    public Category getCategory() { return category; }
+    public Object getOrderItems() { return orderItems; }
 
     // Setters
     public void setId(int id) { this.id = id; }
@@ -51,4 +65,19 @@ public class Product implements Serializable {
     public void setQuantity(int quantity) { this.quantity = quantity; }
     public void setDescription(String description) { this.description = description; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public void setCategory(Category category) { this.category = category; }
+    public void setOrderItems(Object orderItems) { this.orderItems = orderItems; }
+}
+
+class Category {
+    @SerializedName("categoryId")
+    private int categoryId;
+    @SerializedName("categoryName")
+    private String categoryName;
+
+    // Add a public no-argument constructor
+    public Category() {}
+
+    public int getCategoryId() { return categoryId; }
+    public String getCategoryName() { return categoryName; }
 } 

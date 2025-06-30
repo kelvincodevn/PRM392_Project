@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pcbuilderguideapp.models.CartItem;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import java.util.List;
 import com.example.pcbuilderguideapp.network.RetrofitClient;
 import retrofit2.Call;
@@ -44,9 +44,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             holder.tvCompanyName.setText(item.getProduct().getCompanyName());
             holder.tvProductPrice.setText(String.format("%,.2f VND", item.getProduct().getPrice()));
             if (item.getProduct().getImageUrl() != null && !item.getProduct().getImageUrl().isEmpty()) {
-                Picasso.get().load(item.getProduct().getImageUrl()).into(holder.ivProductImage);
+                Glide.with(holder.ivProductImage.getContext())
+                    .load(item.getProduct().getImageUrl())
+                    .placeholder(R.drawable.ic_gpu_sample)
+                    .error(R.drawable.ic_gpu_sample)
+                    .into(holder.ivProductImage);
             } else {
-                holder.ivProductImage.setImageResource(R.drawable.cpu_img_1);
+                holder.ivProductImage.setImageResource(R.drawable.ic_gpu_sample);
             }
         }
         holder.tvQuantity.setText(String.valueOf(item.getQuantity()));

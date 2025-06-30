@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String phoneNumber = etPhoneNumber.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
+        String address = ""; // Add address as empty string for now
 
         if (username.isEmpty() || fullName.isEmpty() || email.isEmpty() || phoneNumber.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
             jsonBody.put("email", email);
             jsonBody.put("phoneNumber", phoneNumber);
             jsonBody.put("password", password);
+            jsonBody.put("address", address); // Add address to JSON body
             Log.d(TAG, "Registration attempt with username: " + username);
         } catch (JSONException e) {
             e.printStackTrace();
