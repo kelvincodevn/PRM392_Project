@@ -77,7 +77,7 @@ builder.Services.AddScoped<IFirebaseStorageService, FirebaseStorageService>();
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.ReferenceHandler = null;
         options.JsonSerializerOptions.MaxDepth = 32;
     });
 builder.Services.AddEndpointsApiExplorer();
