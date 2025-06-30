@@ -92,7 +92,7 @@ public class RetrofitClient {
 
             // Create Retrofit instance with OkHttpClient
             Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Product.class, new ProductDeserializer())
+                // .registerTypeAdapter(Product.class, new ProductDeserializer()) // Removed custom deserializer
                 .create();
 
             retrofit = new Retrofit.Builder()
