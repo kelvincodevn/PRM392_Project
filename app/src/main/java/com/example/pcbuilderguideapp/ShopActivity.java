@@ -13,11 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pcbuilderguideapp.model.CategoryAdapter;
 import com.example.pcbuilderguideapp.model.ProductAdapter;
-import com.example.pcbuilderguideapp.model.Product;
+import com.example.pcbuilderguideapp.models.Product;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -150,7 +151,7 @@ public class ShopActivity extends AppCompatActivity {
 
     private void fetchProducts() {
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
             Request.Method.GET,
             API_URL,
             null,
@@ -158,25 +159,23 @@ public class ShopActivity extends AppCompatActivity {
                 try {
                     Log.d(TAG, "API Response: " + response.toString());
                     productList.clear();
-                    // Get the $values array from the response
-                    JSONArray valuesArray = response.getJSONArray("$values");
-                    for (int i = 0; i < valuesArray.length(); i++) {
-                        JSONObject productJson = valuesArray.getJSONObject(i);
+                    // The response is already a JSONArray
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject productJson = response.getJSONObject(i);
                         Log.d(TAG, "Product JSON: " + productJson.toString());
                         Product product = new Product();
                         // Try to get id, if not present use position as id
                         try {
-                            product.setId(productJson.getInt("id"));
+                            product.setId(productJson.getInt("productId"));
                         } catch (JSONException e) {
                             product.setId(i + 1); // Use position + 1 as id
                         }
                         product.setName(productJson.getString("productName"));
                         product.setDescription(productJson.optString("description", ""));
-                        product.setPrice(formatPrice(productJson.getDouble("price")));
-                        product.setStockQuantity(productJson.getInt("stockQuantity"));
+                        product.setPrice(productJson.getDouble("price"));
+                        product.setQuantity(productJson.getInt("stockQuantity"));
                         product.setImageUrl(productJson.optString("imageUrl", ""));
-                        product.setStatus(productJson.optString("status", ""));
-                        product.setThirdPartyName(productJson.optString("companyName", ""));
+                        product.setCompanyName(productJson.optString("companyName", ""));
                         productList.add(product);
                     }
                     productAdapter.notifyDataSetChanged();
@@ -191,7 +190,7 @@ public class ShopActivity extends AppCompatActivity {
             }
         );
 
-        queue.add(jsonObjectRequest);
+        queue.add(jsonArrayRequest);
     }
 
     private void searchProducts(String query) {
@@ -203,7 +202,7 @@ public class ShopActivity extends AppCompatActivity {
             
             Log.d(TAG, "Searching with URL: " + searchUrl);
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 searchUrl,
                 null,
@@ -211,23 +210,22 @@ public class ShopActivity extends AppCompatActivity {
                     try {
                         Log.d(TAG, "Search API Response: " + response.toString());
                         productList.clear();
-                        JSONArray valuesArray = response.getJSONArray("$values");
-                        for (int i = 0; i < valuesArray.length(); i++) {
-                            JSONObject productJson = valuesArray.getJSONObject(i);
+                        // The response is already a JSONArray
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject productJson = response.getJSONObject(i);
                             Log.d(TAG, "Product JSON: " + productJson.toString());
                             Product product = new Product();
                             try {
-                                product.setId(productJson.getInt("id"));
+                                product.setId(productJson.getInt("productId"));
                             } catch (JSONException e) {
                                 product.setId(i + 1);
                             }
                             product.setName(productJson.getString("productName"));
                             product.setDescription(productJson.optString("description", ""));
-                            product.setPrice(formatPrice(productJson.getDouble("price")));
-                            product.setStockQuantity(productJson.getInt("stockQuantity"));
+                            product.setPrice(productJson.getDouble("price"));
+                            product.setQuantity(productJson.getInt("stockQuantity"));
                             product.setImageUrl(productJson.optString("imageUrl", ""));
-                            product.setStatus(productJson.optString("status", ""));
-                            product.setThirdPartyName(productJson.optString("companyName", ""));
+                            product.setCompanyName(productJson.optString("companyName", ""));
                             productList.add(product);
                         }
                         productAdapter.notifyDataSetChanged();
@@ -255,7 +253,7 @@ public class ShopActivity extends AppCompatActivity {
                 }
             );
 
-            queue.add(jsonObjectRequest);
+            queue.add(jsonArrayRequest);
         } catch (Exception e) {
             Log.e(TAG, "Error in searchProducts: " + e.getMessage());
             e.printStackTrace();

@@ -23,7 +23,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.example.pcbuilderguideapp.models.Product;
-import com.example.pcbuilderguideapp.models.ProductDeserializer;
 
 public class RetrofitClient {
     private static final String BASE_URL = "https://pcpb-axhxcdckf8a5a5ed.southeastasia-01.azurewebsites.net/api/";

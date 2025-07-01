@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pcbuilderguideapp.R;
 import com.example.pcbuilderguideapp.ShopDetailActivity;
+import com.example.pcbuilderguideapp.models.Product;
 import com.bumptech.glide.Glide;
 import java.util.List;
 
@@ -39,27 +40,27 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.tvProductName.setText(product.getName());
         
         // Set price
-        holder.tvProductPrice.setText(product.getPrice());
-        
+        holder.tvProductPrice.setText(String.format("%,.2f VND", product.getPrice()));
+
         // Set company name
-        holder.tvCompanyName.setText(product.getThirdPartyName());
-        
+        holder.tvCompanyName.setText(product.getCompanyName());
+
         // Set stock quantity
-        holder.tvStockQuantity.setText("In Stock: " + product.getStockQuantity());
+        holder.tvStockQuantity.setText("In Stock: " + product.getQuantity());
         
         // Set description
         holder.tvProductDetails.setText(product.getDescription());
 
         // Load image
         if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
+            android.util.Log.d("ProductAdapter", "Loading image URL: " + product.getImageUrl());
             Glide.with(holder.ivProductImage.getContext())
                 .load(product.getImageUrl())
                 .placeholder(R.drawable.ic_gpu_sample)
                 .error(R.drawable.ic_gpu_sample)
                 .into(holder.ivProductImage);
-        } else if (product.getImageResId() != 0) {
-            holder.ivProductImage.setImageResource(product.getImageResId());
         } else {
+            android.util.Log.d("ProductAdapter", "No image URL for product: " + product.getName());
             holder.ivProductImage.setImageResource(R.drawable.ic_gpu_sample);
         }
 
@@ -70,8 +71,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             intent.putExtra("product_name", product.getName());
             intent.putExtra("product_price", product.getPrice());
             intent.putExtra("product_description", product.getDescription());
-            intent.putExtra("product_company", product.getThirdPartyName());
-            intent.putExtra("product_stock", product.getStockQuantity());
+            intent.putExtra("product_company", product.getCompanyName());
+            intent.putExtra("product_stock", product.getQuantity());
             intent.putExtra("product_image_url", product.getImageUrl());
             context.startActivity(intent);
         });
