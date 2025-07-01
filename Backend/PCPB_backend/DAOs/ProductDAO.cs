@@ -35,6 +35,7 @@ namespace DAOs
             return await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.ThirdParty)
+                .AsSplitQuery() // Use split query to avoid cartesian explosion
                 .FirstOrDefaultAsync(p => p.ProductId == id);
         }
 
@@ -43,6 +44,7 @@ namespace DAOs
             return await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.ThirdParty)
+                .AsSplitQuery() // Use split query to avoid cartesian explosion
                 .ToListAsync();
         }
 
@@ -51,6 +53,7 @@ namespace DAOs
             return await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.ThirdParty)
+                .AsSplitQuery() // Use split query to avoid cartesian explosion
                 .Where(p => p.ThirdPartyId == thirdPartyId)
                 .ToListAsync();
         }
