@@ -4,14 +4,13 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class OrderListResponse {
-    @SerializedName("$values")
-    private List<Order> values;
+    private List<Order> orders;
 
-    public List<Order> getValues() {
-        return values;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setValues(List<Order> values) {
-        this.values = values;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 } 

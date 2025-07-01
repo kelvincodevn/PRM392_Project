@@ -34,7 +34,7 @@ public interface ApiService {
     Call<Void> deleteCartItem(@Path("id") int id);
 
     @GET("Order/my-orders")
-    Call<OrderResponse> getMyOrders();
+    Call<List<Order>> getMyOrders();
 
     @PATCH("Order/{id}/status")
     Call<Void> updateOrderStatus(@Path("id") int orderId, @Body OrderStatusRequest statusRequest);
@@ -43,5 +43,5 @@ public interface ApiService {
     Call<Order> createOrder(@Body com.example.pcbuilderguideapp.models.CreateOrderDTO orderDto);
 
     @GET("Order/my-deliveries")
-    Call<com.example.pcbuilderguideapp.models.OrderListResponse> getMyDeliveries();
+    Call<List<Order>> getMyDeliveries();
 } 

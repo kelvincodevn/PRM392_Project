@@ -80,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        TextView tvTerms = findViewById(R.id.tvTerms);
+        tvTerms.setOnClickListener(v -> showTermsDialog());
     }
 
     private void trustAllCertificates() {
@@ -195,5 +198,20 @@ public class MainActivity extends AppCompatActivity {
         }
         etPassword.setSelection(etPassword.getText().length());
         isPasswordVisible = !isPasswordVisible;
+    }
+
+    private void showTermsDialog() {
+        String policy = "Đây là app thử nghiệm MVP nhằm mục đích học tập, những order bạn tạo ra chỉ là mô phỏng, có thể hoặc không thể được giao tận nhà.\n\n" +
+                "Thanh toán MoMo dùng ứng dụng mô phỏng (MoMo UAT) để thử nghiệm thanh toán qua MoMo nên tiền của bạn sẽ không bị trừ, giao dịch không được lưu trên MoMo.\n\n" +
+                "Chính sách bổ sung:\n" +
+                "- Dữ liệu cá nhân của bạn chỉ dùng cho mục đích thử nghiệm và không được chia sẻ với bên thứ ba.\n" +
+                "- Không có bất kỳ cam kết nào về việc bảo mật hoặc bảo đảm dịch vụ.\n" +
+                "- Mọi giao dịch đều là giả lập, không có giá trị pháp lý hoặc thương mại.\n" +
+                "- Nếu bạn có thắc mắc, vui lòng liên hệ nhóm phát triển qua email trong phần giới thiệu ứng dụng.";
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Điều khoản Dịch vụ & Chính sách")
+            .setMessage(policy)
+            .setPositiveButton("Đã hiểu", null)
+            .show();
     }
 }

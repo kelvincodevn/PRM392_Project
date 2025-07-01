@@ -80,29 +80,28 @@ public class StaffGeneralActivity extends AppCompatActivity implements OrderAdap
         RetrofitClient.getInstance(this)
             .getApiService()
             .getMyDeliveries()
-            .enqueue(new Callback<OrderListResponse>() {
+            .enqueue(new retrofit2.Callback<List<Order>>() {
                 @Override
-                public void onResponse(Call<OrderListResponse> call, Response<OrderListResponse> response) {
+                public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         onDeliveryOrders.clear();
                         historyOrders.clear();
-                        for (Order order : response.body().getValues()) {
-                            // Filter orders for "On Delivery" and "History"
-                            // TODO: Adjust these statuses to match your backend exactly
-                            if ("Processing".equalsIgnoreCase(order.getOrderStatus()) || "Pending".equalsIgnoreCase(order.getOrderStatus())) {
+                        for (Order order : response.body()) {
+                            String status = order.getOrderStatus();
+                            if ("Pending".equalsIgnoreCase(status) || "Processing".equalsIgnoreCase(status)) {
                                 onDeliveryOrders.add(order);
                             } else {
                                 historyOrders.add(order);
                             }
                         }
-                        onDeliveryAdapter.notifyDataSetChanged();
-                        historyAdapter.notifyDataSetChanged();
+                        onDeliveryAdapter.updateOrders(onDeliveryOrders);
+                        historyAdapter.updateOrders(historyOrders);
                     } else {
                         Toast.makeText(StaffGeneralActivity.this, "Failed to load deliveries", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
-                public void onFailure(Call<OrderListResponse> call, Throwable t) {
+                public void onFailure(Call<List<Order>> call, Throwable t) {
                     Toast.makeText(StaffGeneralActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });

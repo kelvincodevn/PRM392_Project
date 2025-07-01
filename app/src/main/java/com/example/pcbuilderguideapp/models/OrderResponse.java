@@ -7,7 +7,6 @@ public class OrderResponse {
     @SerializedName("$id")
     private String id;
 
-    @SerializedName("$values")
     private List<Order> orders;
 
     public List<Order> getOrders() {

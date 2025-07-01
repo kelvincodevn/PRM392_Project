@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.pcbuilderguideapp.utils.TokenManager;
@@ -116,7 +117,6 @@ public class ComponentListActivity extends AppCompatActivity {
     private void fetchProducts(String url) {
         showLoading(true);
         
-        // Get authentication token
         String token = TokenManager.getInstance(this).getToken();
         if (token == null) {
             showError("Authentication required. Please login again.");
@@ -124,7 +124,7 @@ public class ComponentListActivity extends AppCompatActivity {
         }
         
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest request = new JsonObjectRequest(
+        JsonArrayRequest request = new JsonArrayRequest(
             Request.Method.GET,
             url,
             null,
@@ -132,15 +132,10 @@ public class ComponentListActivity extends AppCompatActivity {
                 try {
                     Log.d("ComponentListActivity", "API Response: " + response.toString());
                     products.clear();
-                    // Get the $values array from the response
-                    JSONArray valuesArray = response.getJSONArray("$values");
-                    for (int i = 0; i < valuesArray.length(); i++) {
-                        JSONObject productJson = valuesArray.getJSONObject(i);
+                    for (int i = 0; i < response.length(); i++) {
+                        JSONObject productJson = response.getJSONObject(i);
                         Log.d("ComponentListActivity", "Product JSON: " + productJson.toString());
-                        
-                        // Get productId from the JSON
                         int productId = productJson.getInt("productId");
-                        
                         Product product = new Product(
                             productId,
                             productJson.getString("productName"),
@@ -219,15 +214,12 @@ public class ComponentListActivity extends AppCompatActivity {
             Toast.makeText(this, "Authentication required. Please login again.", Toast.LENGTH_LONG).show();
             return;
         }
-
         RequestQueue queue = Volley.newRequestQueue(this);
-        JsonObjectRequest request = new JsonObjectRequest(
+        StringRequest request = new StringRequest(
             Request.Method.DELETE,
             API_URL + "/" + productId,
-            null,
             response -> {
                 Toast.makeText(ComponentListActivity.this, "Product deleted successfully", Toast.LENGTH_SHORT).show();
-                // Refresh the product list
                 fetchProducts(API_URL);
             },
             error -> {
@@ -243,7 +235,6 @@ public class ComponentListActivity extends AppCompatActivity {
                 return headers;
             }
         };
-
         queue.add(request);
     }
 

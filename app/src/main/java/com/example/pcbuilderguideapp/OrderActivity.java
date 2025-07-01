@@ -106,62 +106,40 @@ public class OrderActivity extends AppCompatActivity implements OrderAdapter.OnO
 
     private void loadOrders() {
         Log.d(TAG, "Loading orders...");
-        apiService.getMyOrders().enqueue(new Callback<OrderResponse>() {
+        apiService.getMyOrders().enqueue(new retrofit2.Callback<List<Order>>() {
             @Override
-            public void onResponse(Call<OrderResponse> call, Response<OrderResponse> response) {
-                if (response.isSuccessful()) {
-                    OrderResponse orderResponse = response.body();
-                    Log.d(TAG, "Raw response: " + response.raw());
-                    Log.d(TAG, "Response body: " + (orderResponse != null ? orderResponse.toString() : "null"));
-                    
-                    if (orderResponse != null && orderResponse.getOrders() != null) {
-                        List<Order> allOrders = orderResponse.getOrders();
-                        Log.d(TAG, "Received " + allOrders.size() + " orders");
-                        
-                        List<Order> pendingOrders = new ArrayList<>();
-                        List<Order> historyOrders = new ArrayList<>();
-
-                        for (Order order : allOrders) {
-                            Log.d(TAG, "Processing order #" + order.getOrderId() + " with status: " + order.getOrderStatus());
-                            if (order.getOrderStatus().equals("Pending")) {
-                                pendingOrders.add(order);
-                            }
-                            historyOrders.add(order);
+            public void onResponse(Call<List<Order>> call, Response<List<Order>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<Order> allOrders = response.body();
+                    Log.d(TAG, "Received " + allOrders.size() + " orders");
+                    List<Order> pendingOrders = new ArrayList<>();
+                    List<Order> historyOrders = new ArrayList<>();
+                    for (Order order : allOrders) {
+                        Log.d(TAG, "Processing order #" + order.getOrderId() + " with status: " + order.getOrderStatus());
+                        if (order.getOrderStatus().equals("Pending")) {
+                            pendingOrders.add(order);
                         }
-
-                        Log.d(TAG, "Pending orders: " + pendingOrders.size());
-                        Log.d(TAG, "History orders: " + historyOrders.size());
-
-                        onDeliveryAdapter.updateOrders(pendingOrders);
-                        historyAdapter.updateOrders(historyOrders);
-                    } else {
-                        Log.e(TAG, "Response body or orders list is null");
-                        try {
-                            String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
-                            Log.e(TAG, "Error body: " + errorBody);
-                        } catch (IOException e) {
-                            Log.e(TAG, "Error reading error body", e);
-                        }
-                        Toast.makeText(OrderActivity.this, "Không tìm thấy đơn hàng", Toast.LENGTH_SHORT).show();
-                        onDeliveryAdapter.updateOrders(new ArrayList<>());
-                        historyAdapter.updateOrders(new ArrayList<>());
+                        historyOrders.add(order);
                     }
+                    Log.d(TAG, "Pending orders: " + pendingOrders.size());
+                    Log.d(TAG, "History orders: " + historyOrders.size());
+                    onDeliveryAdapter.updateOrders(pendingOrders);
+                    historyAdapter.updateOrders(historyOrders);
                 } else {
-                    Log.e(TAG, "Error response: " + response.code());
+                    Log.e(TAG, "Response body or orders list is null");
                     try {
                         String errorBody = response.errorBody() != null ? response.errorBody().string() : "No error body";
                         Log.e(TAG, "Error body: " + errorBody);
                     } catch (IOException e) {
                         Log.e(TAG, "Error reading error body", e);
                     }
-                    Toast.makeText(OrderActivity.this, "Failed to load", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OrderActivity.this, "Không tìm thấy đơn hàng", Toast.LENGTH_SHORT).show();
                     onDeliveryAdapter.updateOrders(new ArrayList<>());
                     historyAdapter.updateOrders(new ArrayList<>());
                 }
             }
-
             @Override
-            public void onFailure(Call<OrderResponse> call, Throwable t) {
+            public void onFailure(Call<List<Order>> call, Throwable t) {
                 Log.e(TAG, "Network error loading orders", t);
                 Toast.makeText(OrderActivity.this, "Network error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 onDeliveryAdapter.updateOrders(new ArrayList<>());

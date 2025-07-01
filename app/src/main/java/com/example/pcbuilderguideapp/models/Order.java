@@ -69,7 +69,7 @@ public class Order {
     private String staffName;
 
     @SerializedName("orderItems")
-    private OrderItemsWrapper orderItems;
+    private List<OrderItem> orderItems;
 
     // Getters
     public String getId() { return id; }
@@ -91,19 +91,5 @@ public class Order {
     public String getCustomerName() { return customerName; }
     public String getCustomerPhone() { return customerPhone; }
     public String getStaffName() { return staffName; }
-    public List<OrderItem> getOrderItems() { 
-        return orderItems != null ? orderItems.getValues() : null; 
-    }
-
-    public static class OrderItemsWrapper {
-        @SerializedName("$id")
-        private String id;
-
-        @SerializedName("$values")
-        private List<OrderItem> values;
-
-        public List<OrderItem> getValues() {
-            return values;
-        }
-    }
+    public List<OrderItem> getOrderItems() { return orderItems; }
 } 

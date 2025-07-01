@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:padding="12dp"
     android:background="@drawable/custom_button"
@@ -100,7 +101,8 @@
             android:textSize="10sp"
             android:textColor="#000"
             android:background="@drawable/custom_button"
-            android:layout_marginBottom="4dp" />
+            android:layout_marginBottom="4dp"
+            app:backgroundTint="@null"/>
 
         <!-- Delete Button -->
         <Button
@@ -109,9 +111,10 @@
             android:layout_height="36dp"
             android:text="Delete"
             android:textSize="10sp"
-            android:textColor="#FFFFFF"
-            android:background="@drawable/custom_button"
-            android:layout_marginBottom="4dp" />
+            android:textColor="#000000"
+            android:background="@drawable/red_button_background"
+            android:layout_marginBottom="4dp"
+            app:backgroundTint="@null"/>
 
     </LinearLayout>
 

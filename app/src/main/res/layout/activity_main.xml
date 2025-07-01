@@ -194,11 +194,14 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@+id/tvTerms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tôi đồng ý với Điều khoản Dịch vụ"
                 android:textSize="14sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"/>
         </LinearLayout>
 
         <LinearLayout

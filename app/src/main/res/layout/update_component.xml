@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white">
 
     <LinearLayout
@@ -36,6 +37,21 @@
                 android:layout_marginStart="16dp" />
 
         </LinearLayout>
+
+        <!-- Product Image Preview & Picker -->
+        <ImageView
+            android:id="@+id/ivProductImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_gpu_sample"
+            android:contentDescription="Product Image"
+            android:background="@drawable/bg_product_image_frame_border"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:layout_marginTop="16dp"/>
 
         <!-- Product Name -->
         <TextView
@@ -152,8 +168,9 @@
                 android:layout_weight="1"
                 android:text="Cancel"
                 android:textColor="#000"
-                android:background="@drawable/custom_button"
-                android:layout_marginEnd="8dp" />
+                android:background="@drawable/red_button_background"
+                android:layout_marginEnd="8dp"
+                app:backgroundTint="@null"/>
 
             <Button
                 android:id="@+id/btnUpdate"
@@ -163,7 +180,8 @@
                 android:text="Update"
                 android:textColor="#000"
                 android:background="@drawable/custom_button"
-                android:layout_marginStart="8dp" />
+                android:layout_marginStart="8dp"
+                app:backgroundTint="@null"/>
 
         </LinearLayout>
 
