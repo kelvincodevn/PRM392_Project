@@ -15,6 +15,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import android.widget.Toast;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     private List<CartItem> cartItems;
@@ -43,12 +45,26 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             holder.tvProductName.setText(item.getProduct().getName());
             holder.tvCompanyName.setText(item.getProduct().getCompanyName());
             holder.tvProductPrice.setText(String.format("%,.2f VND", item.getProduct().getPrice()));
-            if (item.getProduct().getImageUrl() != null && !item.getProduct().getImageUrl().isEmpty()) {
-                Glide.with(holder.ivProductImage.getContext())
-                    .load(item.getProduct().getImageUrl())
-                    .placeholder(R.drawable.ic_gpu_sample)
-                    .error(R.drawable.ic_gpu_sample)
-                    .into(holder.ivProductImage);
+            String imageUrl = item.getProduct().getImageUrl();
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                if (imageUrl.startsWith("http")) {
+                    Glide.with(holder.ivProductImage.getContext())
+                        .load(imageUrl)
+                        .placeholder(R.drawable.ic_gpu_sample)
+                        .error(R.drawable.ic_gpu_sample)
+                        .into(holder.ivProductImage);
+                } else {
+                    StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(imageUrl);
+                    storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        Glide.with(holder.ivProductImage.getContext())
+                            .load(uri.toString())
+                            .placeholder(R.drawable.ic_gpu_sample)
+                            .error(R.drawable.ic_gpu_sample)
+                            .into(holder.ivProductImage);
+                    }).addOnFailureListener(exception -> {
+                        holder.ivProductImage.setImageResource(R.drawable.ic_gpu_sample);
+                    });
+                }
             } else {
                 holder.ivProductImage.setImageResource(R.drawable.ic_gpu_sample);
             }

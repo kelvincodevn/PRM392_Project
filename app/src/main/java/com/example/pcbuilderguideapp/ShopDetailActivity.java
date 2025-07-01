@@ -14,6 +14,8 @@ import com.example.pcbuilderguideapp.models.Product;
 import com.example.pcbuilderguideapp.models.CartItemRequest;
 import com.example.pcbuilderguideapp.network.RetrofitClient;
 import com.squareup.picasso.Picasso;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -115,13 +117,29 @@ public class ShopDetailActivity extends AppCompatActivity {
         tvDescription.setText(product.getDescription());
         maxQuantity = product.getQuantity();
 
-        // Load product image using Picasso
-        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
-            Picasso.get()
-                    .load(product.getImageUrl())
+        // Load product image using Firebase Storage
+        String imageUrl = product.getImageUrl();
+        if (imageUrl != null && !imageUrl.isEmpty()) {
+            if (imageUrl.startsWith("http")) {
+                Picasso.get()
+                    .load(imageUrl)
                     .placeholder(R.drawable.ic_gpu_sample)
                     .error(R.drawable.ic_gpu_sample)
                     .into(ivProductImage);
+            } else {
+                StorageReference storageRef = FirebaseStorage.getInstance().getReference().child(imageUrl);
+                storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                    Picasso.get()
+                        .load(uri.toString())
+                        .placeholder(R.drawable.ic_gpu_sample)
+                        .error(R.drawable.ic_gpu_sample)
+                        .into(ivProductImage);
+                }).addOnFailureListener(exception -> {
+                    ivProductImage.setImageResource(R.drawable.ic_gpu_sample);
+                });
+            }
+        } else {
+            ivProductImage.setImageResource(R.drawable.ic_gpu_sample);
         }
     }
 
