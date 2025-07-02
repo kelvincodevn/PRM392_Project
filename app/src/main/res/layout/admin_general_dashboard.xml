@@ -65,7 +65,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center">
-                <com.example.pcbuilder.GradientTextView
+                <com.og.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="19458"
@@ -99,7 +99,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center">
-                <com.example.pcbuilder.GradientTextView
+                <com.og.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3548"
@@ -148,7 +148,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center">
-                <com.example.pcbuilder.GradientTextView
+                <com.og.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4856"
@@ -182,7 +182,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center">
-                <com.example.pcbuilder.GradientTextView
+                <com.og.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="67892"
@@ -229,7 +229,7 @@
                 android:textStyle="bold"
                 android:textColor="#222"
                 android:textSize="14sp" />
-            <com.example.pcbuilder.GradientTextView
+            <com.og.pcbuilder.GradientTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$35,286.29"
@@ -277,7 +277,7 @@
                 android:textStyle="bold"
                 android:textColor="#222"
                 android:textSize="14sp" />
-            <com.example.pcbuilder.GradientTextView
+            <com.og.pcbuilder.GradientTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+4592"
@@ -371,7 +371,7 @@
             android:layout_marginTop="4dp">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="day" android:textColor="#888" android:layout_marginEnd="8dp" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="week" android:textColor="#888" android:layout_marginEnd="8dp" />
-            <com.example.pcbuilder.GradientTextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="month" android:textColor="#222" android:textStyle="bold" android:layout_marginEnd="8dp" />
+            <com.og.pcbuilder.GradientTextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="month" android:textColor="#222" android:textStyle="bold" android:layout_marginEnd="8dp" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="year" android:textColor="#888" android:layout_marginEnd="8dp" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="lifetime" android:textColor="#888" />
         </LinearLayout>

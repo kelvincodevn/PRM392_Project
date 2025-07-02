@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.example.pcbuilder.GradientTextView
+        <com.og.pcbuilder.GradientTextView
             android:id="@+id/tabOnDeliveryGradient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             android:layout_marginEnd="32dp"
             android:visibility="gone" />
 
-        <com.example.pcbuilder.GradientTextView
+        <com.og.pcbuilder.GradientTextView
             android:id="@+id/tabHistoryGradient"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

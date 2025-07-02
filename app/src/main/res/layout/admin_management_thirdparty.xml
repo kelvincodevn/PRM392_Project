@@ -57,7 +57,7 @@
             android:textColor="#222"
             android:paddingEnd="24dp"
             android:paddingBottom="8dp" />
-        <com.example.pcbuilder.GradientTextView
+        <com.og.pcbuilder.GradientTextView
             android:id="@+id/tab_third_parties"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

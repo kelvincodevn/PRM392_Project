@@ -23,7 +23,7 @@
             android:paddingEnd="16dp">
 
             <!-- Welcome Section -->
-            <com.example.pcbuilder.GradientTextView
+            <com.og.pcbuilder.GradientTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Xin chào"
@@ -101,7 +101,7 @@
                     android:orientation="vertical"
                     android:padding="20dp"
                     android:gravity="center_horizontal">
-                    <com.example.pcbuilder.GradientTextView
+                    <com.og.pcbuilder.GradientTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Ưu đãi đặc biệt"
@@ -116,7 +116,7 @@
                         android:textColor="#000000"
                         android:textSize="15sp"
                         android:layout_marginTop="8dp" />
-                    <com.example.pcbuilder.GradientTextView
+                    <com.og.pcbuilder.GradientTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Builder Plus+"
@@ -130,7 +130,7 @@
                         android:textColor="#000000"
                         android:textSize="16sp"
                         android:layout_marginTop="8dp" />
-                    <com.example.pcbuilder.GradientTextView
+                    <com.og.pcbuilder.GradientTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" 150,000 VND"
@@ -161,7 +161,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/community_img_1" />
-                <com.example.pcbuilder.GradientTextView
+                <com.og.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tham gia cộng đồng"
@@ -183,7 +183,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/community_img_2" />
-                <com.example.pcbuilder.GradientTextView
+                <com.og.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Xem đơn hàng của bạn"

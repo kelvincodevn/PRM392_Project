@@ -96,7 +96,7 @@
                 android:maxLines="2"
                 android:ellipsize="end" />
 
-            <com.example.pcbuilder.GradientTextView
+            <com.og.pcbuilder.GradientTextView
                 android:id="@+id/tvProductDetailPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

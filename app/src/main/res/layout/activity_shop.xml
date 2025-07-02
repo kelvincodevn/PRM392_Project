@@ -12,7 +12,7 @@
     <!-- Currency Dropdown -->
 
     <!-- Search Bar Row -->
-    <com.example.pcbuilder.GradientTextView
+    <com.og.pcbuilder.GradientTextView
         android:id="@+id/tvShopTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <com.example.pcbuilder.GradientTextView
+        <com.og.pcbuilder.GradientTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -227,7 +227,7 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_shop_color" />
-            <com.example.pcbuilder.GradientTextView
+            <com.og.pcbuilder.GradientTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Shop"

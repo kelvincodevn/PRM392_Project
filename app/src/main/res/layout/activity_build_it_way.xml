@@ -37,7 +37,7 @@
                     android:textSize="32sp"
                     android:layout_gravity="bottom" />
 
-                <com.example.pcbuilder.GradientTextView
+                <com.og.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="YOUR"
@@ -47,7 +47,7 @@
                     android:layout_gravity="bottom" />
             </LinearLayout>
 
-            <com.example.pcbuilder.GradientTextView
+            <com.og.pcbuilder.GradientTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="WAY"
@@ -82,7 +82,7 @@
                     android:layout_height="match_parent"
                     android:background="#40FFFFFF" />
 
-                <com.example.pcbuilder.GradientTextView
+                <com.og.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Trưng bày"
@@ -118,7 +118,7 @@
                     android:layout_height="match_parent"
                     android:background="#40FFFFFF" />
 
-                <com.example.pcbuilder.GradientTextView
+                <com.og.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="giới thiệu về chúng tôi"
@@ -154,7 +154,7 @@
                     android:layout_height="match_parent"
                     android:background="#40FFFFFF" />
 
-                <com.example.pcbuilder.GradientTextView
+                <com.og.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Chọn cấu hình của bạn"
@@ -190,7 +190,7 @@
                     android:layout_height="match_parent"
                     android:background="#40FFFFFF" />
 
-                <com.example.pcbuilder.GradientTextView
+                <com.og.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Video hướng dẫn"
@@ -226,7 +226,7 @@
                     android:layout_height="match_parent"
                     android:background="#40FFFFFF" />
 
-                <com.example.pcbuilder.GradientTextView
+                <com.og.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Sách hướng dẫn"

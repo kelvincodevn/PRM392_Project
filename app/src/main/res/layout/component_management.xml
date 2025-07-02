@@ -49,7 +49,7 @@
             android:layout_marginEnd="24dp"  android:layout_marginRight="24dp"  android:gravity="center"
             android:contentDescription="Add Component button">
 
-            <com.example.pcbuilder.GradientTextView
+            <com.og.pcbuilder.GradientTextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Add Component"
@@ -73,7 +73,7 @@
                 android:orientation="vertical"
                 android:paddingTop="10dp"
                 android:gravity="center">
-                <com.example.pcbuilder.GradientTextView
+                <com.og.pcbuilder.GradientTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="List Component"

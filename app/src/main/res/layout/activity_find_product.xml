@@ -32,7 +32,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="0dp" />
 
-            <com.example.pcbuilder.GradientTextView
+            <com.og.pcbuilder.GradientTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="PRODUCT"
@@ -572,7 +572,7 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:src="@drawable/icon_catalog_color" />
-            <com.example.pcbuilder.GradientTextView
+            <com.og.pcbuilder.GradientTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Catalog"
