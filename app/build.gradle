@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.pcbuilderguideapp'
+    namespace 'com.og.pcbuilderguideapp'
     compileSdk 35
 
     defaultConfig {
-        applicationId "com.example.pcbuilderguideapp"
+        applicationId "com.og.pcbuilderguideapp"
         minSdk 28
         targetSdk 34
         versionCode 1
