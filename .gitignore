@@ -22,7 +22,11 @@ Backend/PCPB_backend/.vscode
 
 # Firebase credentials - NEVER commit these files
 firebase-service-account.json
+google-services.json
 *firebase-adminsdk*.json
 firebase-credentials.json
 Backend/firebase-service-account.json
 Backend/*firebase-adminsdk*.json
+
+# Ignore Google Services config
+app/google-services.json
